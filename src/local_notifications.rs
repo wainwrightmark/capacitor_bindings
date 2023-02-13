@@ -117,11 +117,10 @@ pub enum Weekday {
 mod tests {
 
     use super::*;
-    use serde_test::{assert_tokens};
+    use serde_test::assert_tokens;
 
-    #[test]
-    fn test_ser_de() {
-        let options = ScheduleOptions {
+    fn get_options() -> ScheduleOptions {
+        ScheduleOptions {
             notifications: vec![LocalNotificationSchema {
                 auto_cancel: true,
                 body: "Notification Body".to_string(),
@@ -150,58 +149,88 @@ mod tests {
                     "N Five".to_string(),
                 ],
             }],
-        };
+        }
+    }
+
+    #[test]
+    fn test_ser_json() {
+        let options = get_options();
+
+        let str: String = serde_json::to_string(&options).unwrap();
+
+        let expected = "{\"notifications\":[{\"title\":\"Notification Title\",\"body\":\"Notification Body\",\"schedule\":{\"allowWhileIdle\":true,\"on\":{\"second\":0}},\"largeBody\":\"Notification Large Body\",\"summaryText\":\"Notification Summary Text\",\"id\":123,\"ongoing\":false,\"autoCancel\":true,\"inboxList\":[\"N One\",\"N Two\",\"N Three\",\"N Four\",\"N Five\"]}]}";
+
+        assert_eq!(str.trim(), expected.trim())
+    }
+
+    #[test]
+    fn test_ser_de() {
+        let options = get_options();
 
         {
             use serde_test::Token::*;
 
             assert_tokens(
                 &options,
-                &[Struct {
-                    name: "ScheduleOptions",
-                    len: 1,
-                },
-                Str("notifications"),
-                Seq { len: Option::Some(1), },
-                Struct { name: "LocalNotificationSchema", len: 9, },
-                Str("title"),
-                Str("Notification Title"),
-                Str("body"),
-                Str("Notification Body"),
-                Str("schedule"),
-                Struct { name: "Schedule", len: 2, },
-                Str("allowWhileIdle"),
-                Bool(true),
-                Str("on"),
-                Struct { name: "ScheduleOn", len: 1, },
-                Str("second"),
-                Some,
-                U32(0).to_owned(),
-                StructEnd,
-                StructEnd,
-                Str("largeBody"),
-                Some,
-                Str("Notification Large Body"),
-                Str("summaryText"),
-                Some,
-                Str("Notification Summary Text"),
-                Str("id"),
-                I32(123),
-                Str("ongoing"),
-                Bool(false),
-                Str("autoCancel"),
-                Bool(true),
-                Str("inboxList"),
-                Seq { len: Option::Some(5), },
-                Str("N One"),
-                Str("N Two"),
-                Str("N Three"),
-                Str("N Four"),
-                Str("N Five"),
-                SeqEnd,
-                StructEnd,
-                SeqEnd,
-                StructEnd,
+                &[
+                    Struct {
+                        name: "ScheduleOptions",
+                        len: 1,
+                    },
+                    Str("notifications"),
+                    Seq {
+                        len: Option::Some(1),
+                    },
+                    Struct {
+                        name: "LocalNotificationSchema",
+                        len: 9,
+                    },
+                    Str("title"),
+                    Str("Notification Title"),
+                    Str("body"),
+                    Str("Notification Body"),
+                    Str("schedule"),
+                    Struct {
+                        name: "Schedule",
+                        len: 2,
+                    },
+                    Str("allowWhileIdle"),
+                    Bool(true),
+                    Str("on"),
+                    Struct {
+                        name: "ScheduleOn",
+                        len: 1,
+                    },
+                    Str("second"),
+                    Some,
+                    U32(0).to_owned(),
+                    StructEnd,
+                    StructEnd,
+                    Str("largeBody"),
+                    Some,
+                    Str("Notification Large Body"),
+                    Str("summaryText"),
+                    Some,
+                    Str("Notification Summary Text"),
+                    Str("id"),
+                    I32(123),
+                    Str("ongoing"),
+                    Bool(false),
+                    Str("autoCancel"),
+                    Bool(true),
+                    Str("inboxList"),
+                    Seq {
+                        len: Option::Some(5),
+                    },
+                    Str("N One"),
+                    Str("N Two"),
+                    Str("N Three"),
+                    Str("N Four"),
+                    Str("N Five"),
+                    SeqEnd,
+                    StructEnd,
+                    SeqEnd,
+                    StructEnd,
                 ],
             )
         }
