@@ -42,7 +42,7 @@ impl LocalNotifications {
     }
 
     #[must_use]
-    pub async fn add_local_notification_received_listener<
+    pub async fn add_received_listener<
         'a,
         F: Fn(LocalNotificationSchema) + 'static,
     >(
@@ -55,6 +55,25 @@ impl LocalNotifications {
         };
         let closure = Closure::new(func2);
         let _js_val = add_listener("localNotificationReceived", &closure).await;
+        // handle_js_value.1
+        &PluginListenerHandle {}
+    }
+
+
+    #[must_use]
+    pub async fn add_action_performed_listener<
+        'a,
+        F: Fn(ActionPerformed) + 'static,
+    >(
+        func: F,
+    ) -> &'a PluginListenerHandle {
+        let func2 = move |js_value: JsValue| {
+            let action_performed: ActionPerformed = serde_wasm_bindgen::from_value(js_value)
+                .expect("Should be ActionPerformed");
+            func(action_performed)
+        };
+        let closure = Closure::new(func2);
+        let _js_val = add_listener("localNotificationActionPerformed", &closure).await;
         // handle_js_value.1
         &PluginListenerHandle {}
     }
@@ -80,6 +99,19 @@ pub struct Action {
 
     /// The title text to display for this action.
     pub title: String,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ActionPerformed{
+
+    /// The identifier of the performed action.
+    pub action_id: String,
+    /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
+    pub input_value: Option<String>,
+    /// The original notification schema.
+    pub notification: LocalNotificationSchema
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -118,17 +150,6 @@ pub struct LocalNotificationDescriptor {
     pub id: i32,
 }
 
-#[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct ActionPerformed {
-    /// The identifier of the performed action.
-    pub action_id: String,
-    /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
-    pub input_value: Option<String>,
-    /// The original notification schema.
-    pub notification: LocalNotificationSchema,
-}
 
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
