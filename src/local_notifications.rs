@@ -1,6 +1,9 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use wasm_bindgen::{
+    prelude::{wasm_bindgen, Closure},
+    JsValue,
+};
 
 #[wasm_bindgen()]
 extern "C" {
@@ -10,6 +13,9 @@ extern "C" {
 
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="registerActionTypes" )]
     async fn register_action_types(options: JsValue);
+
+    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
+    async fn add_listener(eventName: &str, listener_func: &Closure<dyn Fn(JsValue)>) -> JsValue;
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -34,6 +40,24 @@ impl LocalNotifications {
         let js_val = serde_wasm_bindgen::to_value(options).unwrap();
         wasm_bindgen_futures::spawn_local(register_action_types(js_val));
     }
+
+    #[must_use]
+    pub async fn add_local_notification_received_listener<
+        'a,
+        F: Fn(LocalNotificationSchema) + 'static,
+    >(
+        func: F,
+    ) -> &'a PluginListenerHandle {
+        let func2 = move |js_value: JsValue| {
+            let schema: LocalNotificationSchema = serde_wasm_bindgen::from_value(js_value)
+                .expect("Should be LocalNotificationSchema");
+            func(schema)
+        };
+        let closure = Closure::new(func2);
+        let _js_val = add_listener("localNotificationReceived", &closure).await;
+        // handle_js_value.1
+        &PluginListenerHandle {}
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -57,6 +81,18 @@ pub struct Action {
     /// The title text to display for this action.
     pub title: String,
 }
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct PluginListenerHandle {
+    // js_val: JsValue
+    // remove: js_sys::Function
+}
+
+// impl Drop for PluginListenerHandle{
+//     fn drop(&mut self) {
+//         self.remove.call0(&JsValue::null());
+//     }
+// }
 
 /// A collection of actions.
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -91,7 +127,7 @@ pub struct ActionPerformed {
     /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
     pub input_value: Option<String>,
     /// The original notification schema.
-    pub notification: LocalNotificationSchema
+    pub notification: LocalNotificationSchema,
 }
 
 #[skip_serializing_none]
