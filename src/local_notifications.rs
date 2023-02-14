@@ -7,6 +7,9 @@ extern "C" {
     /// Schedule one or more local notifications.
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="schedule" )]
     async fn schedule(options: JsValue) -> JsValue;
+
+    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="registerActionTypes" )]
+    async fn register_action_types(options: JsValue);
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -26,22 +29,69 @@ impl LocalNotifications {
         let output = serde_wasm_bindgen::from_value(js_output_val).unwrap();
         output
     }
+
+    pub fn register_action_types(options: &RegisterActionTypesOptions) {
+        let js_val = serde_wasm_bindgen::to_value(options).unwrap();
+        wasm_bindgen_futures::spawn_local(register_action_types(js_val));
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct ScheduleOptions {
     pub notifications: Vec<LocalNotificationSchema>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct RegisterActionTypesOptions {
+    pub types: Vec<ActionType>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct Action {
+    /// The action identifier. Referenced in the 'actionPerformed' event as actionId.
+    pub id: String,
+
+    /// The title text to display for this action.
+    pub title: String,
+}
+
+/// A collection of actions.
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ActionType {
+    /// The ID of the action type. Referenced in notifications by the actionTypeId key.
+    pub id: String,
+
+    /// The list of actions associated with this action type.
+    pub actions: Vec<Action>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct ScheduleResult {
     /// The list of scheduled notifications.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct LocalNotificationDescriptor {
     pub id: i32,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ActionPerformed {
+    /// The identifier of the performed action.
+    pub action_id: String,
+    /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
+    pub input_value: Option<String>,
+    /// The original notification schema.
+    pub notification: LocalNotificationSchema
 }
 
 #[skip_serializing_none]
@@ -72,7 +122,25 @@ pub struct LocalNotificationSchema {
     pub auto_cancel: bool,
 
     /// Sets a list of strings for display in an inbox style notification. Up to 5 strings are allowed. Only available for Android.
-    pub inbox_list: Vec<String>,
+    pub inbox_list: Option<Vec<String>>,
+
+    /// Set a custom status bar icon. If set, this overrides the smallIcon option from Capacitor configuration. Icons should be placed in your app's res/drawable folder. The value for this option should be the drawable resource ID, which is the filename without an extension. Only available for Android.
+    pub small_icon: Option<String>,
+
+    /// Set a large icon for notifications. Icons should be placed in your app's res/drawable folder. The value for this option should be the drawable resource ID, which is the filename without an extension. Only available for Android.
+    pub large_icon: Option<String>,
+
+    /// Set the color of the notification icon. Only available for Android.
+    pub icon_color: Option<String>,
+
+    /// Associate an action type with this notification.
+    pub action_type_id: Option<String>,
+
+    /// Used to group multiple notifications. Calls setGroup() on NotificationCompat.Builder with the provided value. Only available for Android.
+    pub group: Option<String>,
+
+    /// If true, this notification becomes the summary for a group of notifications. Calls setGroupSummary() on NotificationCompat.Builder with the provided value. Only available for Android when using group.
+    pub group_summary: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -141,13 +209,19 @@ mod tests {
                 summary_text: Some("Notification Summary Text".to_string()),
                 id: 123,
                 ongoing: false,
-                inbox_list: vec![
+                inbox_list: Some(vec![
                     "N One".to_string(),
                     "N Two".to_string(),
                     "N Three".to_string(),
                     "N Four".to_string(),
                     "N Five".to_string(),
-                ],
+                ]),
+                small_icon: None,
+                large_icon: None,
+                icon_color: None,
+                action_type_id: None,
+                group: None,
+                group_summary: None,
             }],
         }
     }
@@ -219,6 +293,7 @@ mod tests {
                     Str("autoCancel"),
                     Bool(true),
                     Str("inboxList"),
+                    Some,
                     Seq {
                         len: Option::Some(5),
                     },
