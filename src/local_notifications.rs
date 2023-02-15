@@ -93,7 +93,7 @@ pub struct Action {
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ActionPerformed {
-    /// The identifier of the performed action.
+    /// The identifier of the performed action. This might be "tap" if the user tapped the notification.
     pub action_id: String,
     /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
     pub input_value: Option<String>,
