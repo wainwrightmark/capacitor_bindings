@@ -67,15 +67,12 @@ pub struct StyleOptions{
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum Style{
-    #[serde(rename = "DARK")]
     /// Light text for dark backgrounds.
     Dark,
-    #[serde(rename = "LIGHT")]
     /// Dark text for light backgrounds.
     Light,
-
-    #[serde(rename = "DEFAULT")]
     /// The style is based on the device appearance. If the device is using Dark mode, the statusbar text will be light. If the device is using Light mode, the statusbar text will be dark. On Android the default will be the one the app was launched with.
     Default
 }

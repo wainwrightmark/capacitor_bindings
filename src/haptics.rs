@@ -82,15 +82,13 @@ pub struct NotificationOptions {
 }
 
 #[derive(Debug, Serialize, Deserialize, Copy, Clone)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum NotificationType {
     /// A notification feedback type indicating that a task has completed successfully
-    #[serde(rename = "SUCCESS")]
     Success,
     /// A notification feedback type indicating that a task has produced a warning
-    #[serde(rename = "WARNING")]
     Warning,
     /// A notification feedback type indicating that a task has failed
-    #[serde(rename = "ERROR")]
     Error,
 }
 
@@ -101,14 +99,12 @@ pub struct ImpactOptions {
 }
 
 #[derive(Debug, Serialize, Deserialize, Copy, Clone)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum ImpactStyle {
     /// A collision between large, heavy user interface elements
-    #[serde(rename = "HEAVY")]
     Heavy,
     /// A collision between moderately sized user interface elements
-    #[serde(rename = "MEDIUM")]
     Medium,
     /// A collision between small, light user interface elements
-    #[serde(rename = "LIGHT")]
     Light,
 }
