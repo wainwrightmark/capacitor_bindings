@@ -18,11 +18,6 @@ extern "C" {
     async fn add_listener(eventName: &str, listener_func: &Closure<dyn Fn(JsValue)>) -> JsValue;
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct ShowOptions {
-    pub text: String,
-}
-
 pub struct LocalNotifications;
 
 impl LocalNotifications {
@@ -36,16 +31,13 @@ impl LocalNotifications {
         output
     }
 
-    pub fn register_action_types(options: &RegisterActionTypesOptions) {
+    pub async fn register_action_types(options: &RegisterActionTypesOptions) {
         let js_val = serde_wasm_bindgen::to_value(options).unwrap();
-        wasm_bindgen_futures::spawn_local(register_action_types(js_val));
+        register_action_types(js_val).await;
     }
 
     #[must_use]
-    pub async fn add_received_listener<
-        'a,
-        F: Fn(LocalNotificationSchema) + 'static,
-    >(
+    pub async fn add_received_listener<'a, F: Fn(LocalNotificationSchema) + 'static>(
         func: F,
     ) -> &'a PluginListenerHandle {
         let func2 = move |js_value: JsValue| {
@@ -59,17 +51,13 @@ impl LocalNotifications {
         &PluginListenerHandle {}
     }
 
-
     #[must_use]
-    pub async fn add_action_performed_listener<
-        'a,
-        F: Fn(ActionPerformed) + 'static,
-    >(
+    pub async fn add_action_performed_listener<'a, F: Fn(ActionPerformed) + 'static>(
         func: F,
     ) -> &'a PluginListenerHandle {
         let func2 = move |js_value: JsValue| {
-            let action_performed: ActionPerformed = serde_wasm_bindgen::from_value(js_value)
-                .expect("Should be ActionPerformed");
+            let action_performed: ActionPerformed =
+                serde_wasm_bindgen::from_value(js_value).expect("Should be ActionPerformed");
             func(action_performed)
         };
         let closure = Closure::new(func2);
@@ -104,14 +92,13 @@ pub struct Action {
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct ActionPerformed{
-
+pub struct ActionPerformed {
     /// The identifier of the performed action.
     pub action_id: String,
     /// The value entered by the user on the notification. Only available on iOS for notifications with input set to true.
     pub input_value: Option<String>,
     /// The original notification schema.
-    pub notification: LocalNotificationSchema
+    pub notification: LocalNotificationSchema,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -149,7 +136,6 @@ pub struct ScheduleResult {
 pub struct LocalNotificationDescriptor {
     pub id: i32,
 }
-
 
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]

@@ -24,61 +24,85 @@ extern "C" {
 
 pub struct StatusBar;
 
-impl StatusBar{
-    pub fn show(){
-        wasm_bindgen_futures::spawn_local(status_bar_show());
+impl StatusBar {
+    pub async fn show() {
+        status_bar_show().await;
     }
 
-    pub fn hide(){
-        wasm_bindgen_futures::spawn_local(status_bar_hide());
+    pub async fn hide() {
+        status_bar_hide().await;
     }
 
-    pub fn set_style(options: &StyleOptions){
-        let js_val = serde_wasm_bindgen::to_value(options).unwrap();
-        wasm_bindgen_futures::spawn_local(set_status_bar_style(js_val));
+    pub async fn set_style(options: impl Into<StyleOptions>) {
+        let options = options.into();
+        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
+        set_status_bar_style(js_val).await;
     }
 
     /// Set the background color of the status bar.
     /// This method is only supported on Android.
-    pub fn set_background_color(options: &BackgroundColorOptions){
-        let js_val = serde_wasm_bindgen::to_value(options).unwrap();
-        wasm_bindgen_futures::spawn_local(set_status_bar_background_color(js_val));
+    pub async fn set_background_color(options: impl Into<BackgroundColorOptions>) {
+        let options = options.into();
+        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
+        set_status_bar_background_color(js_val).await;
     }
 
     /// Set whether or not the status bar should overlay the webview to allow usage of the space underneath it.
     /// This method is only supported on Android.
-    pub fn set_overlays_web_view(options: &SetOverlaysWebViewOptions){
-        let js_val = serde_wasm_bindgen::to_value(options).unwrap();
-        wasm_bindgen_futures::spawn_local(set_overlays_web_view(js_val));
+    pub async fn set_overlays_web_view(options: impl Into<SetOverlaysWebViewOptions>) {
+        let options = options.into();
+        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
+        set_overlays_web_view(js_val).await;
     }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct BackgroundColorOptions{
-    /// A hex color to which the status bar color is set. This option is only supported on Android.
-    pub color: String
+#[derive(Debug, Default, Clone, PartialEq, Eq, Deserialize, Serialize)]
+pub struct BackgroundColorOptions {
+    /// A hex color (e.g. #FF0000) to which the status bar color is set. This option is only supported on Android.
+    pub color: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct StyleOptions{
+impl From<&str> for BackgroundColorOptions {
+    fn from(value: &str) -> Self {
+        Self {
+            color: value.to_string(),
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+pub struct StyleOptions {
     #[serde(rename = "style")]
     /// Style of the text of the status bar.
-    pub style : Style
+    pub style: Style,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+impl From<Style> for StyleOptions {
+    fn from(style: Style) -> Self {
+        Self { style }
+    }
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "UPPERCASE")]
-pub enum Style{
+pub enum Style {
+    #[default]
+    /// The style is based on the device appearance. If the device is using Dark mode, the statusbar text will be light. If the device is using Light mode, the statusbar text will be dark. On Android the default will be the one the app was launched with.
+    Default,
     /// Light text for dark backgrounds.
     Dark,
     /// Dark text for light backgrounds.
     Light,
-    /// The style is based on the device appearance. If the device is using Dark mode, the statusbar text will be light. If the device is using Light mode, the statusbar text will be dark. On Android the default will be the one the app was launched with.
-    Default
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct SetOverlaysWebViewOptions{
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+pub struct SetOverlaysWebViewOptions {
     /// Whether to overlay the status bar or not.
-    pub overlay: bool
+    pub overlay: bool,
+}
+
+impl From<bool> for SetOverlaysWebViewOptions {
+    fn from(overlay: bool) -> Self {
+        Self { overlay }
+    }
 }

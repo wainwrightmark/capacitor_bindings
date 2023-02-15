@@ -30,12 +30,12 @@ pub struct ActionSheetButton {
     /// Icon for the option (ionicon naming convention) This option is only supported on Web.
     pub icon: Option<String>,
 
-    pub style: Option<ActionSheetButtonStyle>
+    pub style: Option<ActionSheetButtonStyle>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Default, Clone, PartialEq)]
 #[serde(rename_all = "UPPERCASE")]
-pub enum ActionSheetButtonStyle{
+pub enum ActionSheetButtonStyle {
     #[default]
     // Default Style of the option.
     Default,
@@ -43,7 +43,6 @@ pub enum ActionSheetButtonStyle{
     Destructive,
     /// Style to use on the option that cancels the Action Sheet. If used, should be on the latest available option.
     Cancel,
-
 }
 
 #[skip_serializing_none]
