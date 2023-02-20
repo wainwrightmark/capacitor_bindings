@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::helpers::run_unit_value;
+
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getId" )]
@@ -26,43 +28,28 @@ pub struct Device;
 impl Device {
     /// Return a unique identifier for the device.
     pub async fn get_id() -> DeviceId {
-        let result = get_id().await;
-        let device_id = serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to convert JsValue to DeviceId");
-        device_id
+        run_unit_value(get_id).await
     }
 
     /// Return information about the underlying device/os/platform.
     pub async fn get_info() -> DeviceInfo {
-        let result = get_info().await;
-        let device_info = serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to convert JsValue to DeviceInfo");
-        device_info
+        run_unit_value(get_info).await
     }
 
     /// Return information about the battery.
     pub async fn get_battery_info() -> BatteryInfo {
-        let result = get_battery_info().await;
-        let battery_info = serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to convert JsValue to BatteryInfo");
-        battery_info
+        run_unit_value(get_battery_info).await
     }
 
 
     /// Get the device's current language locale code.
     pub async fn get_language_code() -> GetLanguageCodeResult {
-        let result = get_language_code().await;
-        let language_code = serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to convert JsValue to GetLanguageCodeResult");
-        language_code
+        run_unit_value(get_language_code).await
     }
 
     /// Get the device's current language locale tag.
     pub async fn get_language_tag() -> LanguageTag {
-        let result = get_language_tag().await;
-        let language_tag = serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to convert JsValue to LanguageTag");
-        language_tag
+        run_unit_value(get_language_tag).await
     }
 }
 

@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::helpers::*;
+
 #[wasm_bindgen()]
 extern "C" {
 
@@ -16,15 +18,15 @@ extern "C" {
     async fn notification(options: JsValue);
 
     /// Trigger a selection started haptic hint
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionStart")]
     async fn selectionStart();
 
     /// Trigger a selection changed haptic hint. If a selection was started already, this will cause the device to provide haptic feedback
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionChanged")]
     async fn selectionChanged();
 
     /// If selectionStart() was called, selectionEnd() ends the selection. For example, call this when a user has lifted their finger from a control
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionEnd")]
     async fn selectionEnd();
 }
 
@@ -33,35 +35,29 @@ pub struct Haptics;
 impl Haptics {
     /// Trigger a haptics "impact" feedback
     pub async fn impact(options: impl Into<ImpactOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        impact(js_val).await
+        run_value_unit(options, impact).await
     }
 
     /// Vibrate the device
     pub async fn vibrate(options: impl Into<VibrateOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        wasm_bindgen_futures::spawn_local(vibrate(js_val));
+        run_value_unit(options, vibrate).await
     }
 
     /// Trigger a haptics "notification" feedback
     pub async fn notification(options: impl Into<NotificationOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        notification(js_val).await
+        run_value_unit(options, notification).await
     }
 
     pub async fn selection_start() {
-        selectionStart().await
+        run_unit_unit(selectionStart).await
     }
 
     pub async fn selection_changed() {
-        selectionChanged().await
+        run_unit_unit(selectionChanged).await
     }
 
     pub async fn selection_end() {
-        selectionEnd().await
+        run_unit_unit(selectionEnd).await
     }
 }
 

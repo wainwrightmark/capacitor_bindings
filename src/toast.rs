@@ -1,10 +1,21 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::helpers::run_value_unit;
+
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
     async fn show(options: JsValue);
+}
+
+pub struct Toast;
+
+impl Toast {
+    /// Show a toast asynchronously
+    pub async fn show(options: impl Into<ShowOptions>) {
+        run_value_unit(options, show).await
+    }
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -28,13 +39,4 @@ impl From<String> for ShowOptions {
     }
 }
 
-pub struct Toast;
 
-impl Toast {
-    /// Show a toast asynchronously
-    pub async fn show(options: impl Into<ShowOptions>) {
-        let options: ShowOptions = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        show(js_val).await
-    }
-}

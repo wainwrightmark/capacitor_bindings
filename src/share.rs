@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::helpers::{run_unit_value, run_value_value};
+
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Share"], js_name="canShare" )]
@@ -15,18 +17,11 @@ pub struct Share;
 
 impl Share {
     pub async fn can_share() -> CanShareResult {
-        let result = can_share().await;
-        serde_wasm_bindgen::from_value(result)
-            .expect("Should be able to deserialize CanShareResult")
+        run_unit_value(can_share).await
     }
 
     pub async fn share(options: impl Into<ShareOptions>) -> ShareResult {
-        let options = options.into();
-        let options_js = serde_wasm_bindgen::to_value(&options)
-            .expect("Should be able to serialize ShareOptions");
-
-        let result = share(options_js).await;
-        serde_wasm_bindgen::from_value(result).expect("Should be able to deserialize ShareResult")
+        run_value_value(options, share).await
     }
 }
 

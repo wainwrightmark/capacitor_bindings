@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::helpers::{run_unit_unit, run_value_unit};
+
 #[wasm_bindgen()]
 extern "C" {
     // STATUS BAR
@@ -26,33 +28,27 @@ pub struct StatusBar;
 
 impl StatusBar {
     pub async fn show() {
-        status_bar_show().await;
+        run_unit_unit(status_bar_show).await
     }
 
     pub async fn hide() {
-        status_bar_hide().await;
+        run_unit_unit(status_bar_hide).await
     }
 
     pub async fn set_style(options: impl Into<StyleOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        set_status_bar_style(js_val).await;
+        run_value_unit(options, set_status_bar_style).await
     }
 
     /// Set the background color of the status bar.
     /// This method is only supported on Android.
     pub async fn set_background_color(options: impl Into<BackgroundColorOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        set_status_bar_background_color(js_val).await;
+        run_value_unit(options, set_status_bar_background_color).await
     }
 
     /// Set whether or not the status bar should overlay the webview to allow usage of the space underneath it.
     /// This method is only supported on Android.
     pub async fn set_overlays_web_view(options: impl Into<SetOverlaysWebViewOptions>) {
-        let options = options.into();
-        let js_val = serde_wasm_bindgen::to_value(&options).unwrap();
-        set_overlays_web_view(js_val).await;
+        run_value_unit(options, set_overlays_web_view).await
     }
 }
 

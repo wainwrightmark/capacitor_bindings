@@ -5,6 +5,8 @@ use wasm_bindgen::{
     JsValue,
 };
 
+use crate::helpers::{run_value_unit, run_value_value};
+
 #[wasm_bindgen()]
 extern "C" {
     /// Schedule one or more local notifications.
@@ -22,18 +24,12 @@ pub struct LocalNotifications;
 
 impl LocalNotifications {
     /// Schedule one or more local notifications.
-    pub async fn schedule(options: &ScheduleOptions) -> ScheduleResult {
-        let js_input_val = serde_wasm_bindgen::to_value(options).unwrap();
-
-        let js_output_val = schedule(js_input_val).await;
-
-        let output = serde_wasm_bindgen::from_value(js_output_val).unwrap();
-        output
+    pub async fn schedule(options: impl Into<ScheduleOptions> ) -> ScheduleResult {
+        run_value_value(options, schedule).await
     }
 
-    pub async fn register_action_types(options: &RegisterActionTypesOptions) {
-        let js_val = serde_wasm_bindgen::to_value(options).unwrap();
-        register_action_types(js_val).await;
+    pub async fn register_action_types(options: impl Into<RegisterActionTypesOptions>) {
+        run_value_unit(options, register_action_types).await
     }
 
     #[must_use]

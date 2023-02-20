@@ -5,3 +5,5 @@ pub mod status_bar;
 pub mod toast;
 pub mod share;
 pub mod device;
+pub mod dialog;
+pub mod helpers;
