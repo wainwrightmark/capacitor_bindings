@@ -7,7 +7,7 @@ extern "C" {
     async fn show(options: JsValue);
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ShowOptions {
     pub text: String,
 }

@@ -4,3 +4,4 @@ pub mod local_notifications;
 pub mod status_bar;
 pub mod toast;
 pub mod share;
+pub mod device;
