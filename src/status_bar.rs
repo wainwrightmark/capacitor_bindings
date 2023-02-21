@@ -24,7 +24,6 @@ extern "C" {
     async fn set_overlays_web_view(options: JsValue);
 }
 
-#[cfg(any(feature="ios", feature="android") )]
 /// The StatusBar API Provides methods for configuring the style of the Status Bar, along with showing or hiding it.
 /// These methods are not implemented on web
 pub struct StatusBar;
