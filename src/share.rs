@@ -13,13 +13,17 @@ extern "C" {
     async fn share(options: JsValue) -> JsValue;
 }
 
+/// The Share API provides methods for sharing content in any sharing-enabled apps the user may have installed.
+/// The Share API works on iOS, Android, and the Web (using the new Web Share API), though web support is currently spotty.
 pub struct Share;
 
 impl Share {
+    /// Check if sharing is supported.
     pub async fn can_share() -> CanShareResult {
         run_unit_value(can_share).await
     }
 
+    /// Show a Share modal for sharing content with other apps
     pub async fn share(options: impl Into<ShareOptions>) -> ShareResult {
         run_value_value(options, share).await
     }
@@ -38,7 +42,7 @@ pub struct CanShareResult {
 #[serde(rename_all = "camelCase")]
 pub struct ShareResult {
     /// 	Identifier of the app that received the share action. Can be an empty string in some cases. On web it will be undefined.
-    pub activity_type: String,
+    pub activity_type: Option<String>,
 }
 
 #[skip_serializing_none]

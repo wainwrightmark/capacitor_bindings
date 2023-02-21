@@ -24,17 +24,22 @@ extern "C" {
     async fn set_overlays_web_view(options: JsValue);
 }
 
+/// The StatusBar API Provides methods for configuring the style of the Status Bar, along with showing or hiding it.
+/// These methods are not implemented on web
 pub struct StatusBar;
 
 impl StatusBar {
+    /// Show the status bar. On iOS, if the status bar is initially hidden and the initial style is set to UIStatusBarStyleLightContent, first show call might present a glitch on the animation showing the text as dark and then transition to light. It's recommended to use Animation.None as the animation on the first call.
     pub async fn show() {
         run_unit_unit(status_bar_show).await
     }
 
+    /// Hide the status bar.
     pub async fn hide() {
         run_unit_unit(status_bar_hide).await
     }
 
+    /// Set the current style of the status bar.
     pub async fn set_style(options: impl Into<StyleOptions>) {
         run_value_unit(options, set_status_bar_style).await
     }

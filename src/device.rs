@@ -63,7 +63,7 @@ pub struct DeviceId {
 #[serde(rename_all = "camelCase")]
 pub struct DeviceInfo {
     /// The name of the device. For example, "John's iPhone". This is only supported on iOS and Android 7.1 or above.
-    pub name: String,
+    pub name: Option<String> ,
     /// The device model. For example, "iPhone13,4".
     pub model: String,
     /// The device platform (lowercase).
@@ -77,15 +77,15 @@ pub struct DeviceInfo {
     /// Whether the app is running in a simulator/emulator.
     pub is_virtual: bool,
     /// Approximate memory used by the current app, in bytes. Divide by 1048576 to get the number of MBs used.
-    pub mem_used: u64,
+    pub mem_used: Option<u64> ,
     /// How much free disk space is available on the normal data storage path for the os, in bytes. On Android it returns the free disk space on the "system" partition holding the core Android OS. On iOS this value is not accurate.
-    pub disk_free: u64,
+    pub disk_free: Option<u64>,
     /// The total size of the normal data storage path for the OS, in bytes. On Android it returns the disk space on the "system" partition holding the core Android OS.
-    pub disk_total: u64,
+    pub disk_total: Option<u64>,
     /// How much free disk space is available on the normal data storage, in bytes.
-    pub real_disk_free: u64,
+    pub real_disk_free: Option<u64>,
     /// The total size of the normal data storage path, in bytes.
-    pub real_disk_total: u64,
+    pub real_disk_total: Option<u64>,
     /// The web view browser version
     pub web_view_version: String,
 }

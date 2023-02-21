@@ -28,6 +28,8 @@ impl LocalNotifications {
         run_value_value(options, schedule).await
     }
 
+    /// Register actions to take when notifications are displayed.
+    /// Only available for iOS and Android.
     pub async fn register_action_types(options: impl Into<RegisterActionTypesOptions>) {
         run_value_unit(options, register_action_types).await
     }
