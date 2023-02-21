@@ -2,6 +2,16 @@
 name = "capacitor_bindings"
 version = "0.1.0"
 edition = "2021"
+authors = ["Mark Wainwright <wainwrightml@gmail.com>"]
+description = "Capactior bindings to help you build android and ios apps with rust."
+documentation = "https://docs.rs/capacitor_bindings"
+repository = "https://github.com/wainwrightmark/capacitor_bindings"
+readme = "README.md"
+keywords = ["capacitor", "bindings", "mobile", "app", "web"            ]
+categories = [
+    # "api-bindings"
+]
+license = "MIT"
 
 [dependencies]
 js-sys = "0.3"
