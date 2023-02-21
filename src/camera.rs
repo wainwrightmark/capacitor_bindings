@@ -54,6 +54,7 @@ impl Camera{
         run_unit_value( pick_limited_library_photos).await
     }
 
+    #[cfg(feature="ios")]
     /// iOS 14+ Only: Return an array of photos selected from the limited photo library.
     pub async fn get_limited_library_photos()->GalleryPhotos{
         run_unit_value( get_limited_library_photos).await
@@ -64,6 +65,7 @@ impl Camera{
         run_unit_value( check_permissions).await
     }
 
+    #[cfg(any(feature="ios", feature="android") )]
     /// Request camera and photo album permissions. Not implemented on web
     pub async fn request_permissions(options: impl Into<CameraPluginPermissions >)->PermissionStatus{
         run_value_value(options, request_permissions).await

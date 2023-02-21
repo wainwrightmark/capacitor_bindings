@@ -21,8 +21,6 @@ extern "C" {
     async fn get_language_tag() -> JsValue;
 }
 
-
-
 pub struct Device;
 
 impl Device {
@@ -40,7 +38,6 @@ impl Device {
     pub async fn get_battery_info() -> BatteryInfo {
         run_unit_value(get_battery_info).await
     }
-
 
     /// Get the device's current language locale code.
     pub async fn get_language_code() -> GetLanguageCodeResult {
@@ -63,7 +60,7 @@ pub struct DeviceId {
 #[serde(rename_all = "camelCase")]
 pub struct DeviceInfo {
     /// The name of the device. For example, "John's iPhone". This is only supported on iOS and Android 7.1 or above.
-    pub name: Option<String> ,
+    pub name: Option<String>,
     /// The device model. For example, "iPhone13,4".
     pub model: String,
     /// The device platform (lowercase).
@@ -77,7 +74,7 @@ pub struct DeviceInfo {
     /// Whether the app is running in a simulator/emulator.
     pub is_virtual: bool,
     /// Approximate memory used by the current app, in bytes. Divide by 1048576 to get the number of MBs used.
-    pub mem_used: Option<u64> ,
+    pub mem_used: Option<u64>,
     /// How much free disk space is available on the normal data storage path for the os, in bytes. On Android it returns the free disk space on the "system" partition holding the core Android OS. On iOS this value is not accurate.
     pub disk_free: Option<u64>,
     /// The total size of the normal data storage path for the OS, in bytes. On Android it returns the disk space on the "system" partition holding the core Android OS.
@@ -101,16 +98,16 @@ pub struct BatteryInfo {
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct GetLanguageCodeResult{
+pub struct GetLanguageCodeResult {
     /// Two character language code.
-    pub value: String
+    pub value: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct LanguageTag{
+pub struct LanguageTag {
     /// Returns a well-formed IETF BCP 47 language tag.
-    pub value: String
+    pub value: String,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, PartialOrd, Ord, Eq)]
