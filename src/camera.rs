@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
@@ -84,7 +86,7 @@ pub struct Photo {
     /// webPath returns a path that can be used to set the src attribute of an image for efficient loading and rendering.
     pub web_path: Option<String>,
     /// Exif data, if any, retrieved from the image
-    pub exif: Option<String>,
+    pub exif: Option<ExifData>,
     /// The format of the image, ex: jpeg, png, gif. iOS and Android only support jpeg. Web supports jpeg and png. gif is only supported if using file input.
     pub format: String,
     /// Whether if the image was saved to the gallery or not. On Android and iOS, saving to the gallery can fail if the user didn't grant the required permissions. On Web there is no gallery, so always returns false.
@@ -149,9 +151,17 @@ pub struct GalleryPhoto {
     /// webPath returns a path that can be used to set the src attribute of an image for efficient loading and rendering.
     pub web_path: Option<String>,
     /// Exif data, if any, retrieved from the image
-    pub exif: Option<String>,
+    pub exif: Option<ExifData>,
     /// The format of the image, ex: jpeg, png, gif. iOS and Android only support jpeg. Web supports jpeg, png and gif.
     pub format: String,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize,  Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct ExifData{
+    #[serde(flatten)]
+    pub data: BTreeMap<String, String>
 }
 
 #[skip_serializing_none]
