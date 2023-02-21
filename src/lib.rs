@@ -1,7 +1,6 @@
 pub mod action_sheet;
 pub mod haptics;
 pub mod local_notifications;
-#[cfg(any(feature="ios", feature="android") )]
 pub mod status_bar;
 pub mod toast;
 pub mod share;
