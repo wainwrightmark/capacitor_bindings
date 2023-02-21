@@ -1,10 +1,10 @@
 pub mod action_sheet;
-pub mod haptics;
-pub mod local_notifications;
-pub mod status_bar;
-pub mod toast;
-pub mod share;
+pub mod camera;
 pub mod device;
 pub mod dialog;
+pub mod haptics;
 pub mod helpers;
-pub mod camera;
+pub mod local_notifications;
+pub mod share;
+pub mod status_bar;
+pub mod toast;

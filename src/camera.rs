@@ -11,69 +11,65 @@ extern "C" {
 
     /// Prompt the user to pick a photo from an album, or take a new photo with the camera.
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "getPhoto")]
-    async fn get_photo(options: JsValue)-> JsValue;
+    async fn get_photo(options: JsValue) -> JsValue;
 
     /// Allows the user to pick multiple pictures from the photo gallery. On iOS 13 and older it only allows to pick one picture.
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "pickImages")]
-    async fn pick_images(options: JsValue)-> JsValue;
+    async fn pick_images(options: JsValue) -> JsValue;
 
     /// iOS 14+ Only: Allows the user to update their limited photo library selection. On iOS 15+ returns all the limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns an empty array.
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "pickLimitedLibraryPhotos")]
-    async fn pick_limited_library_photos()-> JsValue;
-
+    async fn pick_limited_library_photos() -> JsValue;
 
     /// iOS 14+ Only: Return an array of photos selected from the limited photo library.
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "getLimitedLibraryPhotos")]
-    async fn get_limited_library_photos()-> JsValue;
-
+    async fn get_limited_library_photos() -> JsValue;
 
     /// Check camera and photo album permissions
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "checkPermissions")]
-    async fn check_permissions()-> JsValue;
+    async fn check_permissions() -> JsValue;
 
     /// Request camera and photo album permissions. Not implemented on Web
     #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Camera"], js_name= "requestPermissions")]
-    async fn request_permissions(options: JsValue)-> JsValue;
+    async fn request_permissions(options: JsValue) -> JsValue;
 }
 
 pub struct Camera;
 
-impl Camera{
+impl Camera {
     /// Prompt the user to pick a photo from an album, or take a new photo with the camera.
-    pub async fn get_photo(options: impl Into<ImageOptions>)->Photo{
+    pub async fn get_photo(options: impl Into<ImageOptions>) -> Photo {
         run_value_value(options, get_photo).await
     }
     /// Allows the user to pick multiple pictures from the photo gallery. On iOS 13 and older it only allows to pick one picture.
-    pub async fn pick_images(options: impl Into<GalleryImageOptions>)->GalleryPhotos{
+    pub async fn pick_images(options: impl Into<GalleryImageOptions>) -> GalleryPhotos {
         run_value_value(options, pick_images).await
     }
 
-
     /// Allows the user to pick multiple pictures from the photo gallery. On iOS 13 and older it only allows to pick one picture.
-    pub async fn pick_limited_library_photos()->GalleryPhotos{
-        run_unit_value( pick_limited_library_photos).await
+    pub async fn pick_limited_library_photos() -> GalleryPhotos {
+        run_unit_value(pick_limited_library_photos).await
     }
 
-    #[cfg(feature="ios")]
+    #[cfg(feature = "ios")]
     /// iOS 14+ Only: Return an array of photos selected from the limited photo library.
-    pub async fn get_limited_library_photos()->GalleryPhotos{
-        run_unit_value( get_limited_library_photos).await
+    pub async fn get_limited_library_photos() -> GalleryPhotos {
+        run_unit_value(get_limited_library_photos).await
     }
 
     /// Check camera and photo album permissions
-    pub async fn check_permissions()->PermissionStatus{
-        run_unit_value( check_permissions).await
+    pub async fn check_permissions() -> PermissionStatus {
+        run_unit_value(check_permissions).await
     }
 
-    #[cfg(any(feature="ios", feature="android") )]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Request camera and photo album permissions. Not implemented on web
-    pub async fn request_permissions(options: impl Into<CameraPluginPermissions >)->PermissionStatus{
+    pub async fn request_permissions(
+        options: impl Into<CameraPluginPermissions>,
+    ) -> PermissionStatus {
         run_value_value(options, request_permissions).await
     }
-
-
 }
-
 
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -132,8 +128,6 @@ pub struct ImageOptions {
     pub prompt_label_photo: Option<String>,
     /// Text value to use when displaying the prompt. The label of the button to open the camera.
     pub prompt_label_picture: Option<String>,
-
-
 }
 
 #[skip_serializing_none]
@@ -159,11 +153,11 @@ pub struct GalleryPhoto {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize,  Clone, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct ExifData{
+pub struct ExifData {
     #[serde(flatten)]
-    pub data: BTreeMap<String, String>
+    pub data: BTreeMap<String, String>,
 }
 
 #[skip_serializing_none]

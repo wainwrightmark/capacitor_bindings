@@ -19,47 +19,45 @@ extern "C" {
 pub struct Dialog;
 
 impl Dialog {
-
     /// Show an alert dialog
-    pub async fn alert(options: impl Into<AlertOptions>){
+    pub async fn alert(options: impl Into<AlertOptions>) {
         run_value_unit(options, alert).await
     }
 
     /// Show a prompt dialog
-    pub async fn prompt(options: impl Into<PromptOptions>)-> PromptResult{
+    pub async fn prompt(options: impl Into<PromptOptions>) -> PromptResult {
         run_value_value(options, prompt).await
     }
 
     /// Show a confirmation dialog
-    pub async fn confirm(options: impl Into<ConfirmOptions>)-> ConfirmResult{
+    pub async fn confirm(options: impl Into<ConfirmOptions>) -> ConfirmResult {
         run_value_value(options, confirm).await
     }
 }
 
-
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct AlertOptions{
+pub struct AlertOptions {
     /// Title of the dialog.
     pub title: String,
     /// Message to show on the dialog.
     pub message: String,
     /// Text to use on the action button.
-    pub button_title: String
+    pub button_title: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct PromptResult{
+pub struct PromptResult {
     /// Text entered on the prompt.
     pub value: String,
     /// Whether if the prompt was canceled or accepted.
-    pub cancelled: bool
+    pub cancelled: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct PromptOptions{
+pub struct PromptOptions {
     /// Title of the dialog.
     pub title: String,
     /// Message to show on the dialog.
@@ -76,14 +74,14 @@ pub struct PromptOptions{
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct ConfirmResult{
+pub struct ConfirmResult {
     /// true if the positive button was clicked, false otherwise.
-    pub value: bool
+    pub value: bool,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct ConfirmOptions{
+pub struct ConfirmOptions {
     /// Title of the dialog.
     pub title: String,
     /// Message to show on the dialog.
@@ -91,5 +89,5 @@ pub struct ConfirmOptions{
     /// Text to use on the positive action button.
     pub ok_button_title: String,
     /// Text to use on the negative action button.
-    pub cancel_button_title: String
+    pub cancel_button_title: String,
 }

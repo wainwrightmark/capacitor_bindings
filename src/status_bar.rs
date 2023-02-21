@@ -1,7 +1,7 @@
+#[cfg(any(feature = "ios", feature = "android"))]
+use crate::helpers::*;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
-
-use crate::helpers::{run_unit_unit, run_value_unit};
 
 #[wasm_bindgen()]
 extern "C" {
@@ -28,34 +28,33 @@ extern "C" {
 /// These methods are not implemented on web
 pub struct StatusBar;
 
-
 impl StatusBar {
-    #[cfg(any(feature="ios", feature="android") )]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Show the status bar. On iOS, if the status bar is initially hidden and the initial style is set to UIStatusBarStyleLightContent, first show call might present a glitch on the animation showing the text as dark and then transition to light. It's recommended to use Animation.None as the animation on the first call.
     pub async fn show() {
         run_unit_unit(status_bar_show).await
     }
 
-    #[cfg(any(feature="ios", feature="android") )]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Hide the status bar.
     pub async fn hide() {
         run_unit_unit(status_bar_hide).await
     }
 
-    #[cfg(any(feature="ios", feature="android") )]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Set the current style of the status bar.
     pub async fn set_style(options: impl Into<StyleOptions>) {
         run_value_unit(options, set_status_bar_style).await
     }
 
-    #[cfg(any(feature="android") )]
+    #[cfg(any(feature = "android"))]
     /// Set the background color of the status bar.
     /// This method is only supported on Android.
     pub async fn set_background_color(options: impl Into<BackgroundColorOptions>) {
         run_value_unit(options, set_status_bar_background_color).await
     }
 
-    #[cfg(any(feature="android") )]
+    #[cfg(any(feature = "android"))]
     /// Set whether or not the status bar should overlay the webview to allow usage of the space underneath it.
     /// This method is only supported on Android.
     pub async fn set_overlays_web_view(options: impl Into<SetOverlaysWebViewOptions>) {

@@ -5,7 +5,7 @@ use wasm_bindgen::{
     JsValue,
 };
 
-use crate::helpers::{run_value_unit, run_value_value};
+use crate::helpers::*;
 
 #[wasm_bindgen()]
 extern "C" {
@@ -24,18 +24,17 @@ pub struct LocalNotifications;
 
 impl LocalNotifications {
     /// Schedule one or more local notifications.
-    pub async fn schedule(options: impl Into<ScheduleOptions> ) -> ScheduleResult {
+    pub async fn schedule(options: impl Into<ScheduleOptions>) -> ScheduleResult {
         run_value_value(options, schedule).await
     }
 
     /// Register actions to take when notifications are displayed.
     /// Only available for iOS and Android.
-    #[cfg(any(feature="ios", feature="android") )]
+    #[cfg(any(feature = "ios", feature = "android"))]
     pub async fn register_action_types(options: impl Into<RegisterActionTypesOptions>) {
         run_value_unit(options, register_action_types).await
     }
 
-    #[must_use]
     pub async fn add_received_listener<'a, F: Fn(LocalNotificationSchema) + 'static>(
         func: F,
     ) -> &'a PluginListenerHandle {
@@ -50,7 +49,6 @@ impl LocalNotifications {
         &PluginListenerHandle {}
     }
 
-    #[must_use]
     pub async fn add_action_performed_listener<'a, F: Fn(ActionPerformed) + 'static>(
         func: F,
     ) -> &'a PluginListenerHandle {

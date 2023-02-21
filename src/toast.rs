@@ -33,10 +33,6 @@ impl From<&str> for ShowOptions {
 
 impl From<String> for ShowOptions {
     fn from(text: String) -> Self {
-        ShowOptions {
-            text,
-        }
+        ShowOptions { text }
     }
 }
-
-

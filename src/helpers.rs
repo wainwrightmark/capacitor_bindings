@@ -15,7 +15,12 @@ pub async fn run_unit_value<
     f: F,
 ) -> O {
     let js_value = f().await;
-    let o: O = serde_wasm_bindgen::from_value(js_value).expect(std::any::type_name::<O>());
+    let o: O = serde_wasm_bindgen::from_value(js_value).unwrap_or_else(|error| {
+        panic!(
+            "Could not deserialize {}: {error}",
+            std::any::type_name::<O>()
+        )
+    });
     o
 }
 
@@ -26,9 +31,14 @@ pub async fn run_value_unit<
 >(
     i: impl Into<I>,
     f: F,
-) -> () {
+) {
     let i = i.into();
-    let js_value: JsValue = serde_wasm_bindgen::to_value(&i).expect(std::any::type_name::<I>());
+    let js_value: JsValue = serde_wasm_bindgen::to_value(&i).unwrap_or_else(|error| {
+        panic!(
+            "Could not serialize {}: {error}",
+            std::any::type_name::<I>()
+        )
+    });
     f(js_value).await
 }
 
@@ -43,9 +53,18 @@ pub async fn run_value_value<
     f: F,
 ) -> O {
     let i = i.into();
-    let js_input_value: JsValue =
-        serde_wasm_bindgen::to_value(&i).expect(std::any::type_name::<I>());
+    let js_input_value: JsValue = serde_wasm_bindgen::to_value(&i).unwrap_or_else(|error| {
+        panic!(
+            "Could not serialize {}: {error}",
+            std::any::type_name::<I>()
+        )
+    });
     let js_output_value = f(js_input_value).await;
-    let o: O = serde_wasm_bindgen::from_value(js_output_value).expect(std::any::type_name::<O>());
+    let o: O = serde_wasm_bindgen::from_value(js_output_value).unwrap_or_else(|error| {
+        panic!(
+            "Could not deserialize {}: {error}",
+            std::any::type_name::<O>()
+        )
+    });
     o
 }

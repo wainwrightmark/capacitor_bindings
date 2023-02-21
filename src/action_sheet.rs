@@ -33,7 +33,7 @@ pub struct ActionSheetButton {
     pub style: Option<ActionSheetButtonStyle>,
 }
 
-#[derive(Debug, Clone, Copy, Deserialize, Serialize, Default,  PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, Default, PartialEq, Eq)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum ActionSheetButtonStyle {
     #[default]
