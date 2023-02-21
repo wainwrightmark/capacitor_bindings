@@ -6,11 +6,16 @@
 [<img alt="build status" src="https://img.shields.io/github/workflow/status/wainwrightmark/capacitor_bindings/build/main?style=for-the-badge" height="22">](https://github.com/wainwrightmark/capacitor_bindings/actions?query=branch%3Amain)
 
 Capacitor bindings to help you build android and ios apps using rust.
+
 These can be used from framework that builds with trunk e.g. yes, sycamore, seed, etc.
 
-The workflow detailed below will let you have one application that builds for android, ios (probably - I haven't tested this yet), and the web.
+***This project is in the very early stages. Do not use it in production!***
 
-This crate provides bindings for some of the [official capacitor plugins](https://capacitorjs.com/docs/plugins). I intend to support them all eventually. Please submit a pull request if there is a particular one you need.
+I have successfully used this to build an android app and am soon to begin building an ios app with it.
+
+In the Setup section below I explain how you can have a single version of your code and which can be built for both web and mobile platforms.
+
+This crate provides bindings for some of the [official capacitor plugins](https://capacitorjs.com/docs/plugins). I intend to support them all eventually. Please submit an issue or pull request if there is a particular one you need.
 
 Currently supported
 
@@ -42,7 +47,6 @@ async fn greet() {
 
 ## Setup
 
-This is how I set up my projects to be able to build multiple apps
 
 ### Prerequisites
 
@@ -53,6 +57,8 @@ You must also have trunk installed
 ```
 cargo install trunk
 ```
+You must have a rust web app that builds with trunk. You can try it out using the example application in this repository.
+
 
 ### Adding Capacitor to your app
 
@@ -77,16 +83,31 @@ npx cap init
 Add android and ios as needed
 
 ```
-npm i @capacitor/android @capacitor/ios
+npm i @capacitor/android
 npx cap add android
+
+npm i @capacitor/ios
 npx cap add ios
 ```
 
-Add the plugins that you want
+Add the plugins that you want e.g.
 
 ```
 npm install @capacitor/toast
 ```
+
+Add this crate to your project
+```
+cargo add capacitor_bindings
+```
+
+Add calls to the plugins where you need them. If you have a yew project, you could add the following to one of your `function_component`
+
+```rust
+    use_effect(||yew::platform::spawn_local(capacitor_bindings::toast::Toast::show("Hello World")));
+
+```
+
 
 Some plugins have additional installation steps (such as adding to the android manifest xml) that you will need to follow.
 [the list of official plugins is here](https://capacitorjs.com/docs/plugins)
@@ -145,13 +166,42 @@ Replace the `<script src="./plugins/@capacitor/toast.js" type="module"></script>
 
 If you now do `trunk serve` it should run in the browser and you will have access to the web versions of the plugins. This will also not break the android build but you will get error messages about those .js files not being available when you run on android.
 
-To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name in `android.html`. From this file you can remove all of the lines you just added to your head section. You can also control the features by changing the link in the body section.
+
+
+To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name in `android.html`. From this file you can remove all of the lines you just added to your head section.
+
+### Features
+
+Some of the plugin functions only work on certain platforms. For example setting the status bar style doesn't work on the web.
+
+To enable these features for the appropriate builds, add the following to your cargo.toml
+
+```
+[features]
+web =["capacitor_bindings/web"]
+android = ["capacitor_bindings/android"]
+ios = ["capacitor_bindings/ios"]
+```
+
+To only use a feature when it is availble you need to have a section of your rust code that is only build when that feature is enabled.
+
+```rust
+#[cfg(feature="android")]
+{
+    StatusBar::set_style(Style::Light).await;
+    StatusBar::set_background_color("#FFFFFF").await;
+}
+```
+
+You can control which features trunk will build by using the `data-cargo-features` attribute in the link tag in your `index.html` or `android.html`
 
 ```
 <body>
     <link rel="rust" data-trunk href="Cargo.toml" data-bin="myapp" data-cargo-features="android" />
 </body>
 ```
+
+
 
 
 ## Contributing
