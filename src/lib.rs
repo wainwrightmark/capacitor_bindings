@@ -7,3 +7,4 @@ pub mod share;
 pub mod device;
 pub mod dialog;
 pub mod helpers;
+pub mod camera;
