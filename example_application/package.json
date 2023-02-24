@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@capacitor/action-sheet": "^4.1.0",
+    "@capacitor/android": "^4.7.0",
+    "@capacitor/camera": "^4.1.4",
+    "@capacitor/core": "^4.7.0",
+    "@capacitor/device": "^4.1.0",
+    "@capacitor/dialog": "^4.1.0",
+    "@capacitor/haptics": "^4.1.0",
+    "@capacitor/local-notifications": "^4.1.5",
+    "@capacitor/share": "^4.1.1",
+    "@capacitor/status-bar": "^4.1.1",
+    "@capacitor/toast": "^4.1.0",
+    "pika": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^4.7.0"
+  }
+}

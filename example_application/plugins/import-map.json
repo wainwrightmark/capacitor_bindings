@@ -1,0 +1,14 @@
+{
+  "imports": {
+    "@capacitor/action-sheet": "./@capacitor/action-sheet.js",
+    "@capacitor/camera": "./@capacitor/camera.js",
+    "@capacitor/core": "./@capacitor/core.js",
+    "@capacitor/device": "./@capacitor/device.js",
+    "@capacitor/dialog": "./@capacitor/dialog.js",
+    "@capacitor/haptics": "./@capacitor/haptics.js",
+    "@capacitor/local-notifications": "./@capacitor/local-notifications.js",
+    "@capacitor/share": "./@capacitor/share.js",
+    "@capacitor/status-bar": "./@capacitor/status-bar.js",
+    "@capacitor/toast": "./@capacitor/toast.js"
+  }
+}
