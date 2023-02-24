@@ -2,15 +2,15 @@ use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
-use crate::helpers::{run_unit_value, run_value_value};
+use crate::helpers::*;
 
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Share"], js_name="canShare" )]
-    async fn can_share() -> JsValue;
+    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Share"], js_name="canShare" )]
+    async fn can_share() -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Share"], js_name="share" )]
-    async fn share(options: JsValue) -> JsValue;
+    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Share"], js_name="share" )]
+    async fn share(options: JsValue) -> Result<JsValue, JsValue>;
 }
 
 /// The Share API provides methods for sharing content in any sharing-enabled apps the user may have installed.
@@ -19,12 +19,12 @@ pub struct Share;
 
 impl Share {
     /// Check if sharing is supported.
-    pub async fn can_share() -> CanShareResult {
+    pub async fn can_share() -> Result<CanShareResult, Error> {
         run_unit_value(can_share).await
     }
 
     /// Show a Share modal for sharing content with other apps
-    pub async fn share(options: impl Into<ShareOptions>) -> ShareResult {
+    pub async fn share(options: impl Into<ShareOptions>) -> Result<ShareResult, Error> {
         run_value_value(options, share).await
     }
 }

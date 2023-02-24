@@ -2,6 +2,7 @@ use std::fmt::Debug;
 use std::future::Future;
 
 use capacitor_bindings::action_sheet::*;
+use capacitor_bindings::helpers::Error;
 use capacitor_bindings::local_notifications::*;
 
 use capacitor_bindings::toast;
@@ -18,91 +19,6 @@ use capacitor_bindings::toast::*;
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let register_action_types = |_: MouseEvent| {
-        #[cfg(any(feature = "android", feature = "ios"))]
-        {
-            async fn register() {
-                let options = RegisterActionTypesOptions {
-                    types: vec![ActionType {
-                        id: "MyActionType".to_string(),
-                        actions: vec![
-                            Action {
-                                id: "Foo".to_string(),
-                                title: "Foo".to_string(),
-                            },
-                            Action {
-                                id: "Bar".to_string(),
-                                title: "Bar".to_string(),
-                            },
-                        ],
-                    }],
-                };
-                LocalNotifications::register_action_types(options).await
-            }
-
-            spawn_local(register());
-        }
-        #[cfg(not(any(feature = "android", feature = "ios")))]
-        {
-            spawn_local(Toast::show(
-                "No need to register action types except on android or ios",
-            ))
-        }
-    };
-
-    let schedule_notifications = |_: MouseEvent| {
-        let options = ScheduleOptions {
-            notifications: vec![LocalNotificationSchema {
-                auto_cancel: true,
-                body: "Notification Body".to_string(),
-                title: "Notification Title".to_string(),
-                schedule: Schedule {
-                    on: ScheduleOn {
-                        second: Some(0),
-                        year: None,
-                        minute: None,
-                        month: None,
-                        day: None,
-                        weekday: None,
-                        hour: None,
-                    },
-                    allow_while_idle: true,
-                },
-                large_body: Some("Notification Large Body".to_string()),
-                summary_text: Some("Notification Summary Text".to_string()),
-                id: 123,
-                ongoing: false,
-                inbox_list: Some(vec![
-                    "N One".to_string(),
-                    "N Two".to_string(),
-                    "N Three".to_string(),
-                    "N Four".to_string(),
-                    "N Five".to_string(),
-                ]),
-                action_type_id: Some("MyActionType".to_string()),
-                group: None,
-                group_summary: None,
-                small_icon: None,
-                large_icon: None,
-                icon_color: None,
-            }],
-        };
-
-        wasm_bindgen_futures::spawn_local(schedule_notification(options));
-    };
-
-    let listen_for_notifications = |_: MouseEvent| {
-        wasm_bindgen_futures::spawn_local(add_local_notification_received_listener());
-    };
-
-    let listen_for_notification_actions = |_: MouseEvent| {
-        wasm_bindgen_futures::spawn_local(add_action_performed_listener());
-    };
-
-    let show_actions_onclick = |_: MouseEvent| {
-        wasm_bindgen_futures::spawn_local(show_actions());
-    };
-
     let status_block: Html;
     #[cfg(any(feature = "android", feature = "ios"))]
     {
@@ -113,11 +29,11 @@ pub fn app() -> Html {
                 <span class="icon">{"↓"}</span>
             </summary>
             <div style="display: flex; flex-direction: column;">
-                <button onclick={|_| spawn_local(StatusBar::show())}> {"Show Status"}</button>
-                <button onclick={|_| spawn_local(StatusBar::hide())}> {"Hide Status"}</button>
-                <button onclick={|_| spawn_local(StatusBar::set_style(Style::Light))}> {"Set Status Light"}</button>
-                <button onclick={|_| spawn_local(StatusBar::set_style(Style::Dark))}> {"Set Status Dark"}</button>
-                <button onclick={|_| spawn_local(StatusBar::set_background_color("#22DD44"))}> {"Set Status Background Green"}</button>
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_background_color("#22DD44")})}> {"Set Status Background Green"}</button>
+                <button onclick={|_| do_and_toast_result(StatusBar::hide)}> {"Hide Status"}</button>
+                <button onclick={|_| do_and_toast_result(StatusBar::show)}> {"Show Status"}</button>
             </div>
             </details>
         };
@@ -143,9 +59,22 @@ pub fn app() -> Html {
     html! {
         <main>
             <div style="display: flex; flex-direction: column;">
-            <button onclick={|_| spawn_local(Toast::show("Hello Toast"))}> {"Show Toast"}</button>
+            <button onclick={|_| spawn_local(async{Toast::show("Hello Toast").await.expect("Should be able to show toast")})}> {"Show Toast"}</button>
 
-            <button onclick={show_actions_onclick}> {"Show Actions"}</button>
+            <button onclick={|_| show_actions()}> {"Show Actions"}</button>
+
+            <details>
+                <summary>
+                    {"Local Notifications"}
+                    <span class="icon">{"↓"}</span>
+                </summary>
+                <div style="display: flex; flex-direction: column;">
+                    <button onclick={|_| register_action_types()}> {"Register Action Types"}</button>
+                    <button onclick={|_| add_local_notification_received_listener()}> {"Listen For Notifications"}</button>
+                    <button onclick={|_| add_action_performed_listener()}> {"Listen For Notification Actions"}</button>
+                    <button onclick={|_| schedule_notifications()}> {"Schedule Notifications"}</button>
+                </div>
+            </details>
 
             <details>
                 <summary>
@@ -153,8 +82,8 @@ pub fn app() -> Html {
                     <span class="icon">{"↓"}</span>
                 </summary>
                 <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_|spawn_local(can_share())}> {"Can Share?"}</button>
-                    <button onclick={|_|spawn_local(do_share())}> {"Share"}</button>
+                    <button onclick={|_|do_and_toast_result(Share::can_share)}> {"Can Share?"}</button>
+                    <button onclick={|_|do_share()}> {"Share"}</button>
                 </div>
             </details>
 
@@ -164,9 +93,9 @@ pub fn app() -> Html {
                     <span class="icon">{"↓"}</span>
                 </summary>
                 <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_|do_and_toast_result(get_photo)}> {"Get Photo"}</button>
-                    <button onclick={|_|do_and_toast_result(check_permissions)}> {"Check Permissions"}</button>
-                    <button onclick={|_|do_and_toast_result(request_permissions)}> {"Request Permissions"}</button>
+                    <button onclick={|_| get_photo()}> {"Get Photo"}</button>
+                    <button onclick={|_|do_and_toast_result(Camera::check_permissions)}> {"Check Permissions"}</button>
+                    <button onclick={|_|request_permissions()}> {"Request Permissions"}</button>
                 </div>
             </details>
 
@@ -214,19 +143,18 @@ pub fn app() -> Html {
                     <span class="icon">{"↓"}</span>
                 </summary>
                 <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_| spawn_local(Haptics::vibrate(3000.)) }> {"Vibrate 3s"}</button>
-                    <button onclick={|_| spawn_local(Haptics::impact(ImpactStyle::Heavy))}> {"Impact Heavy"}</button>
-                    <button onclick={|_| spawn_local(Haptics::impact(ImpactStyle::Medium))}> {"Impact Medium"}</button>
-                    <button onclick={|_| spawn_local(Haptics::impact(ImpactStyle::Light))}> {"Impact Light"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::vibrate(3000.)) }> {"Vibrate 3s"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Heavy))}> {"Impact Heavy"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Medium))}> {"Impact Medium"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Light))}> {"Impact Light"}</button>
 
-                    <button onclick={|_| spawn_local(Haptics::notification(NotificationType::Success))}> {"Success"}</button>
-                    <button onclick={|_| spawn_local(Haptics::notification(NotificationType::Warning))}> {"Warning"}</button>
-                    <button onclick={|_| spawn_local(Haptics::notification(NotificationType::Error ))}> {"Error"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Success))}> {"Success"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Warning))}> {"Warning"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Error ))}> {"Error"}</button>
 
-
-                    <button onclick={|_| spawn_local(Haptics::selection_start())}> {"Selection Start"}</button>
-                    <button onclick={|_| spawn_local(Haptics::selection_changed())}> {"Selection Changed"}</button>
-                    <button onclick={|_| spawn_local(Haptics::selection_end())}> {"Selection End"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::selection_start())}> {"Selection Start"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::selection_changed())}> {"Selection Changed"}</button>
+                    <button onclick={|_| do_and_toast_result(||Haptics::selection_end())}> {"Selection End"}</button>
                 </div>
             </details>
 
@@ -248,148 +176,211 @@ pub fn app() -> Html {
                 </div>
             </details>
 
-            <details>
-                <summary>
-                    {"Local Notifications"}
-                    <span class="icon">{"↓"}</span>
-                </summary>
-                <div style="display: flex; flex-direction: column;">
-                    <button onclick={register_action_types}> {"Register Action Types"}</button>
-                    <button onclick={listen_for_notifications}> {"Listen For Notifications"}</button>
-                    <button onclick={listen_for_notification_actions}> {"Listen For Notification Actions"}</button>
-                    <button onclick={schedule_notifications}> {"Schedule Notifications"}</button>
-                </div>
-            </details>
+
             </div>
         </main>
     }
 }
 
-fn do_and_toast_result<T: Debug, Fut: Future<Output = T>, F: Fn() -> Fut + 'static>(f: F) {
+async fn show_toast_or_panic_async(options: impl Into<toast::ShowOptions>) {
+    Toast::show(options)
+        .await
+        .expect("Should Be able to show toast")
+}
+
+fn show_toast_or_panic(options: impl Into<toast::ShowOptions> + 'static) {
+    spawn_local(show_toast_or_panic_async(options))
+}
+
+fn do_and_toast_result<
+    T: Debug + 'static,
+    Fut: Future<Output = Result<T, Error>>,
+    F: Fn() -> Fut + 'static,
+>(
+    f: F,
+) {
     spawn_local(async move {
         let r = f().await;
-        log::info!("{r:?}");
-        Toast::show(format!("{r:?}")).await
+
+        match r {
+            Ok(result) => {
+
+                if std::any::TypeId::of::<T>() == std::any::TypeId::of::<()>(){
+                    log::info!("Action successful");
+                }else{
+                    log::info!("{result:?}");
+                    show_toast_or_panic_async(format!("{result:?}")).await
+                }
+
+
+            }
+            Err(err) => {
+                log::error!("{err:?}");
+                show_toast_or_panic_async(format!("{err}")).await
+            }
+        }
     })
 }
 
-async fn check_permissions() -> PermissionStatus {
-    Camera::check_permissions().await
+fn schedule_notifications() {
+    do_and_toast_result(|| {
+        let options = ScheduleOptions {
+            notifications: vec![LocalNotificationSchema {
+                auto_cancel: true,
+                body: "Notification Body".to_string(),
+                title: "Notification Title".to_string(),
+                schedule: Schedule {
+                    on: ScheduleOn {
+                        second: Some(0),
+                        year: None,
+                        minute: None,
+                        month: None,
+                        day: None,
+                        weekday: None,
+                        hour: None,
+                    },
+                    allow_while_idle: true,
+                },
+                large_body: Some("Notification Large Body".to_string()),
+                summary_text: Some("Notification Summary Text".to_string()),
+                id: 123,
+                ongoing: false,
+                inbox_list: Some(vec![
+                    "N One".to_string(),
+                    "N Two".to_string(),
+                    "N Three".to_string(),
+                    "N Four".to_string(),
+                    "N Five".to_string(),
+                ]),
+                action_type_id: Some("MyActionType".to_string()),
+                group: None,
+                group_summary: None,
+                small_icon: None,
+                large_icon: None,
+                icon_color: None,
+            }],
+        };
+
+        LocalNotifications::schedule(options)
+    });
 }
 
-async fn request_permissions() -> Option<PermissionStatus> {
+fn register_action_types() {
     #[cfg(any(feature = "android", feature = "ios"))]
     {
-        let ps = Camera::request_permissions(CameraPluginPermissions {
-            permissions: vec![CameraPermissionType::Camera, CameraPermissionType::Photos],
-        })
-        .await;
-        Some(ps)
+        do_and_toast_result(|| {
+            let options = RegisterActionTypesOptions {
+                types: vec![ActionType {
+                    id: "MyActionType".to_string(),
+                    actions: vec![
+                        Action {
+                            id: "Foo".to_string(),
+                            title: "Foo".to_string(),
+                        },
+                        Action {
+                            id: "Bar".to_string(),
+                            title: "Bar".to_string(),
+                        },
+                    ],
+                }],
+            };
+            LocalNotifications::register_action_types(options)
+        });
     }
     #[cfg(not(any(feature = "android", feature = "ios")))]
     {
-        spawn_local(Toast::show(
-            "Cannot request permissions except on android or ios",
-        ));
-        None
+        show_toast_or_panic("No need to register action types except on android or ios")
     }
 }
 
-async fn get_photo() -> Photo {
-    Camera::get_photo(ImageOptions {
-        quality: 100,
-        allow_editing: true,
-        result_type: CameraResultType::Base64,
-        save_to_gallery: false,
-        width: 32,
-        height: 32,
-        correct_orientation: true,
-        source: CameraSource::Prompt,
-        direction: None,
-        presentation_style: None,
-        web_use_input: Some(false),
-        prompt_label_header: "Prompt Label Header".to_string(),
-        prompt_label_cancel: Some("Cancel".to_string()),
-        prompt_label_photo: Some("Select Saved Image".to_string()),
-        prompt_label_picture: Some("Open Camera".to_string()),
+fn request_permissions() {
+    #[cfg(any(feature = "android", feature = "ios"))]
+    {
+        do_and_toast_result(|| {
+            Camera::request_permissions(CameraPluginPermissions {
+                permissions: vec![CameraPermissionType::Camera, CameraPermissionType::Photos],
+            })
+        })
+    }
+    #[cfg(not(any(feature = "android", feature = "ios")))]
+    {
+        show_toast_or_panic("Cannot request permissions except on android or ios")
+    }
+}
+
+fn get_photo() {
+    do_and_toast_result(|| {
+        Camera::get_photo(ImageOptions {
+            quality: 100,
+            allow_editing: true,
+            result_type: CameraResultType::Base64,
+            save_to_gallery: false,
+            width: 32,
+            height: 32,
+            correct_orientation: true,
+            source: CameraSource::Prompt,
+            direction: None,
+            presentation_style: None,
+            web_use_input: Some(false),
+            prompt_label_header: "Prompt Label Header".to_string(),
+            prompt_label_cancel: Some("Cancel".to_string()),
+            prompt_label_photo: Some("Select Saved Image".to_string()),
+            prompt_label_picture: Some("Open Camera".to_string()),
+        })
     })
-    .await
 }
 
-async fn can_share() {
-    let result = Share::can_share().await;
-    let text = if result.value {
-        "Sharing is possible"
-    } else {
-        "Sharing is not possible"
-    };
-    Toast::show(text).await
-}
-
-async fn do_share() {
-    let options = ShareOptions {
-        title: Some("title".to_string()),
-        text: Some("text".to_string()),
-        url: Some("https://github.com/wainwrightmark/capacitor_bindings".to_string()),
-        dialog_title: Some("dialog title".to_string()),
-        files: None,
-    };
-    let result = Share::share(options).await;
-
-    Toast::show(format!("{result:?}")).await
-}
-
-async fn show_actions() -> () {
-    let result = capacitor_bindings::action_sheet::ActionSheet::show_actions(&ShowActionsOptions {
-        title: "Title".to_string(),
-        message: Some("Message".to_string()),
-        options: vec![
-            ActionSheetButton {
-                title: "Action 0 (Default)".to_string(),
-                style: Some(ActionSheetButtonStyle::Default),
-                icon: None,
-            },
-            ActionSheetButton {
-                title: "Action 1 (Destructive)".to_string(),
-                style: Some(ActionSheetButtonStyle::Destructive),
-                icon: None,
-            },
-            ActionSheetButton {
-                title: "Action 2 (Cancel)".to_string(),
-                style: Some(ActionSheetButtonStyle::Cancel),
-                icon: None,
-            },
-        ],
+fn do_share() {
+    do_and_toast_result(|| {
+        let options = ShareOptions {
+            title: Some("title".to_string()),
+            text: Some("text".to_string()),
+            url: Some("https://github.com/wainwrightmark/capacitor_bindings".to_string()),
+            dialog_title: Some("dialog title".to_string()),
+            files: None,
+        };
+        Share::share(options)
     })
-    .await;
-
-    Toast::show(toast::ShowOptions {
-        text: format!("Chose action {}", result.index),
-    })
-    .await;
 }
 
-async fn schedule_notification(options: ScheduleOptions) -> () {
-    log::info!("Scheduling local notification...");
-    log::info!("{options:?}");
-    let result = LocalNotifications::schedule(options).await;
-
-    log::info!("Notification Scheduled {:?}", result.notifications);
+fn show_actions() {
+    do_and_toast_result(|| {
+        capacitor_bindings::action_sheet::ActionSheet::show_actions(ShowActionsOptions {
+            title: "Title".to_string(),
+            message: Some("Message".to_string()),
+            options: vec![
+                ActionSheetButton {
+                    title: "Action 0 (Default)".to_string(),
+                    style: Some(ActionSheetButtonStyle::Default),
+                    icon: None,
+                },
+                ActionSheetButton {
+                    title: "Action 1 (Destructive)".to_string(),
+                    style: Some(ActionSheetButtonStyle::Destructive),
+                    icon: None,
+                },
+                ActionSheetButton {
+                    title: "Action 2 (Cancel)".to_string(),
+                    style: Some(ActionSheetButtonStyle::Cancel),
+                    icon: None,
+                },
+            ],
+        })
+    });
 }
 
-async fn add_local_notification_received_listener() {
-    LocalNotifications::add_received_listener(|schema| {
-        spawn_local(Toast::show(format!("Notification Received: {}", schema.id)));
-    })
-    .await;
+fn add_local_notification_received_listener() {
+    do_and_toast_result(|| {
+        LocalNotifications::add_received_listener(|schema| {
+            show_toast_or_panic(format!("Notification Received: {}", schema.id))
+        })
+    });
 }
 
-async fn add_action_performed_listener() {
-    LocalNotifications::add_action_performed_listener(|action_performed| {
-        spawn_local(Toast::show(format!(
-            "Action Performed: {}",
-            action_performed.action_id
-        )));
-    })
-    .await;
+fn add_action_performed_listener() {
+    do_and_toast_result(|| {
+        LocalNotifications::add_action_performed_listener(|action_performed| {
+            show_toast_or_panic(format!("Action Performed: {}", action_performed.action_id));
+        })
+    });
 }

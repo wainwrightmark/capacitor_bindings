@@ -1,19 +1,19 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
-use crate::helpers::run_value_unit;
+use crate::helpers::{run_value_unit, Error};
 
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
-    async fn show(options: JsValue);
+    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
+    async fn show(options: JsValue) -> Result<(), JsValue>;
 }
 
 pub struct Toast;
 
 impl Toast {
     /// Show a toast asynchronously
-    pub async fn show(options: impl Into<ShowOptions>) {
+    pub async fn show(options: impl Into<ShowOptions>)-> Result<(), Error> {
         run_value_unit(options, show).await
     }
 }

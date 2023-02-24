@@ -5,14 +5,14 @@ use crate::helpers::*;
 
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="alert" )]
-    async fn alert(options: JsValue);
+    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="alert" )]
+    async fn alert(options: JsValue) -> Result<(), JsValue>;
 
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="prompt" )]
-    async fn prompt(options: JsValue) -> JsValue;
+    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="prompt" )]
+    async fn prompt(options: JsValue) -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="confirm" )]
-    async fn confirm(options: JsValue) -> JsValue;
+    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="confirm" )]
+    async fn confirm(options: JsValue) -> Result<JsValue, JsValue>;
 
 }
 
@@ -20,17 +20,17 @@ pub struct Dialog;
 
 impl Dialog {
     /// Show an alert dialog
-    pub async fn alert(options: impl Into<AlertOptions>) {
+    pub async fn alert(options: impl Into<AlertOptions>) -> Result<(), Error> {
         run_value_unit(options, alert).await
     }
 
     /// Show a prompt dialog
-    pub async fn prompt(options: impl Into<PromptOptions>) -> PromptResult {
+    pub async fn prompt(options: impl Into<PromptOptions>) -> Result<PromptResult, Error> {
         run_value_value(options, prompt).await
     }
 
     /// Show a confirmation dialog
-    pub async fn confirm(options: impl Into<ConfirmOptions>) -> ConfirmResult {
+    pub async fn confirm(options: impl Into<ConfirmOptions>) -> Result<ConfirmResult, Error> {
         run_value_value(options, confirm).await
     }
 }

@@ -1,11 +1,12 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use crate::helpers::*;
 
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name="showActions" )]
-    async fn show_actions(options: JsValue) -> JsValue;
+    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name="showActions" )]
+    async fn show_actions(options: JsValue) -> Result<JsValue, JsValue>;
 }
 
 #[skip_serializing_none]
@@ -56,14 +57,8 @@ pub struct ShowActionsResult {
 pub struct ActionSheet;
 
 impl ActionSheet {
-    pub async fn show_actions(options: &ShowActionsOptions) -> ShowActionsResult {
-        let js_val = serde_wasm_bindgen::to_value(options)
-            .expect("Should be able to convert ShowActionsOptions to JsValue");
-
-        let result_js_value = show_actions(js_val).await;
-
-        let result: ShowActionsResult = serde_wasm_bindgen::from_value(result_js_value)
-            .expect("Should be able to convert JsValue to ShowActionsResult");
-        result
+    pub async fn show_actions(options: impl Into<ShowActionsOptions>) -> Result<ShowActionsResult, Error> {
+        run_value_value(options, show_actions).await
     }
 }
+
