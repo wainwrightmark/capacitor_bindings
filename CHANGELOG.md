@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.#
 
+## v0.2.0 (2022-02-24)
+- Breaking Changes - Made all functions return `Result<T, Error>`
+
 ## v0.1.0 (2022-02-21)
 
 - Initial Release on [crates.io] :tada:
