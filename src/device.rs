@@ -84,7 +84,7 @@ pub struct DeviceInfo {
     /// The total size of the normal data storage path, in bytes.
     pub real_disk_total: Option<u64>,
     /// The web view browser version
-    pub web_view_version: String,
+    pub web_view_version: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]

@@ -47,7 +47,6 @@ async fn greet() {
 
 ## Setup
 
-
 ### Prerequisites
 
 You must do the [Capacitor environment setup](https://capacitorjs.com/docs/getting-started/environment-setup) installiong node, xcode and android studio as needed.
@@ -57,8 +56,8 @@ You must also have trunk installed
 ```
 cargo install trunk
 ```
-You must have a rust web app that builds with trunk. You can try it out using the example application in this repository.
 
+You must have a rust web app that builds with trunk. You can try it out using the example application in this repository.
 
 ### Adding Capacitor to your app
 
@@ -74,7 +73,7 @@ npm i -D @capacitor/cli
 ```
 
 Initialize your app with the questionnaire.
-Make sure the folder used is the same as your trunk output folder (e.g. `dist`)
+Make sure the "web asset directory" is the same as your trunk output folder (usually `dist`)
 
 ```
 npx cap init
@@ -97,6 +96,7 @@ npm install @capacitor/toast
 ```
 
 Add this crate to your project
+
 ```
 cargo add capacitor_bindings
 ```
@@ -105,9 +105,7 @@ Add calls to the plugins where you need them. If you have a yew project, you cou
 
 ```rust
     use_effect(||yew::platform::spawn_local(capacitor_bindings::toast::Toast::show("Hello World")));
-
 ```
-
 
 Some plugins have additional installation steps (such as adding to the android manifest xml) that you will need to follow.
 [the list of official plugins is here](https://capacitorjs.com/docs/plugins)
@@ -160,13 +158,11 @@ Add the following to your head section
 <link data-trunk rel="copy-file" href="capacitor.js" />
 
 <link data-trunk rel="copy-dir" href="plugins" />
-
 ```
+
 Replace the `<script src="./plugins/@capacitor/toast.js" type="module"></script>` line with one line for each plugin you are using
 
 If you now do `trunk serve` it should run in the browser and you will have access to the web versions of the plugins. This will also not break the android build but you will get error messages about those .js files not being available when you run on android.
-
-
 
 To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name in `android.html`. From this file you can remove all of the lines you just added to your head section.
 
@@ -200,9 +196,6 @@ You can control which features trunk will build by using the `data-cargo-feature
     <link rel="rust" data-trunk href="Cargo.toml" data-bin="myapp" data-cargo-features="android" />
 </body>
 ```
-
-
-
 
 ## Contributing
 
