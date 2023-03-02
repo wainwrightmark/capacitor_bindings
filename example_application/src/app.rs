@@ -20,7 +20,7 @@ use capacitor_bindings::toast::*;
 #[function_component(App)]
 pub fn app() -> Html {
     let status_block: Html;
-    #[cfg(any(feature = "android", feature = "ios"))]
+    #[cfg(any(feature = "android", ))]
     {
         status_block = html! {
             <details>
@@ -32,6 +32,23 @@ pub fn app() -> Html {
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_background_color("#22DD44")})}> {"Set Status Background Green"}</button>
+                <button onclick={|_| do_and_toast_result(StatusBar::hide)}> {"Hide Status"}</button>
+                <button onclick={|_| do_and_toast_result(StatusBar::show)}> {"Show Status"}</button>
+            </div>
+            </details>
+        };
+    };
+    #[cfg(any(feature = "ios"))]
+    {
+        status_block = html! {
+            <details>
+            <summary>
+                {"Status Bar"}
+                <span class="icon">{"↓"}</span>
+            </summary>
+            <div style="display: flex; flex-direction: column;">
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
                 <button onclick={|_| do_and_toast_result(StatusBar::hide)}> {"Hide Status"}</button>
                 <button onclick={|_| do_and_toast_result(StatusBar::show)}> {"Show Status"}</button>
             </div>
