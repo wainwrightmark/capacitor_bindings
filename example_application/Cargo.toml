@@ -20,6 +20,7 @@ wasm-logger = "0.2.0"
 yew = { version="0.20", features=["csr"] }
 
 capacitor_bindings = { path = ".." }
+web-sys = { version = "0.3.61", features = ["CssStyleDeclaration"] }
 
 
 [features]

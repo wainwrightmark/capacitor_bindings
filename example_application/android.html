@@ -2,10 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta
+         name="viewport"
+         content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=4.0, user-scalable=yes"
+         />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
     <title>Rust Capacitor Test</title>
     <link data-trunk rel="sass" href="index.scss"  />
   </head>
+  <style>
+    :root {
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-right: env(safe-area-inset-right);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    --safe-area-inset-left: env(safe-area-inset-left);
+  }
+  </style>
   <body>
     <link rel="rust" data-trunk href="Cargo.toml" data-bin="example" data-cargo-features="android" />
   </body>
+
 </html>

@@ -17,6 +17,8 @@ use capacitor_bindings::share::*;
 use capacitor_bindings::status_bar::*;
 use capacitor_bindings::toast::*;
 
+use crate::safe_area;
+
 #[function_component(App)]
 pub fn app() -> Html {
     let status_block: Html;
@@ -62,6 +64,8 @@ pub fn app() -> Html {
             <button onclick={|_| spawn_local(async{Toast::show("Hello Toast").await.expect("Should be able to show toast")})}> {"Show Toast"}</button>
 
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
+
+            <button onclick={|_| spawn_local(async{Toast::show(safe_area::get_safe_area_response()).await.expect("Should be able to show toast")}) }> {"Show Safe Area"}</button>
 
             <details>
                 <summary>
