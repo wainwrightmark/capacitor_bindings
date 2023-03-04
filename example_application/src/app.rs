@@ -5,6 +5,7 @@ use capacitor_bindings::action_sheet::*;
 use capacitor_bindings::helpers::Error;
 use capacitor_bindings::local_notifications::*;
 
+use capacitor_bindings::network::Network;
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -17,10 +18,13 @@ use capacitor_bindings::share::*;
 use capacitor_bindings::status_bar::*;
 use capacitor_bindings::toast::*;
 
+use crate::network::NetworkView;
+use crate::notifications::NotificationView;
+
 #[function_component(App)]
 pub fn app() -> Html {
     let status_block: Html;
-    #[cfg(any(feature = "android", ))]
+    #[cfg(any(feature = "android",))]
     {
         status_block = html! {
             <details>
@@ -38,7 +42,7 @@ pub fn app() -> Html {
             </details>
         };
     };
-    #[cfg(any(feature = "ios"))]
+    #[cfg(all(any(feature = "ios"), not(any(feature = "android"))))]
     {
         status_block = html! {
             <details>
@@ -80,18 +84,7 @@ pub fn app() -> Html {
 
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
 
-            <details>
-                <summary>
-                    {"Local Notifications"}
-                    <span class="icon">{"↓"}</span>
-                </summary>
-                <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_| register_action_types()}> {"Register Action Types"}</button>
-                    <button onclick={|_| add_local_notification_received_listener()}> {"Listen For Notifications"}</button>
-                    <button onclick={|_| add_action_performed_listener()}> {"Listen For Notification Actions"}</button>
-                    <button onclick={|_| schedule_notifications()}> {"Schedule Notifications"}</button>
-                </div>
-            </details>
+            <NotificationView/>
 
             <details>
                 <summary>
@@ -103,6 +96,8 @@ pub fn app() -> Html {
                     <button onclick={|_|do_share()}> {"Share"}</button>
                 </div>
             </details>
+
+            <NetworkView/>
 
             <details>
                 <summary>
@@ -205,11 +200,11 @@ async fn show_toast_or_panic_async(options: impl Into<toast::ShowOptions>) {
         .expect("Should Be able to show toast")
 }
 
-fn show_toast_or_panic(options: impl Into<toast::ShowOptions> + 'static) {
+pub fn show_toast_or_panic(options: impl Into<toast::ShowOptions> + 'static) {
     spawn_local(show_toast_or_panic_async(options))
 }
 
-fn do_and_toast_result<
+pub fn do_and_toast_result<
     T: Debug + 'static,
     Fut: Future<Output = Result<T, Error>>,
     F: Fn() -> Fut + 'static,
@@ -221,15 +216,12 @@ fn do_and_toast_result<
 
         match r {
             Ok(result) => {
-
-                if std::any::TypeId::of::<T>() == std::any::TypeId::of::<()>(){
+                if std::any::TypeId::of::<T>() == std::any::TypeId::of::<()>() {
                     log::info!("Action successful");
-                }else{
+                } else {
                     log::info!("{result:?}");
                     show_toast_or_panic_async(format!("{result:?}")).await
                 }
-
-
             }
             Err(err) => {
                 log::error!("{err:?}");
@@ -239,76 +231,9 @@ fn do_and_toast_result<
     })
 }
 
-fn schedule_notifications() {
-    do_and_toast_result(|| {
-        let options = ScheduleOptions {
-            notifications: vec![LocalNotificationSchema {
-                auto_cancel: true,
-                body: "Notification Body".to_string(),
-                title: "Notification Title".to_string(),
-                schedule: Schedule {
-                    on: ScheduleOn {
-                        second: Some(0),
-                        year: None,
-                        minute: None,
-                        month: None,
-                        day: None,
-                        weekday: None,
-                        hour: None,
-                    },
-                    allow_while_idle: true,
-                },
-                large_body: Some("Notification Large Body".to_string()),
-                summary_text: Some("Notification Summary Text".to_string()),
-                id: 123,
-                ongoing: false,
-                inbox_list: Some(vec![
-                    "N One".to_string(),
-                    "N Two".to_string(),
-                    "N Three".to_string(),
-                    "N Four".to_string(),
-                    "N Five".to_string(),
-                ]),
-                action_type_id: Some("MyActionType".to_string()),
-                group: None,
-                group_summary: None,
-                small_icon: None,
-                large_icon: None,
-                icon_color: None,
-            }],
-        };
 
-        LocalNotifications::schedule(options)
-    });
-}
 
-fn register_action_types() {
-    #[cfg(any(feature = "android", feature = "ios"))]
-    {
-        do_and_toast_result(|| {
-            let options = RegisterActionTypesOptions {
-                types: vec![ActionType {
-                    id: "MyActionType".to_string(),
-                    actions: vec![
-                        Action {
-                            id: "Foo".to_string(),
-                            title: "Foo".to_string(),
-                        },
-                        Action {
-                            id: "Bar".to_string(),
-                            title: "Bar".to_string(),
-                        },
-                    ],
-                }],
-            };
-            LocalNotifications::register_action_types(options)
-        });
-    }
-    #[cfg(not(any(feature = "android", feature = "ios")))]
-    {
-        show_toast_or_panic("No need to register action types except on android or ios")
-    }
-}
+
 
 fn request_permissions() {
     #[cfg(any(feature = "android", feature = "ios"))]
@@ -401,3 +326,4 @@ fn add_action_performed_listener() {
         })
     });
 }
+

@@ -5,13 +5,15 @@ use crate::helpers::*;
 
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="alert" )]
+
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins","Dialog"], js_name="alert" )]
     async fn alert(options: JsValue) -> Result<(), JsValue>;
 
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="prompt" )]
+    #[wasm_bindgen(catch,final, js_namespace = ["Capacitor", "Plugins","Dialog"],js_name="prompt" )]
     async fn prompt(options: JsValue) -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Dialog"], js_name="confirm" )]
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins","Dialog"],js_name="confirm" )]
     async fn confirm(options: JsValue) -> Result<JsValue, JsValue>;
 
 }

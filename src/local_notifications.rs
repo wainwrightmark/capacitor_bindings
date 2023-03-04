@@ -14,10 +14,10 @@ extern "C" {
     async fn schedule(options: JsValue) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="registerActionTypes" )]
-    async fn register_action_types(options: JsValue)-> Result<(), JsValue>;
+    async fn register_action_types(options: JsValue) -> Result<(), JsValue>;
 
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
-    async fn add_listener(eventName: &str, listener_func: &Closure<dyn Fn(JsValue)>) -> Result<JsValue, JsValue>;
+    #[wasm_bindgen( js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
+    fn add_listener_ln(eventName: &str, listener_func: &Closure<dyn Fn(JsValue)>) -> JsValue;
 }
 
 pub struct LocalNotifications;
@@ -31,36 +31,22 @@ impl LocalNotifications {
     /// Register actions to take when notifications are displayed.
     /// Only available for iOS and Android.
     #[cfg(any(feature = "ios", feature = "android"))]
-    pub async fn register_action_types(options: impl Into<RegisterActionTypesOptions>) -> Result<(), Error> {
+    pub async fn register_action_types(
+        options: impl Into<RegisterActionTypesOptions>,
+    ) -> Result<(), Error> {
         run_value_unit(options, register_action_types).await
     }
 
-    pub async fn add_received_listener<'a, F: Fn(LocalNotificationSchema) + 'static>(
+    pub async fn add_received_listener<F: Fn(LocalNotificationSchema) + 'static>(
         func: F,
-    ) -> Result<&'a PluginListenerHandle, Error> {
-        let func2 = move |js_value: JsValue| {
-            let schema: LocalNotificationSchema = serde_wasm_bindgen::from_value(js_value)
-                .expect("Should be LocalNotificationSchema");
-            func(schema)
-        };
-        let closure = Closure::new(func2);
-        let _js_val = add_listener("localNotificationReceived", &closure).await?;
-        // handle_js_value.1
-        Ok(&PluginListenerHandle {})
+    ) -> Result<PluginListenerHandle, Error> {
+        listen_async(func, "localNotificationReceived", add_listener_ln).await
     }
 
-    pub async fn add_action_performed_listener<'a, F: Fn(ActionPerformed) + 'static>(
+    pub async fn add_action_performed_listener<F: Fn(ActionPerformed) + 'static>(
         func: F,
-    ) -> Result<&'a PluginListenerHandle, Error> {
-        let func2 = move |js_value: JsValue| {
-            let action_performed: ActionPerformed =
-                serde_wasm_bindgen::from_value(js_value).expect("Should be ActionPerformed");
-            func(action_performed)
-        };
-        let closure = Closure::new(func2);
-        let _js_val = add_listener("localNotificationActionPerformed", &closure).await?;
-        // handle_js_value.1
-        Ok(&PluginListenerHandle {})
+    ) -> Result<PluginListenerHandle, Error> {
+        listen_async(func, "localNotificationActionPerformed", add_listener_ln).await
     }
 }
 
@@ -97,18 +83,6 @@ pub struct ActionPerformed {
     /// The original notification schema.
     pub notification: LocalNotificationSchema,
 }
-
-#[derive(Debug, Clone, PartialEq)]
-pub struct PluginListenerHandle {
-    // js_val: JsValue
-    // remove: js_sys::Function
-}
-
-// impl Drop for PluginListenerHandle{
-//     fn drop(&mut self) {
-//         self.remove.call0(&JsValue::null());
-//     }
-// }
 
 /// A collection of actions.
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]

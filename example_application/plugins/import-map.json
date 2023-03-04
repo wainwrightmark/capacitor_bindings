@@ -7,6 +7,7 @@
     "@capacitor/dialog": "./@capacitor/dialog.js",
     "@capacitor/haptics": "./@capacitor/haptics.js",
     "@capacitor/local-notifications": "./@capacitor/local-notifications.js",
+    "@capacitor/network": "./@capacitor/network.js",
     "@capacitor/share": "./@capacitor/share.js",
     "@capacitor/status-bar": "./@capacitor/status-bar.js",
     "@capacitor/toast": "./@capacitor/toast.js"

@@ -9,6 +9,7 @@
     "@capacitor/haptics": "^4.1.0",
     "@capacitor/ios": "^4.7.0",
     "@capacitor/local-notifications": "^4.1.5",
+    "@capacitor/network": "^4.1.0",
     "@capacitor/share": "^4.1.1",
     "@capacitor/status-bar": "^4.1.1",
     "@capacitor/toast": "^4.1.0",

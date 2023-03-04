@@ -8,3 +8,4 @@ pub mod local_notifications;
 pub mod share;
 pub mod status_bar;
 pub mod toast;
+pub mod network;
