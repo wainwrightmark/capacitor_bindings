@@ -148,3 +148,30 @@ extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
     pub(crate) async fn toast_show(options: JsValue) -> Result<(), JsValue>;
 }
+
+
+#[wasm_bindgen()]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="exitApp" )]
+    pub(crate) async fn app_exit_app() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="minimizeApp" )]
+    pub(crate) async fn app_minimize_app() -> Result<(), JsValue>;
+
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getInfo" )]
+    pub(crate) async fn app_get_info() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getState" )]
+    pub(crate) async fn app_get_state() -> Result<JsValue, JsValue>;
+
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getLaunchUrl" )]
+    pub(crate) async fn app_get_launch_url() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen( js_namespace = ["Capacitor", "Plugins", "App"], js_name="addListener" )]
+    pub(crate) fn app_add_listener(
+        eventName: &str,
+        listener_func: &Closure<dyn Fn(JsValue)>,
+    ) -> JsValue;
+}

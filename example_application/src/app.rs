@@ -5,7 +5,6 @@ use capacitor_bindings::action_sheet::*;
 use capacitor_bindings::helpers::Error;
 use capacitor_bindings::local_notifications::*;
 
-use capacitor_bindings::network::Network;
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -20,6 +19,7 @@ use capacitor_bindings::toast::*;
 
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
+use crate::app_funcs::AppView;
 
 #[function_component(App)]
 pub fn app() -> Html {
@@ -85,7 +85,7 @@ pub fn app() -> Html {
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
 
             <NotificationView/>
-
+            <AppView/>
             <details>
                 <summary>
                     {"Share"}
@@ -222,6 +222,28 @@ pub fn do_and_toast_result<
                     log::info!("{result:?}");
                     show_toast_or_panic_async(format!("{result:?}")).await
                 }
+            }
+            Err(err) => {
+                log::error!("{err:?}");
+                show_toast_or_panic_async(format!("{err}")).await
+            }
+        }
+    })
+}
+
+
+pub fn do_async<
+    Fut: Future<Output = Result<(), Error>>,
+    F: Fn() -> Fut + 'static,
+>(
+    f: F,
+) {
+    spawn_local(async move {
+        let r = f().await;
+
+        match r {
+            Ok(_) => {
+
             }
             Err(err) => {
                 log::error!("{err:?}");

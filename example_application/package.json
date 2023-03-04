@@ -2,6 +2,7 @@
   "dependencies": {
     "@capacitor/action-sheet": "^4.1.0",
     "@capacitor/android": "^4.7.0",
+    "@capacitor/app": "^4.1.1",
     "@capacitor/camera": "^4.1.4",
     "@capacitor/core": "^4.7.0",
     "@capacitor/device": "^4.1.0",

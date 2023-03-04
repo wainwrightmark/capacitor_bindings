@@ -1,6 +1,7 @@
 {
   "imports": {
     "@capacitor/action-sheet": "./@capacitor/action-sheet.js",
+    "@capacitor/app": "./@capacitor/app.js",
     "@capacitor/camera": "./@capacitor/camera.js",
     "@capacitor/core": "./@capacitor/core.js",
     "@capacitor/device": "./@capacitor/device.js",
