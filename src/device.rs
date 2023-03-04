@@ -1,52 +1,35 @@
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use crate::extern_functions::*;
 
 use crate::helpers::*;
 
-#[wasm_bindgen()]
-extern "C" {
-    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getId" )]
-    async fn get_id() -> Result<JsValue, JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getInfo" )]
-    async fn get_info() -> Result<JsValue, JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getBatteryInfo" )]
-    async fn get_battery_info() -> Result<JsValue, JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getLanguageCode" )]
-    async fn get_language_code() -> Result<JsValue, JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Device"], js_name="getLanguageTag" )]
-    async fn get_language_tag() -> Result<JsValue, JsValue>;
-}
 
 pub struct Device;
 
 impl Device {
     /// Return a unique identifier for the device.
     pub async fn get_id() -> Result<DeviceId, Error> {
-        run_unit_value(get_id).await
+        run_unit_value(device_get_id).await
     }
 
     /// Return information about the underlying device/os/platform.
     pub async fn get_info() -> Result<DeviceInfo, Error> {
-        run_unit_value(get_info).await
+        run_unit_value(device_get_info).await
     }
 
     /// Return information about the battery.
     pub async fn get_battery_info() -> Result<BatteryInfo, Error> {
-        run_unit_value(get_battery_info).await
+        run_unit_value(device_get_battery_info).await
     }
 
     /// Get the device's current language locale code.
     pub async fn get_language_code() -> Result<GetLanguageCodeResult, Error> {
-        run_unit_value(get_language_code).await
+        run_unit_value(device_get_language_code).await
     }
 
     /// Get the device's current language locale tag.
     pub async fn get_language_tag() -> Result<LanguageTag, Error> {
-        run_unit_value(get_language_tag).await
+        run_unit_value(device_get_language_tag).await
     }
 }
 

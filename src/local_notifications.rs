@@ -1,31 +1,18 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use wasm_bindgen::{
-    prelude::{wasm_bindgen, Closure},
-    JsValue,
-};
+
+
+use crate::extern_functions::*;
 
 use crate::helpers::*;
 
-#[wasm_bindgen()]
-extern "C" {
-    /// Schedule one or more local notifications.
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="schedule" )]
-    async fn schedule(options: JsValue) -> Result<JsValue, JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="registerActionTypes" )]
-    async fn register_action_types(options: JsValue) -> Result<(), JsValue>;
-
-    #[wasm_bindgen( js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
-    fn add_listener_ln(eventName: &str, listener_func: &Closure<dyn Fn(JsValue)>) -> JsValue;
-}
 
 pub struct LocalNotifications;
 
 impl LocalNotifications {
     /// Schedule one or more local notifications.
     pub async fn schedule(options: impl Into<ScheduleOptions>) -> Result<ScheduleResult, Error> {
-        run_value_value(options, schedule).await
+        run_value_value(options, local_notifications_schedule).await
     }
 
     /// Register actions to take when notifications are displayed.
@@ -34,19 +21,19 @@ impl LocalNotifications {
     pub async fn register_action_types(
         options: impl Into<RegisterActionTypesOptions>,
     ) -> Result<(), Error> {
-        run_value_unit(options, register_action_types).await
+        run_value_unit(options, local_notifications_register_action_types).await
     }
 
     pub async fn add_received_listener<F: Fn(LocalNotificationSchema) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(func, "localNotificationReceived", add_listener_ln).await
+        listen_async(func, "localNotificationReceived", local_notifications_add_listener).await
     }
 
     pub async fn add_action_performed_listener<F: Fn(ActionPerformed) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(func, "localNotificationActionPerformed", add_listener_ln).await
+        listen_async(func, "localNotificationActionPerformed", local_notifications_add_listener).await
     }
 }
 

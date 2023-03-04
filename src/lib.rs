@@ -9,3 +9,4 @@ pub mod share;
 pub mod status_bar;
 pub mod toast;
 pub mod network;
+pub mod extern_functions;

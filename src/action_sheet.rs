@@ -1,13 +1,7 @@
+use crate::extern_functions::*;
+use crate::helpers::*;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
-use crate::helpers::*;
-
-#[wasm_bindgen()]
-extern "C" {
-    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name="showActions" )]
-    async fn show_actions(options: JsValue) -> Result<JsValue, JsValue>;
-}
 
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -57,8 +51,9 @@ pub struct ShowActionsResult {
 pub struct ActionSheet;
 
 impl ActionSheet {
-    pub async fn show_actions(options: impl Into<ShowActionsOptions>) -> Result<ShowActionsResult, Error> {
-        run_value_value(options, show_actions).await
+    pub async fn show_actions(
+        options: impl Into<ShowActionsOptions>,
+    ) -> Result<ShowActionsResult, Error> {
+        run_value_value(options, action_sheet_show_actions).await
     }
 }
-

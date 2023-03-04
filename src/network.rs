@@ -1,37 +1,23 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use wasm_bindgen::{
-    prelude::{wasm_bindgen, Closure},
-    JsValue,
-};
+use crate::extern_functions::*;
 
 use crate::helpers::*;
 
-#[wasm_bindgen()]
-extern "C" {
-    /// Query the current status of the network connection.
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Network"], js_name="getStatus" )]
-    async fn get_status() -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Network"], js_name="addListener" )]
-    fn add_listener_network(
-        eventName: &str,
-        listener_func: &Closure<dyn Fn(JsValue)>,
-    )-> JsValue;
-}
 
 pub struct Network;
 
 impl Network {
     /// Query the current status of the network connection.
     pub async fn get_status() -> Result<ConnectionStatus, Error> {
-        run_unit_value(get_status).await
+        run_unit_value(network_get_status).await
     }
 
     pub async fn add_network_change_listener<F: Fn(ConnectionStatus) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(func, "networkStatusChange", add_listener_network).await
+        listen_async(func, "networkStatusChange", network_add_listener).await
     }
 }
 

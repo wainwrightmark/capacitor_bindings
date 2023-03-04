@@ -1,63 +1,37 @@
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use crate::extern_functions::*;
 
 use crate::helpers::*;
 
-#[wasm_bindgen()]
-extern "C" {
-
-    /// Vibrate the device
-    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "Haptics"])]
-    async fn vibrate(options: JsValue) -> Result<(), JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Haptics"])]
-    async fn impact(options: JsValue) -> Result<(), JsValue>;
-
-    /// Trigger a haptics "notification" feedback
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Haptics"])]
-    async fn notification(options: JsValue) -> Result<(), JsValue>;
-
-    /// Trigger a selection started haptic hint
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionStart")]
-    async fn selectionStart() -> Result<(), JsValue>;
-
-    /// Trigger a selection changed haptic hint. If a selection was started already, this will cause the device to provide haptic feedback
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionChanged")]
-    async fn selectionChanged() -> Result<(), JsValue>;
-
-    /// If selectionStart() was called, selectionEnd() ends the selection. For example, call this when a user has lifted their finger from a control
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="selectionEnd")]
-    async fn selectionEnd() -> Result<(), JsValue>;
-}
 
 pub struct Haptics;
 
 impl Haptics {
     /// Trigger a haptics "impact" feedback
     pub async fn impact(options: impl Into<ImpactOptions>) -> Result<(), Error> {
-        run_value_unit(options, impact).await
+        run_value_unit(options, haptics_impact).await
     }
 
     /// Vibrate the device
     pub async fn vibrate(options: impl Into<VibrateOptions>) -> Result<(), Error> {
-        run_value_unit(options, vibrate).await
+        run_value_unit(options, haptics_vibrate).await
     }
 
     /// Trigger a haptics "notification" feedback
     pub async fn notification(options: impl Into<NotificationOptions>) -> Result<(), Error> {
-        run_value_unit(options, notification).await
+        run_value_unit(options, haptics_notification).await
     }
 
     pub async fn selection_start() -> Result<(), Error> {
-        run_unit_unit(selectionStart).await
+        run_unit_unit(haptics_selectionStart).await
     }
 
     pub async fn selection_changed() -> Result<(), Error> {
-        run_unit_unit(selectionChanged).await
+        run_unit_unit(haptics_selectionChanged).await
     }
 
     pub async fn selection_end() -> Result<(), Error> {
-        run_unit_unit(selectionEnd).await
+        run_unit_unit(haptics_selectionEnd).await
     }
 }
 

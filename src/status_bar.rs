@@ -1,27 +1,9 @@
 #[cfg(any(feature = "ios", feature = "android"))]
 use crate::helpers::*;
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
+use crate::extern_functions::*;
 
-#[wasm_bindgen()]
-extern "C" {
-    #[wasm_bindgen(catch, js_namespace = ["Capacitor", "Plugins", "StatusBar"], js_name="show" )]
-    async fn status_bar_show() -> Result<(), JsValue>;
 
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "StatusBar"], js_name="hide" )]
-    async fn status_bar_hide() -> Result<(), JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "StatusBar"], js_name="setStyle" )]
-    async fn set_status_bar_style(options: JsValue) -> Result<(), JsValue>;
-
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "StatusBar"], js_name="setBackgroundColor" )]
-    async fn set_status_bar_background_color(options: JsValue) -> Result<(), JsValue>;
-
-    /// Set whether or not the status bar should overlay the webview to allow usage of the space underneath it.
-    /// This method is only supported on Android.
-    #[wasm_bindgen(catch,js_namespace = ["Capacitor", "Plugins", "StatusBar"], js_name="setOverlaysWebView" )]
-    async fn set_overlays_web_view(options: JsValue) -> Result<(), JsValue>;
-}
 
 /// The StatusBar API Provides methods for configuring the style of the Status Bar, along with showing or hiding it.
 /// These methods are not implemented on web
@@ -43,7 +25,7 @@ impl StatusBar {
     #[cfg(any(feature = "ios", feature = "android"))]
     /// Set the current style of the status bar.
     pub async fn set_style(options: impl Into<StyleOptions>) -> Result<(), Error> {
-        run_value_unit(options, set_status_bar_style).await
+        run_value_unit(options, status_bar_set_style).await
     }
 
     #[cfg(any(feature = "android"))]
@@ -52,7 +34,7 @@ impl StatusBar {
     pub async fn set_background_color(
         options: impl Into<BackgroundColorOptions>,
     ) -> Result<(), Error> {
-        run_value_unit(options, set_status_bar_background_color).await
+        run_value_unit(options, status_bar_set_background_color).await
     }
 
     #[cfg(any(feature = "android"))]
@@ -61,7 +43,7 @@ impl StatusBar {
     pub async fn set_overlays_web_view(
         options: impl Into<SetOverlaysWebViewOptions>,
     ) -> Result<(), Error> {
-        run_value_unit(options, set_overlays_web_view).await
+        run_value_unit(options, status_bar_set_overlays_web_view).await
     }
 }
 
