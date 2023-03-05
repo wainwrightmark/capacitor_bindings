@@ -77,7 +77,7 @@ pub fn app() -> Html {
     };
 
     html! {
-        <main>
+        <main style="height:80%; overflow: scroll;">
             <div style="display: flex; flex-direction: column;">
             <button onclick={|_| spawn_local(async{Toast::show("Hello Toast").await.expect("Should be able to show toast")})}> {"Show Toast"}</button>
 

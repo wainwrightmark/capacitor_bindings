@@ -84,6 +84,34 @@ extern "C" {
 #[wasm_bindgen()]
 extern "C" {
 
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="areEnabled" )]
+    pub(crate) async fn local_notifications_are_enabled() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="checkPermissions" )]
+    pub(crate) async fn local_notifications_check_permissions() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="requestPermissions" )]
+    pub(crate) async fn local_notifications_request_permissions() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="getDeliveredNotifications" )]
+    pub(crate) async fn local_notifications_get_delivered_notifications() -> Result<JsValue, JsValue>;
+
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="cancel" )]
+    pub(crate) async fn local_notifications_cancel(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="removeDeliveredNotifications" )]
+    pub(crate) async fn local_notifications_remove_delivered_notifications(delivered: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="removeAllDeliveredNotifications" )]
+    pub(crate) async fn local_notifications_remove_all_delivered_notifications() -> Result<(), JsValue>;
+
+
+
+
+
+
+
     /// Schedule one or more local notifications.
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="schedule" )]
     pub(crate) async fn local_notifications_schedule(options: JsValue) -> Result<JsValue, JsValue>;

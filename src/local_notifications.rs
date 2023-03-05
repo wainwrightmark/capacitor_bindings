@@ -1,15 +1,54 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
-
 use crate::extern_functions::*;
 
 use crate::helpers::*;
 
-
 pub struct LocalNotifications;
 
 impl LocalNotifications {
+    /// Check if notifications are enabled or not.
+    pub async fn are_enabled() -> Result<EnabledResult, Error> {
+        run_unit_value(local_notifications_are_enabled).await
+    }
+
+    /// Check permission to display local notifications.
+    pub async fn check_permissions() -> Result<PermissionStatus, Error> {
+        run_unit_value(local_notifications_check_permissions).await
+    }
+
+    /// Request permission to display local notifications.
+    pub async fn request_permissions() -> Result<PermissionStatus, Error> {
+        run_unit_value(local_notifications_request_permissions).await
+    }
+
+    /// Get a list of notifications that are visible on the notifications screen.
+    pub async fn get_delivered_notifications() -> Result<DeliveredNotifications, Error> {
+        run_unit_value(local_notifications_get_delivered_notifications).await
+    }
+
+    /// Remove the specified notifications from the notifications screen.
+    pub async fn remove_delivered_notifications(
+        delivered: impl Into<DeliveredNotifications>,
+    ) -> Result<(), Error> {
+        run_value_unit(
+            delivered,
+            local_notifications_remove_delivered_notifications,
+        )
+        .await
+    }
+
+    /// Cancel pending notifications.
+    pub async fn cancel(options: impl Into<CancelOptions>) -> Result<(), Error> {
+        run_value_unit(options, local_notifications_cancel).await
+    }
+
+    /// Remove all the notifications from the notifications screen.
+    pub async fn remove_all_delivered_notifications() -> Result<(), Error> {
+        run_unit_unit(local_notifications_remove_all_delivered_notifications).await
+    }
+
     /// Schedule one or more local notifications.
     pub async fn schedule(options: impl Into<ScheduleOptions>) -> Result<ScheduleResult, Error> {
         run_value_value(options, local_notifications_schedule).await
@@ -27,13 +66,23 @@ impl LocalNotifications {
     pub async fn add_received_listener<F: Fn(LocalNotificationSchema) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(func, "localNotificationReceived", local_notifications_add_listener).await
+        listen_async(
+            func,
+            "localNotificationReceived",
+            local_notifications_add_listener,
+        )
+        .await
     }
 
     pub async fn add_action_performed_listener<F: Fn(ActionPerformed) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(func, "localNotificationActionPerformed", local_notifications_add_listener).await
+        listen_async(
+            func,
+            "localNotificationActionPerformed",
+            local_notifications_add_listener,
+        )
+        .await
     }
 }
 
@@ -57,6 +106,22 @@ pub struct Action {
 
     /// The title text to display for this action.
     pub title: String,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct EnabledResult {
+    /// Whether or not the device has local notifications enabled.
+    value: bool,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct PermissionStatus {
+    /// Whether or not the device has local notifications enabled.
+    display: PermissionState,
 }
 
 #[skip_serializing_none]
@@ -86,6 +151,13 @@ pub struct ActionType {
 #[serde(rename_all = "camelCase")]
 pub struct ScheduleResult {
     /// The list of scheduled notifications.
+    pub notifications: Vec<LocalNotificationDescriptor>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct CancelOptions {
+    /// The list of notifications to cancel.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
@@ -170,6 +242,16 @@ pub struct ScheduleOn {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[serde(rename_all = "kebab-case")]
+#[repr(u8)]
+pub enum PermissionState {
+    Prompt,
+    PromptWithRationale,
+    Granted,
+    Denied,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
 #[serde(rename_all = "camelCase")]
 #[repr(u8)]
 pub enum Weekday {
@@ -180,6 +262,35 @@ pub enum Weekday {
     Thursday = 5,
     Friday = 6,
     Saturday = 7,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct DeliveredNotifications {
+    /// List of notifications that are visible on the notifications screen.
+    pub notifications: Vec<DeliveredNotificationSchema>,
+}
+
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct DeliveredNotificationSchema {
+    /// The notification identifier.
+    pub id: i32,
+    /// The notification tag. Only available on Android.
+    pub tag: Option<String>,
+    /// The title of the notification.
+    pub title: String,
+    /// The body of the notification, shown below the title.
+    pub body: String,
+    /// The configured group of the notification. Only available for Android.
+    pub group: Option<String>,
+    /// If this notification is the summary for a group of notifications. Only available for Android.
+    pub group_summary: Option<bool>,
+    //pub data: Any,
+    //pub extra: Any,
+    //TODO additional fields
 }
 
 #[cfg(test)]

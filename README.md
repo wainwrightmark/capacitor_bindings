@@ -9,9 +9,9 @@ Capacitor bindings to help you build android and ios apps using rust.
 
 These can be used from framework that builds with trunk e.g. yes, sycamore, seed, etc.
 
-***This project is in the very early stages. Do not use it in production!***
+***This project is in the very early stages and unstable . Do not use it in production!***
 
-I have successfully used this to build an android app and am soon to begin building an ios app with it.
+I have successfully used this to build both iOs and Android apps.
 
 In the Setup section below I explain how you can have a single version of your code and which can be built for both web and mobile platforms.
 
@@ -19,12 +19,14 @@ This crate provides bindings for some of the [official capacitor plugins](https:
 
 Currently supported
 
+- App
 - Action Sheet
 - Camera
 - Device
 - Dialog
 - Haptics
 - Local Notifications (incomplete)
+- Network
 - Share
 - Status Bar
 - Toast

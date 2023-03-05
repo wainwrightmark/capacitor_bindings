@@ -1,21 +1,25 @@
-use std::future::Future;
-use std::pin::Pin;
 use capacitor_bindings::helpers::Error;
 use capacitor_bindings::helpers::PluginListenerHandle;
 use capacitor_bindings::local_notifications::*;
 use log::info;
+use std::future::Future;
+use std::pin::Pin;
 use yew::prelude::*;
 use yewdux::store::Store;
 
 use crate::app::do_and_toast_result;
 use crate::listener::*;
 
-
-listener_state!(NotificationState, LocalNotifications::add_received_listener, "Notification Received");
-listener_state!(NotificationActionState, LocalNotifications::add_action_performed_listener, "Notification Action");
-
-
-
+listener_state!(
+    NotificationState,
+    LocalNotifications::add_received_listener,
+    "Notification Received"
+);
+listener_state!(
+    NotificationActionState,
+    LocalNotifications::add_action_performed_listener,
+    "Notification Action"
+);
 
 #[function_component(NotificationView)]
 pub fn notification_view() -> Html {
@@ -32,12 +36,20 @@ pub fn notification_view() -> Html {
                 <ListenerButton<NotificationActionState> />
 
                 <button onclick={|_| schedule_notifications()}> {"Schedule Notifications"}</button>
+
+                <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::are_enabled)}> {"Are Enabled"}</button>
+                <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::get_delivered_notifications)}> {"Get Delivered Notifications"}</button>
+
+                <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::remove_all_delivered_notifications)}> {"Remove All Delivered Notifications"}</button>
+
+                <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::check_permissions)}> {"Check Permissions"}</button>
+                <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::request_permissions)}> {"Request Permissions"}</button>
+
             </div>
         </details>
 
     )
 }
-
 
 fn schedule_notifications() {
     do_and_toast_result(|| {

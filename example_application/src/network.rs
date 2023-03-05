@@ -9,6 +9,7 @@ use capacitor_bindings::network::*;
 use yewdux::store::Store;
 
 use crate::listener::*;
+use crate::app::*;
 pub use crate::listener_state;
 
 
@@ -25,7 +26,7 @@ pub fn network_view() -> Html {
             </summary>
             <br/>
             <div style="display: flex; flex-direction: column;">
-                <button onclick={|_|crate::app::do_and_toast_result(Network::get_status)}> {"Get Status"}</button>
+                <button onclick={|_|do_and_toast_result(Network::get_status)}> {"Get Status"}</button>
                 <ListenerButton<NetworkState> />
 
             </div>

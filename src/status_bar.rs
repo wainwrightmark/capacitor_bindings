@@ -1,9 +1,9 @@
 #[cfg(any(feature = "ios", feature = "android"))]
 use crate::helpers::*;
 use serde::{Deserialize, Serialize};
+
+#[cfg(any(feature = "ios", feature = "android"))]
 use crate::extern_functions::*;
-
-
 
 /// The StatusBar API Provides methods for configuring the style of the Status Bar, along with showing or hiding it.
 /// These methods are not implemented on web
