@@ -9,10 +9,14 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.#
 
-## v0.2.0 (2022-02-24)
+## v0.3.0 (2023-03-05)
+- Breaking Changes - PluginListenerHandle now works differently - must be stored to be dropped later or leaked.
+- Features - Added support for App and Network plugins and more complete support of LocalNotifications
+
+## v0.2.0 (2023-02-24)
 - Breaking Changes - Made all functions return `Result<T, Error>`
 
-## v0.1.0 (2022-02-21)
+## v0.1.0 (2023-02-21)
 
 - Initial Release on [crates.io] :tada:
 
