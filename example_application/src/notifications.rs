@@ -11,75 +11,11 @@ use crate::app::do_and_toast_result;
 use crate::listener::*;
 
 
-#[derive(Debug, Default, Store, PartialEq, Clone)]
-pub struct NotificationState{
-    pub handle: Option<PluginListenerHandle>,
-}
-
-#[derive(Debug, Default, Store, PartialEq, Clone)]
-pub struct NotificationActionState{
-    pub handle: Option<PluginListenerHandle>,
-}
-
-impl ListenerState for NotificationState{
-    type Fut = Pin<Box<dyn Future<Output = Result<PluginListenerHandle, Error>>>>;
-
-        fn get_handle(&self) -> &Option<PluginListenerHandle> {
-            &self.handle
-        }
-
-        fn set_handle(&mut self, handle: Option<PluginListenerHandle>) {
-            self.handle = handle
-        }
-
-        fn take_handle(&mut self)-> Option<PluginListenerHandle> {
-            self.handle.take()
-        }
-
-        fn add_listener() -> Self::Fut {
-            Box::pin(LocalNotifications::add_received_listener(|status| {
-                info!("Notification: {:?}", status);
-                crate::app::show_toast_or_panic(format!("Notification: {:?}", status))
-            }))
-        }
-
-        fn name() -> &'static str {
-            "Notification Received"
-        }
-}
+listener_state!(NotificationState, LocalNotifications::add_received_listener, "Notification Received");
+listener_state!(NotificationActionState, LocalNotifications::add_action_performed_listener, "Notification Action");
 
 
-impl ListenerState for NotificationActionState{
-    type Fut = Pin<Box<dyn Future<Output = Result<PluginListenerHandle, Error>>>>;
 
-        fn get_handle(&self) -> &Option<PluginListenerHandle> {
-            &self.handle
-        }
-
-        fn set_handle(&mut self, handle: Option<PluginListenerHandle>) {
-            self.handle = handle
-        }
-
-        fn take_handle(&mut self)-> Option<PluginListenerHandle> {
-            self.handle.take()
-        }
-
-        fn add_listener() -> Self::Fut {
-            Box::pin(LocalNotifications::add_action_performed_listener(|status| {
-                info!("Action: {:?}", status);
-                crate::app::show_toast_or_panic(format!("Action: {:?}", status))
-            }))
-        }
-
-        fn name() -> &'static str {
-            "Notification Action"
-        }
-}
-
-
-pub enum NotificationAction{
-    ListenNotifications, Remove
-}
 
 #[function_component(NotificationView)]
 pub fn notification_view() -> Html {

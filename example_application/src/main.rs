@@ -1,7 +1,9 @@
 mod app;
+#[macro_use]
+pub mod listener;
 pub mod network;
 pub mod notifications;
-pub mod listener;
+
 pub mod app_funcs;
 use app::App;
 

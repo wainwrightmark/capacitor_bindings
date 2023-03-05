@@ -3,7 +3,6 @@ use std::future::Future;
 
 use capacitor_bindings::action_sheet::*;
 use capacitor_bindings::helpers::Error;
-use capacitor_bindings::local_notifications::*;
 
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;
@@ -332,20 +331,3 @@ fn show_actions() {
         })
     });
 }
-
-fn add_local_notification_received_listener() {
-    do_and_toast_result(|| {
-        LocalNotifications::add_received_listener(|schema| {
-            show_toast_or_panic(format!("Notification Received: {}", schema.id))
-        })
-    });
-}
-
-fn add_action_performed_listener() {
-    do_and_toast_result(|| {
-        LocalNotifications::add_action_performed_listener(|action_performed| {
-            show_toast_or_panic(format!("Action Performed: {}", action_performed.action_id));
-        })
-    });
-}
-

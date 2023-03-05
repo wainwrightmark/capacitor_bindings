@@ -93,3 +93,42 @@ pub fn listener_button<T: ListenerState>() -> Html {
         )
     }
 }
+
+#[macro_export]
+macro_rules! listener_state {
+    ($state_name:ident, $func:expr, $message:literal) => {
+        #[derive(Debug, Default, Store, PartialEq, Clone)]
+        pub struct $state_name {
+            pub handle: Option<PluginListenerHandle>,
+        }
+
+        impl ListenerState for $state_name {
+            type Fut = Pin<Box<dyn Future<Output = Result<PluginListenerHandle, Error>>>>;
+
+            fn get_handle(&self) -> &Option<PluginListenerHandle> {
+                &self.handle
+            }
+
+            fn set_handle(&mut self, handle: Option<PluginListenerHandle>) {
+                self.handle = handle
+            }
+
+            fn take_handle(&mut self) -> Option<PluginListenerHandle> {
+                self.handle.take()
+            }
+
+            fn add_listener() -> Self::Fut {
+                Box::pin($func(|arg| {
+                    info!("{}: {:?}", $message, arg);
+                    crate::app::show_toast_or_panic(format!("{}: {:?}", $message, arg))
+                }))
+            }
+
+            fn name() -> &'static str {
+                $message
+            }
+
+
+        }
+    };
+}

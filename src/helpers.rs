@@ -1,8 +1,17 @@
 use js_sys::{Function, Promise};
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 use wasm_bindgen_futures::JsFuture;
 use std::{future::Future, sync::Arc};
 use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
+
+/// An error used as a field on some functions
+#[skip_serializing_none]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct InnerError{
+    pub message: String
+}
 
 #[derive(Debug)]
 pub enum Error {
@@ -57,6 +66,12 @@ impl Error {
     pub fn serializing<I: serde::Serialize>(error: serde_wasm_bindgen::Error) -> Self {
         let typename = std::any::type_name::<I>();
         Self::DeserializeError { typename, error }
+    }
+}
+
+impl From<InnerError> for Error{
+    fn from(value: InnerError) -> Self {
+        Self::JsException { message: value.message }
     }
 }
 
