@@ -8,13 +8,15 @@ use yew::prelude::*;
 use capacitor_bindings::network::*;
 use yewdux::store::Store;
 
-use crate::listener::*;
 use crate::app::*;
+use crate::listener::*;
 pub use crate::listener_state;
 
-
-listener_state!(NetworkState, Network::add_network_change_listener, "Network Changed");
-
+listener_state!(
+    NetworkState,
+    Network::add_network_change_listener,
+    "Network Changed"
+);
 
 #[function_component(NetworkView)]
 pub fn network_view() -> Html {

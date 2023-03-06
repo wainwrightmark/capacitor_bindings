@@ -3,7 +3,6 @@ use std::future::Future;
 
 use capacitor_bindings::action_sheet::*;
 use capacitor_bindings::helpers::Error;
-
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -11,14 +10,14 @@ use yew::prelude::*;
 use capacitor_bindings::camera::*;
 use capacitor_bindings::device::*;
 use capacitor_bindings::dialog::*;
-use capacitor_bindings::haptics::*;
 use capacitor_bindings::share::*;
 use capacitor_bindings::status_bar::*;
 use capacitor_bindings::toast::*;
 
+use crate::app_funcs::AppView;
+use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
-use crate::app_funcs::AppView;
 
 #[function_component(App)]
 pub fn app() -> Html {
@@ -148,26 +147,7 @@ pub fn app() -> Html {
                 </div>
             </details>
 
-            <details>
-                <summary>
-                    {"Haptics"}
-                    <span class="icon">{"↓"}</span>
-                </summary>
-                <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_| do_and_toast_result(||Haptics::vibrate(3000.)) }> {"Vibrate 3s"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Heavy))}> {"Impact Heavy"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Medium))}> {"Impact Medium"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::impact(ImpactStyle::Light))}> {"Impact Light"}</button>
-
-                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Success))}> {"Success"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Warning))}> {"Warning"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Error ))}> {"Error"}</button>
-
-                    <button onclick={|_| do_and_toast_result(||Haptics::selection_start())}> {"Selection Start"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::selection_changed())}> {"Selection Changed"}</button>
-                    <button onclick={|_| do_and_toast_result(||Haptics::selection_end())}> {"Selection End"}</button>
-                </div>
-            </details>
+            <HapticsView/>
 
 
 
@@ -230,20 +210,12 @@ pub fn do_and_toast_result<
     })
 }
 
-
-pub fn do_async<
-    Fut: Future<Output = Result<(), Error>>,
-    F: Fn() -> Fut + 'static,
->(
-    f: F,
-) {
+pub fn do_async<Fut: Future<Output = Result<(), Error>>, F: Fn() -> Fut + 'static>(f: F) {
     spawn_local(async move {
         let r = f().await;
 
         match r {
-            Ok(_) => {
-
-            }
+            Ok(_) => {}
             Err(err) => {
                 log::error!("{err:?}");
                 show_toast_or_panic_async(format!("{err}")).await
@@ -251,10 +223,6 @@ pub fn do_async<
         }
     })
 }
-
-
-
-
 
 fn request_permissions() {
     #[cfg(any(feature = "android", feature = "ios"))]

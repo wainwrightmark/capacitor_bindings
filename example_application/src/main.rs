@@ -5,6 +5,7 @@ pub mod network;
 pub mod notifications;
 
 pub mod app_funcs;
+pub mod haptics;
 use app::App;
 
 fn main() {

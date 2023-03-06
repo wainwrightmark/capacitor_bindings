@@ -1,5 +1,6 @@
 use wasm_bindgen::prelude::*;
 
+
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name = "showActions")]
@@ -58,14 +59,14 @@ extern "C" {
 extern "C" {
 
     /// Vibrate the device
-    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="vibrate")]
     pub(crate) async fn haptics_vibrate(options: JsValue) -> Result<(), JsValue>;
 
-    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="impact")]
     pub(crate) async fn haptics_impact(options: JsValue) -> Result<(), JsValue>;
 
     /// Trigger a haptics "notification" feedback
-    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Haptics"])]
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Haptics"], js_name="notification")]
     pub(crate) async fn haptics_notification(options: JsValue) -> Result<(), JsValue>;
 
     /// Trigger a selection started haptic hint
@@ -121,7 +122,7 @@ extern "C" {
         options: JsValue,
     ) -> Result<(), JsValue>;
 
-    #[wasm_bindgen( js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
+    #[wasm_bindgen( final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="addListener" )]
     pub(crate) fn local_notifications_add_listener(
         eventName: &str,
         listener_func: &Closure<dyn Fn(JsValue)>,
@@ -134,7 +135,7 @@ extern "C" {
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Network"], js_name="getStatus" )]
     pub(crate) async fn network_get_status() -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen(js_namespace = ["Capacitor", "Plugins", "Network"], js_name="addListener" )]
+    #[wasm_bindgen(final,js_namespace = ["Capacitor", "Plugins", "Network"], js_name="addListener" )]
     pub(crate) fn network_add_listener(
         eventName: &str,
         listener_func: &Closure<dyn Fn(JsValue)>,
@@ -197,7 +198,7 @@ extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getLaunchUrl" )]
     pub(crate) async fn app_get_launch_url() -> Result<JsValue, JsValue>;
 
-    #[wasm_bindgen( js_namespace = ["Capacitor", "Plugins", "App"], js_name="addListener" )]
+    #[wasm_bindgen(final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="addListener" )]
     pub(crate) fn app_add_listener(
         eventName: &str,
         listener_func: &Closure<dyn Fn(JsValue)>,

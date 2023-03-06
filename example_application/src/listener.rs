@@ -14,10 +14,8 @@ pub trait ListenerState: Clone + PartialEq + Store + Default {
     type Fut: Future<Output = Result<PluginListenerHandle, capacitor_bindings::helpers::Error>>;
 
     fn get_handle(&self) -> &Option<PluginListenerHandle>;
-    fn take_handle(&mut self)-> Option<PluginListenerHandle>;
+    fn take_handle(&mut self) -> Option<PluginListenerHandle>;
     fn set_handle(&mut self, handle: Option<PluginListenerHandle>);
-
-
 
     fn is_listening(&self) -> bool {
         self.get_handle().is_some()
@@ -127,8 +125,6 @@ macro_rules! listener_state {
             fn name() -> &'static str {
                 $message
             }
-
-
         }
     };
 }
