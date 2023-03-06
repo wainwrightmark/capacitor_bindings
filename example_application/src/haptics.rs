@@ -20,9 +20,9 @@ pub fn haptics_view() -> Html {
                 <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Warning))}> {"Warning"}</button>
                 <button onclick={|_| do_and_toast_result(||Haptics::notification(NotificationType::Error ))}> {"Error"}</button>
 
-                <button onclick={|_| do_and_toast_result(||Haptics::selection_start())}> {"Selection Start"}</button>
-                <button onclick={|_| do_and_toast_result(||Haptics::selection_changed())}> {"Selection Changed"}</button>
-                <button onclick={|_| do_and_toast_result(||Haptics::selection_end())}> {"Selection End"}</button>
+                <button onclick={|_| do_and_toast_result(Haptics::selection_start)}> {"Selection Start"}</button>
+                <button onclick={|_| do_and_toast_result(Haptics::selection_changed)}> {"Selection Changed"}</button>
+                <button onclick={|_| do_and_toast_result(Haptics::selection_end)}> {"Selection End"}</button>
             </div>
         </details>
     )

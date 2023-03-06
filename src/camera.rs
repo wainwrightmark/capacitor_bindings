@@ -1,8 +1,8 @@
 use std::collections::BTreeMap;
 
+use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use crate::extern_functions::*;
 
 use crate::helpers::*;
 
@@ -10,27 +10,29 @@ pub struct Camera;
 
 impl Camera {
     /// Prompt the user to pick a photo from an album, or take a new photo with the camera.
-    pub async fn get_photo(options: impl Into<ImageOptions>) -> Result<Photo,Error> {
+    pub async fn get_photo(options: impl Into<ImageOptions>) -> Result<Photo, Error> {
         run_value_value(options, camera_get_photo).await
     }
     /// Allows the user to pick multiple pictures from the photo gallery. On iOS 13 and older it only allows to pick one picture.
-    pub async fn pick_images(options: impl Into<GalleryImageOptions>) -> Result<GalleryPhotos,Error> {
+    pub async fn pick_images(
+        options: impl Into<GalleryImageOptions>,
+    ) -> Result<GalleryPhotos, Error> {
         run_value_value(options, camera_pick_images).await
     }
 
     /// Allows the user to pick multiple pictures from the photo gallery. On iOS 13 and older it only allows to pick one picture.
-    pub async fn pick_limited_library_photos() -> Result<GalleryPhotos,Error> {
+    pub async fn pick_limited_library_photos() -> Result<GalleryPhotos, Error> {
         run_unit_value(camera_pick_limited_library_photos).await
     }
 
     #[cfg(feature = "ios")]
     /// iOS 14+ Only: Return an array of photos selected from the limited photo library.
-    pub async fn get_limited_library_photos() -> Result<GalleryPhotos,Error> {
+    pub async fn get_limited_library_photos() -> Result<GalleryPhotos, Error> {
         run_unit_value(camera_get_limited_library_photos).await
     }
 
     /// Check camera and photo album permissions
-    pub async fn check_permissions() -> Result<PermissionStatus,Error> {
+    pub async fn check_permissions() -> Result<PermissionStatus, Error> {
         run_unit_value(camera_check_permissions).await
     }
 
@@ -38,7 +40,7 @@ impl Camera {
     /// Request camera and photo album permissions. Not implemented on web
     pub async fn request_permissions(
         options: impl Into<CameraPluginPermissions>,
-    ) -> Result<PermissionStatus,Error> {
+    ) -> Result<PermissionStatus, Error> {
         run_value_value(options, camera_request_permissions).await
     }
 }

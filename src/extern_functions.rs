@@ -1,6 +1,5 @@
 use wasm_bindgen::prelude::*;
 
-
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name = "showActions")]
@@ -97,21 +96,17 @@ extern "C" {
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="getDeliveredNotifications" )]
     pub(crate) async fn local_notifications_get_delivered_notifications() -> Result<JsValue, JsValue>;
 
-
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="cancel" )]
     pub(crate) async fn local_notifications_cancel(options: JsValue) -> Result<(), JsValue>;
 
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="removeDeliveredNotifications" )]
-    pub(crate) async fn local_notifications_remove_delivered_notifications(delivered: JsValue) -> Result<(), JsValue>;
+    pub(crate) async fn local_notifications_remove_delivered_notifications(
+        delivered: JsValue,
+    ) -> Result<(), JsValue>;
 
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="removeAllDeliveredNotifications" )]
-    pub(crate) async fn local_notifications_remove_all_delivered_notifications() -> Result<(), JsValue>;
-
-
-
-
-
-
+    pub(crate) async fn local_notifications_remove_all_delivered_notifications(
+    ) -> Result<(), JsValue>;
 
     /// Schedule one or more local notifications.
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="schedule" )]
@@ -171,13 +166,11 @@ extern "C" {
     pub(crate) async fn status_bar_set_overlays_web_view(options: JsValue) -> Result<(), JsValue>;
 }
 
-
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
     pub(crate) async fn toast_show(options: JsValue) -> Result<(), JsValue>;
 }
-
 
 #[wasm_bindgen()]
 extern "C" {
@@ -187,13 +180,11 @@ extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="minimizeApp" )]
     pub(crate) async fn app_minimize_app() -> Result<(), JsValue>;
 
-
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getInfo" )]
     pub(crate) async fn app_get_info() -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getState" )]
     pub(crate) async fn app_get_state() -> Result<JsValue, JsValue>;
-
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="getLaunchUrl" )]
     pub(crate) async fn app_get_launch_url() -> Result<JsValue, JsValue>;

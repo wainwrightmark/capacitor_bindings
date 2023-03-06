@@ -11,7 +11,7 @@ use capacitor_bindings::camera::*;
 use capacitor_bindings::device::*;
 use capacitor_bindings::dialog::*;
 use capacitor_bindings::share::*;
-use capacitor_bindings::status_bar::*;
+
 use capacitor_bindings::toast::*;
 
 use crate::app_funcs::AppView;
@@ -159,11 +159,11 @@ pub fn app() -> Html {
                     <span class="icon">{"↓"}</span>
                 </summary>
                 <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_| do_and_toast_result(||Device::get_id())}> {"Device Id"}</button>
-                    <button onclick={|_| do_and_toast_result(||Device::get_info())}> {"Device Info"}</button>
-                    <button onclick={|_| do_and_toast_result(||Device::get_battery_info())}> {"Battery Info"}</button>
-                    <button onclick={|_| do_and_toast_result(||Device::get_language_code())}> {"Language Code"}</button>
-                    <button onclick={|_| do_and_toast_result(||Device::get_language_tag())}> {"Language Tag"}</button>
+                    <button onclick={|_| do_and_toast_result(Device::get_id)}> {"Device Id"}</button>
+                    <button onclick={|_| do_and_toast_result(Device::get_info)}> {"Device Info"}</button>
+                    <button onclick={|_| do_and_toast_result(Device::get_battery_info)}> {"Battery Info"}</button>
+                    <button onclick={|_| do_and_toast_result(Device::get_language_code)}> {"Language Code"}</button>
+                    <button onclick={|_| do_and_toast_result(Device::get_language_tag)}> {"Language Tag"}</button>
                 </div>
             </details>
 

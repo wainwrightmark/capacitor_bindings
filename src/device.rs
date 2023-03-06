@@ -1,8 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::extern_functions::*;
+use serde::{Deserialize, Serialize};
 
 use crate::helpers::*;
-
 
 pub struct Device;
 

@@ -1,15 +1,13 @@
-use serde::{Deserialize, Serialize};
 use crate::extern_functions::*;
+use serde::{Deserialize, Serialize};
 
 use crate::helpers::{run_value_unit, Error};
-
-
 
 pub struct Toast;
 
 impl Toast {
     /// Show a toast asynchronously
-    pub async fn show(options: impl Into<ShowOptions>)-> Result<(), Error> {
+    pub async fn show(options: impl Into<ShowOptions>) -> Result<(), Error> {
         run_value_unit(options, toast_show).await
     }
 }

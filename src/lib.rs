@@ -1,13 +1,13 @@
 pub mod action_sheet;
+pub mod app;
 pub mod camera;
 pub mod device;
 pub mod dialog;
+pub mod extern_functions;
 pub mod haptics;
 pub mod helpers;
 pub mod local_notifications;
+pub mod network;
 pub mod share;
 pub mod status_bar;
 pub mod toast;
-pub mod network;
-pub mod extern_functions;
-pub mod app;

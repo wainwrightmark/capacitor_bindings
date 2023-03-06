@@ -190,11 +190,10 @@ impl PluginListenerHandle {
     }
 
     /// Leak this listener so it will never be dropped
-    pub fn leak(self){
+    pub fn leak(self) {
         Box::leak(Box::new(self));
     }
 }
-
 
 impl PartialEq for PluginListenerHandle {
     fn eq(&self, other: &Self) -> bool {

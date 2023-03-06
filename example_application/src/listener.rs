@@ -118,7 +118,7 @@ macro_rules! listener_state {
             fn add_listener() -> Self::Fut {
                 Box::pin($func(|arg| {
                     info!("{}: {:?}", $message, arg);
-                    crate::app::show_toast_or_panic(format!("{}: {:?}", $message, arg))
+                    $crate::app::show_toast_or_panic(format!("{}: {:?}", $message, arg))
                 }))
             }
 
