@@ -3,6 +3,7 @@ use std::future::Future;
 
 use capacitor_bindings::action_sheet::*;
 use capacitor_bindings::helpers::Error;
+
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -18,12 +19,15 @@ use crate::app_funcs::AppView;
 use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
+use crate::screen_reader::ScreenReaderView;
 
 #[function_component(App)]
 pub fn app() -> Html {
     let status_block: Html;
     #[cfg(any(feature = "android",))]
     {
+        use capacitor_bindings::status_bar::StatusBar;
+        use capacitor_bindings::status_bar::Style;
         status_block = html! {
             <details>
             <summary>
@@ -42,6 +46,8 @@ pub fn app() -> Html {
     };
     #[cfg(all(any(feature = "ios"), not(any(feature = "android"))))]
     {
+        use capacitor_bindings::status_bar::StatusBar;
+        use capacitor_bindings::status_bar::Style;
         status_block = html! {
             <details>
             <summary>
@@ -148,7 +154,7 @@ pub fn app() -> Html {
             </details>
 
             <HapticsView/>
-
+            <ScreenReaderView/>
 
 
 

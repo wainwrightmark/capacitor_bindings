@@ -11,3 +11,4 @@ pub mod network;
 pub mod share;
 pub mod status_bar;
 pub mod toast;
+pub mod screen_reader;

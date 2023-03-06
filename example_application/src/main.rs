@@ -3,6 +3,7 @@ mod app;
 pub mod listener;
 pub mod network;
 pub mod notifications;
+pub mod screen_reader;
 
 pub mod app_funcs;
 pub mod haptics;

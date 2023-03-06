@@ -2,6 +2,21 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen()]
 extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ScreenReader"], js_name = "isEnabled")]
+    pub(crate) async fn screen_reader_is_enabled() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ScreenReader"], js_name = "speak")]
+    pub(crate) async fn screen_reader_speak(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen( final,js_namespace = ["Capacitor", "Plugins", "ScreenReader"], js_name="addListener" )]
+    pub(crate) fn screen_reader_add_listener(
+        eventName: &str,
+        listener_func: &Closure<dyn Fn(JsValue)>,
+    ) -> JsValue;
+}
+
+#[wasm_bindgen()]
+extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ActionSheet"], js_name = "showActions")]
     pub(crate) async fn action_sheet_show_actions(options: JsValue) -> Result<JsValue, JsValue>;
 }
