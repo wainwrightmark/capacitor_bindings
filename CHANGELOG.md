@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.#
 
+## v0.4.0 (2023-03-06)
+- Features - Added support for Screen Reader plugin
+
 ## v0.3.0 (2023-03-05)
 - Breaking Changes - PluginListenerHandle now works differently - must be stored to be dropped later or leaked.
 - Features - Added support for App and Network plugins and more complete support of LocalNotifications
