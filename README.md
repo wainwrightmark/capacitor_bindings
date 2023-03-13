@@ -26,6 +26,7 @@ Currently supported
 - Haptics
 - Local Notifications (incomplete)
 - Network
+- Preferences
 - Share
 - Status Bar
 - Screen Reader

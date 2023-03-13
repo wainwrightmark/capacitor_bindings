@@ -210,3 +210,25 @@ extern "C" {
         listener_func: &Closure<dyn Fn(JsValue)>,
     ) -> JsValue;
 }
+
+
+#[wasm_bindgen()]
+extern "C"{
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="configure" )]
+    pub(crate) async fn preferences_configure(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="set" )]
+    pub(crate) async fn preferences_set(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="remove" )]
+    pub(crate) async fn preferences_remove(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="get" )]
+    pub(crate) async fn preferences_get(options: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="clear" )]
+    pub(crate) async fn preferences_clear() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="keys" )]
+    pub(crate) async fn preferences_keys() -> Result<JsValue, JsValue>;
+}

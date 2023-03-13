@@ -19,6 +19,7 @@ use crate::app_funcs::AppView;
 use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
+use crate::preferences::PreferencesView;
 use crate::screen_reader::ScreenReaderView;
 
 #[function_component(App)]
@@ -138,7 +139,7 @@ pub fn app() -> Html {
                             message: "message".to_string(),
                             title: "title".to_string(),
                             input_placeholder: Some("input placeholder".to_string()),
-                            input_text: Some("input text".to_string()),
+                            input_text: None,
 
                         }))}> {"Prompt"}</button>
 
@@ -155,7 +156,7 @@ pub fn app() -> Html {
 
             <HapticsView/>
             <ScreenReaderView/>
-
+            <PreferencesView/>
 
 
 

@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 use crate::helpers::*;
@@ -36,6 +37,7 @@ impl Dialog {
     }
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct AlertOptions {
@@ -47,6 +49,7 @@ pub struct AlertOptions {
     pub button_title: String,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct PromptResult {
@@ -56,6 +59,7 @@ pub struct PromptResult {
     pub cancelled: bool,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct PromptOptions {
@@ -73,6 +77,7 @@ pub struct PromptOptions {
     pub input_text: Option<String>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfirmResult {
@@ -80,6 +85,7 @@ pub struct ConfirmResult {
     pub value: bool,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfirmOptions {
