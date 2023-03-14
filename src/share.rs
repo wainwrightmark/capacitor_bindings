@@ -1,6 +1,7 @@
 use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+use typed_builder::TypedBuilder;
 
 use crate::helpers::*;
 
@@ -37,17 +38,24 @@ pub struct ShareResult {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ShareOptions {
+    #[builder(setter(into, strip_option), default)]
     /// Set a title for any message. This will be the subject if sharing to email
     pub title: Option<String>,
+
+    #[builder(setter(into, strip_option), default)]
     /// Set some text to share
     pub text: Option<String>,
+
+    #[builder(setter(into, strip_option), default)]
     /// Set a URL to share, can be http, https or file:// URL
     pub url: Option<String>,
+    #[builder(setter(into, strip_option), default)]
     /// Set a title for the share modal. This option is only supported on Android.
     pub dialog_title: Option<String>,
+    #[builder(setter(into, strip_option), default)]
     /// Array of file:// URLs of the files to be shared. Only supported on iOS and Android.
     pub files: Option<Vec<String>>,
 }

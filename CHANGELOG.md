@@ -9,6 +9,11 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.#
 
+## v0.5.0 (2023-03-14)
+- Features - Added support for Preferences Plugin
+- Features - Derive a typed builder for some types
+- Breaking Changes - Added more support for Local Notifications
+
 ## v0.4.0 (2023-03-06)
 - Features - Added support for Screen Reader plugin
 

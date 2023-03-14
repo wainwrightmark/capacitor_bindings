@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+use typed_builder::TypedBuilder;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 use crate::helpers::*;
@@ -38,13 +39,16 @@ impl Dialog {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct AlertOptions {
+    #[builder(setter(into))]
     /// Title of the dialog.
     pub title: String,
+    #[builder(setter(into))]
     /// Message to show on the dialog.
     pub message: String,
+    #[builder(setter(into))]
     /// Text to use on the action button.
     pub button_title: String,
 }
@@ -60,19 +64,25 @@ pub struct PromptResult {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct PromptOptions {
+    #[builder(setter(into))]
     /// Title of the dialog.
     pub title: String,
+    #[builder(setter(into))]
     /// Message to show on the dialog.
     pub message: String,
+    #[builder(setter(into))]
     /// Text to use on the positive action button.
     pub ok_button_title: String,
+    #[builder(setter(into))]
     /// Text to use on the negative action button.
     pub cancel_button_title: String,
+    #[builder(setter(into, strip_option), default)]
     /// Placeholder text for hints.
     pub input_placeholder: Option<String>,
+    #[builder(setter(into, strip_option), default)]
     /// Prepopulated text.
     pub input_text: Option<String>,
 }
@@ -86,15 +96,19 @@ pub struct ConfirmResult {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfirmOptions {
+    #[builder(setter(into))]
     /// Title of the dialog.
     pub title: String,
+    #[builder(setter(into))]
     /// Message to show on the dialog.
     pub message: String,
+    #[builder(setter(into))]
     /// Text to use on the positive action button.
     pub ok_button_title: String,
+    #[builder(setter(into))]
     /// Text to use on the negative action button.
     pub cancel_button_title: String,
 }

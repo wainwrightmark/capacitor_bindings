@@ -53,42 +53,16 @@ pub fn notification_view() -> Html {
 
 fn schedule_notifications() {
     do_and_toast_result(|| {
-        let options = ScheduleOptions {
-            notifications: vec![LocalNotificationSchema {
-                auto_cancel: true,
-                body: "Notification Body".to_string(),
-                title: "Notification Title".to_string(),
-                schedule: Schedule {
-                    on: ScheduleOn {
-                        second: Some(0),
-                        year: None,
-                        minute: None,
-                        month: None,
-                        day: None,
-                        weekday: None,
-                        hour: None,
-                    },
-                    allow_while_idle: true,
-                },
-                large_body: Some("Notification Large Body".to_string()),
-                summary_text: Some("Notification Summary Text".to_string()),
-                id: 123,
-                ongoing: false,
-                inbox_list: Some(vec![
-                    "N One".to_string(),
-                    "N Two".to_string(),
-                    "N Three".to_string(),
-                    "N Four".to_string(),
-                    "N Five".to_string(),
-                ]),
-                action_type_id: Some("MyActionType".to_string()),
-                group: None,
-                group_summary: None,
-                small_icon: None,
-                large_icon: None,
-                icon_color: None,
-            }],
-        };
+        let options = LocalNotificationSchema::builder()
+        .title("Notification Title")
+        .body("Notification Body")
+        .auto_cancel(true)
+        .schedule(ScheduleOn::builder().second(0).build())
+        .id(123)
+        .large_body("Notification Large Body")
+        .summary_text("Notification Summary Text")
+        .inbox_list(vec!["N One".into(), "N Two".into(), "N Three".into(), "N Four".into(), "N Five".into()])
+        .build();
 
         LocalNotifications::schedule(options)
     });

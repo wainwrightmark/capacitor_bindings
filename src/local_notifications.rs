@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+use typed_builder::TypedBuilder;
 
 use crate::extern_functions::*;
 
@@ -92,6 +93,14 @@ pub struct ScheduleOptions {
     pub notifications: Vec<LocalNotificationSchema>,
 }
 
+impl Into<ScheduleOptions> for LocalNotificationSchema {
+    fn into(self) -> ScheduleOptions {
+        ScheduleOptions {
+            notifications: vec![self],
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct RegisterActionTypesOptions {
@@ -168,76 +177,148 @@ pub struct LocalNotificationDescriptor {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalNotificationSchema {
+    #[builder(setter(into))]
     /// The title of the notification.
     pub title: String,
+    #[builder(setter(into))]
     /// The body of the notification, shown below the title.
     pub body: String,
-
+    #[builder(setter(into))]
     /// Schedule this notification for a later time.
     pub schedule: Schedule,
-
+    #[builder(setter(into, strip_option), default)]
     /// Sets a multiline text block for display in a big text notification style.
     pub large_body: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Used to set the summary text detail in inbox and big text notification styles. Only available for Android.
     pub summary_text: Option<String>,
 
     /// The notification identifier. On Android it's a 32-bit int. So the value should be between -2147483648 and 2147483647 inclusive.
     pub id: i32,
-
+    #[builder(default)]
     /// If true, the notification can't be swiped away. Calls setOngoing() on NotificationCompat.Builder with the provided value. Only available for Android.
     pub ongoing: bool,
 
     /// If true, the notification is canceled when the user clicks on it. Calls setAutoCancel() on NotificationCompat.Builder with the provided value. Only available for Android.
     pub auto_cancel: bool,
-
+    #[builder(setter(into, strip_option), default)]
     /// Sets a list of strings for display in an inbox style notification. Up to 5 strings are allowed. Only available for Android.
     pub inbox_list: Option<Vec<String>>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Set a custom status bar icon. If set, this overrides the smallIcon option from Capacitor configuration. Icons should be placed in your app's res/drawable folder. The value for this option should be the drawable resource ID, which is the filename without an extension. Only available for Android.
     pub small_icon: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Set a large icon for notifications. Icons should be placed in your app's res/drawable folder. The value for this option should be the drawable resource ID, which is the filename without an extension. Only available for Android.
     pub large_icon: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Set the color of the notification icon. Only available for Android.
     pub icon_color: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Associate an action type with this notification.
     pub action_type_id: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// Used to group multiple notifications. Calls setGroup() on NotificationCompat.Builder with the provided value. Only available for Android.
     pub group: Option<String>,
-
+    #[builder(setter(into, strip_option), default)]
     /// If true, this notification becomes the summary for a group of notifications. Calls setGroupSummary() on NotificationCompat.Builder with the provided value. Only available for Android when using group.
     pub group_summary: Option<String>,
+    #[builder(setter(into, strip_option), default)]
+    /// Name of the audio file to play when this notification is displayed. Include the file extension with the filename. On iOS, the file should be in the app bundle. On Android, the file should be in res/raw folder. Recommended format is .wav because is supported by both iOS and Android. Only available for iOS and Android < 26. For Android 26+ use channelId of a channel configured with the desired sound. If the sound file is not found, (i.e. empty string or wrong name) the default system notification sound will be used. If not provided, it will produce the default sound on Android and no sound on iOS.
+    pub sound: Option<String>,
+    #[builder(setter(into, strip_option), default)]
+    /// Used to group multiple notifications. Sets threadIdentifier on the UNMutableNotificationContent. Only available for iOS.
+    pub thread_identifier: Option<String>,
+    #[builder(setter(into, strip_option), default)]
+    /// The string this notification adds to the category's summary format string. Sets summaryArgument on the UNMutableNotificationContent. Only available for iOS.
+    pub summary_argument: Option<String>,
+    #[builder(setter(into, strip_option), default)]
+    /// Specifies the channel the notification should be delivered on. If channel with the given name does not exist then the notification will not fire. If not provided, it will use the default channel. Calls setChannelId() on NotificationCompat.Builder with the provided value. Only available for Android 26+.
+    pub channel_id: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct Schedule {
-    /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
-    pub allow_while_idle: bool,
+#[serde(untagged)]
+pub enum Schedule {
+    On {
+        /// Schedule a notification on particular interval(s). This is similar to scheduling cron jobs. Only available for iOS and Android.
+        on: ScheduleOn,
+        #[serde(rename="allowWhileIdle")]
+        /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
+        allow_while_idle: bool,
+    },
+    // At {
+    //     /// Schedule a notification at a specific date and time.
+    //     at: Date,
 
-    /// Schedule a notification on particular interval(s). This is similar to scheduling cron jobs. Only available for iOS and Android.
-    pub on: ScheduleOn,
+    //     /// Repeat delivery of this notification at the date and time specified by at. Only available for iOS and Android.
+    //     repeats: bool,
+    //     /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
+    //     allow_while_idle: bool,
+    // },
+    Every {
+        /// Schedule a notification on a particular interval.
+        every: ScheduleEvery,
+        /// Limit the number times a notification is delivered by the interval specified by every.
+        count: usize,
+        #[serde(rename="allowWhileIdle")]
+        /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
+        allow_while_idle: bool,
+    },
+}
+
+impl Into<Schedule> for ScheduleOn {
+    fn into(self) -> Schedule {
+        Schedule::On {
+            on: self,
+            allow_while_idle: true,
+        }
+    }
+}
+
+impl Into<Schedule> for (ScheduleEvery, usize) {
+    fn into(self) -> Schedule {
+        Schedule::Every {
+            every: self.0,
+            count: self.1,
+            allow_while_idle: true,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "kebab-case")]
+pub enum ScheduleEvery {
+    Year,
+    Month,
+    TwoWeeks,
+    Week,
+    Day,
+    Hour,
+    Minute,
+    Second,
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
-
 pub struct ScheduleOn {
+    #[builder(setter(strip_option), default)]
     pub year: Option<u32>,
+    #[builder(setter(strip_option), default)]
     pub month: Option<u32>,
+    #[builder(setter(strip_option), default)]
     pub day: Option<u32>,
+    #[builder(setter(strip_option), default)]
     pub weekday: Option<Weekday>,
-
+    #[builder(setter(strip_option), default)]
     pub hour: Option<u32>,
+    #[builder(setter(strip_option), default)]
     pub minute: Option<u32>,
+    #[builder(setter(strip_option), default)]
     pub second: Option<u32>,
 }
 
@@ -300,42 +381,17 @@ mod tests {
     use serde_test::assert_tokens;
 
     fn get_options() -> ScheduleOptions {
-        ScheduleOptions {
-            notifications: vec![LocalNotificationSchema {
-                auto_cancel: true,
-                body: "Notification Body".to_string(),
-                title: "Notification Title".to_string(),
-                schedule: Schedule {
-                    on: ScheduleOn {
-                        second: Some(0),
-                        year: None,
-                        minute: None,
-                        month: None,
-                        day: None,
-                        weekday: None,
-                        hour: None,
-                    },
-                    allow_while_idle: true,
-                },
-                large_body: Some("Notification Large Body".to_string()),
-                summary_text: Some("Notification Summary Text".to_string()),
-                id: 123,
-                ongoing: false,
-                inbox_list: Some(vec![
-                    "N One".to_string(),
-                    "N Two".to_string(),
-                    "N Three".to_string(),
-                    "N Four".to_string(),
-                    "N Five".to_string(),
-                ]),
-                small_icon: None,
-                large_icon: None,
-                icon_color: None,
-                action_type_id: None,
-                group: None,
-                group_summary: None,
-            }],
-        }
+        LocalNotificationSchema::builder()
+            .title("Notification Title")
+            .body("Notification Body")
+            .auto_cancel(true)
+            .schedule(ScheduleOn::builder().second(0).build())
+            .id(123)
+            .large_body("Notification Large Body")
+            .summary_text("Notification Summary Text")
+            .inbox_list(vec!["N One".into(), "N Two".into(), "N Three".into(), "N Four".into(), "N Five".into()])
+            .build()
+            .into()
     }
 
     #[test]
@@ -344,7 +400,7 @@ mod tests {
 
         let str: String = serde_json::to_string(&options).unwrap();
 
-        let expected = "{\"notifications\":[{\"title\":\"Notification Title\",\"body\":\"Notification Body\",\"schedule\":{\"allowWhileIdle\":true,\"on\":{\"second\":0}},\"largeBody\":\"Notification Large Body\",\"summaryText\":\"Notification Summary Text\",\"id\":123,\"ongoing\":false,\"autoCancel\":true,\"inboxList\":[\"N One\",\"N Two\",\"N Three\",\"N Four\",\"N Five\"]}]}";
+        let expected = "{\"notifications\":[{\"title\":\"Notification Title\",\"body\":\"Notification Body\",\"schedule\":{\"on\":{\"second\":0},\"allowWhileIdle\":true},\"largeBody\":\"Notification Large Body\",\"summaryText\":\"Notification Summary Text\",\"id\":123,\"ongoing\":false,\"autoCancel\":true,\"inboxList\":[\"N One\",\"N Two\",\"N Three\",\"N Four\",\"N Five\"]}]}";
 
         assert_eq!(str.trim(), expected.trim())
     }
@@ -380,8 +436,7 @@ mod tests {
                         name: "Schedule",
                         len: 2,
                     },
-                    Str("allowWhileIdle"),
-                    Bool(true),
+
                     Str("on"),
                     Struct {
                         name: "ScheduleOn",
@@ -391,6 +446,8 @@ mod tests {
                     Some,
                     U32(0).to_owned(),
                     StructEnd,
+                    Str("allowWhileIdle"),
+                    Bool(true),
                     StructEnd,
                     Str("largeBody"),
                     Some,
