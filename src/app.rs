@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
+use serde_with::serde_as;
 use serde_with::skip_serializing_none;
+use serde_with::NoneAsEmptyString;
 
 use crate::extern_functions::*;
 use crate::helpers::*;
@@ -138,6 +140,7 @@ pub struct AppLaunchUrl {
     pub url: String,
 }
 
+#[serde_as]
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -148,6 +151,7 @@ pub struct URLOpenListenerEvent {
     /// The source application opening the app (iOS only) https://developer.apple.com/documentation/uikit/uiapplicationopenurloptionskey/1623128-sourceapplication
     pub ios_source_application: Option<String>, //todo check
 
+    #[serde_as(as = "NoneAsEmptyString")]
     /// Whether the app should open the passed document in-place or must copy it first. https://developer.apple.com/documentation/uikit/uiapplicationopenurloptionskey/1623123-openinplace
     pub ios_open_in_place: Option<bool>,
 }

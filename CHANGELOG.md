@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.#
 
+## v0.5.1 (2023-03-23)
+- Bug Fixes - URLOpenListenerEvent now deserializes correctly on iOS
+
 ## v0.5.0 (2023-03-14)
 - Features - Added support for Preferences Plugin
 - Features - Derive a typed builder for some types
