@@ -44,10 +44,10 @@ pub struct ConfigureOptions {
     pub group: String,
 }
 
-impl Into<ConfigureOptions> for &str {
-    fn into(self) -> ConfigureOptions {
+impl From<&str> for ConfigureOptions {
+    fn from(val: &str) -> Self {
         ConfigureOptions {
-            group: self.to_string(),
+            group: val.to_string(),
         }
     }
 }
@@ -68,10 +68,10 @@ pub struct GetOptions {
     pub key: String,
 }
 
-impl Into<GetOptions> for &str {
-    fn into(self) -> GetOptions {
+impl From<&str> for GetOptions {
+    fn from(val: &str) -> Self {
         GetOptions {
-            key: self.to_string(),
+            key: val.to_string(),
         }
     }
 }
@@ -94,10 +94,10 @@ pub struct RemoveOptions {
     pub key: String,
 }
 
-impl Into<RemoveOptions> for &str {
-    fn into(self) -> RemoveOptions {
+impl From<&str> for RemoveOptions {
+    fn from(val: &str) -> Self {
         RemoveOptions {
-            key: self.to_string(),
+            key: val.to_string(),
         }
     }
 }

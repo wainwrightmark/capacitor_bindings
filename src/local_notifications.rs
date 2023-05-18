@@ -93,10 +93,10 @@ pub struct ScheduleOptions {
     pub notifications: Vec<LocalNotificationSchema>,
 }
 
-impl Into<ScheduleOptions> for LocalNotificationSchema {
-    fn into(self) -> ScheduleOptions {
+impl From<LocalNotificationSchema> for ScheduleOptions {
+    fn from(val: LocalNotificationSchema) -> Self {
         ScheduleOptions {
-            notifications: vec![self],
+            notifications: vec![val],
         }
     }
 }
@@ -246,7 +246,7 @@ pub enum Schedule {
     On {
         /// Schedule a notification on particular interval(s). This is similar to scheduling cron jobs. Only available for iOS and Android.
         on: ScheduleOn,
-        #[serde(rename="allowWhileIdle")]
+        #[serde(rename = "allowWhileIdle")]
         /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
         allow_while_idle: bool,
     },
@@ -264,26 +264,26 @@ pub enum Schedule {
         every: ScheduleEvery,
         /// Limit the number times a notification is delivered by the interval specified by every.
         count: usize,
-        #[serde(rename="allowWhileIdle")]
+        #[serde(rename = "allowWhileIdle")]
         /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
         allow_while_idle: bool,
     },
 }
 
-impl Into<Schedule> for ScheduleOn {
-    fn into(self) -> Schedule {
+impl From<ScheduleOn> for Schedule {
+    fn from(val: ScheduleOn) -> Self {
         Schedule::On {
-            on: self,
+            on: val,
             allow_while_idle: true,
         }
     }
 }
 
-impl Into<Schedule> for (ScheduleEvery, usize) {
-    fn into(self) -> Schedule {
+impl From<(ScheduleEvery, usize)> for Schedule {
+    fn from(val: (ScheduleEvery, usize)) -> Self {
         Schedule::Every {
-            every: self.0,
-            count: self.1,
+            every: val.0,
+            count: val.1,
             allow_while_idle: true,
         }
     }
@@ -389,7 +389,13 @@ mod tests {
             .id(123)
             .large_body("Notification Large Body")
             .summary_text("Notification Summary Text")
-            .inbox_list(vec!["N One".into(), "N Two".into(), "N Three".into(), "N Four".into(), "N Five".into()])
+            .inbox_list(vec![
+                "N One".into(),
+                "N Two".into(),
+                "N Three".into(),
+                "N Four".into(),
+                "N Five".into(),
+            ])
             .build()
             .into()
     }
@@ -436,7 +442,6 @@ mod tests {
                         name: "Schedule",
                         len: 2,
                     },
-
                     Str("on"),
                     Struct {
                         name: "ScheduleOn",

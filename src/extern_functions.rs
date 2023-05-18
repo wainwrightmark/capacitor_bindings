@@ -211,9 +211,8 @@ extern "C" {
     ) -> JsValue;
 }
 
-
 #[wasm_bindgen()]
-extern "C"{
+extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="configure" )]
     pub(crate) async fn preferences_configure(options: JsValue) -> Result<(), JsValue>;
 
