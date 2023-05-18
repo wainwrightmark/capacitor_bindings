@@ -8,9 +8,9 @@ Capacitor bindings to help you build android and ios apps using rust.
 
 These can be used from framework that builds with trunk e.g. yes, sycamore, seed, etc.
 
-***This project is in the very early stages and unstable . Do not use it in production!***
+**_This crate is still in the early stages. Use at your own risk. When capacitor make breaking changes, this crate will make breaking changes to stay up to date._**
 
-I have successfully used this to build both iOs and Android apps.
+I have successfully used this to build both iOS and Android apps.
 
 In the Setup section below I explain how you can have a single version of your code and which can be built for both web and mobile platforms.
 
@@ -92,7 +92,6 @@ package-lock.json
 package.json
 ```
 
-
 Add android and ios as needed
 
 ```
@@ -124,7 +123,7 @@ Add calls to the plugins where you need them. If you have a yew project, you cou
 Some plugins have additional installation steps (such as adding to the android manifest xml) that you will need to follow.
 [the list of official plugins is here](https://capacitorjs.com/docs/plugins)
 
-You should now be able to run your app on android (and possibly ios)
+You should now be able to run your app on android or ios
 
 ```
 trunk build --release

@@ -10,8 +10,9 @@ Possible header types:
 - `Breaking Changes` for any backwards-incompatible changes.
 
 ## v0.6.0 (2023-05-18)
-- `Breaking Changes` compatibility update for [capacitor 5.0](https://capacitorjs.com/docs/updating/5-0)
-- `Breaking Changes` `device.uuid` changed to `device.identifier`
+- Breaking Changes - compatibility update for [capacitor 5.0](https://capacitorjs.com/docs/updating/5-0)
+- Breaking Changes - `device.uuid` changed to `device.identifier`
+- Features - added `ios_version` and `android_sdk_version` to `DeviceInfo` (these were new in Capacitor 5.0.0)
 
 ## v0.5.1 (2023-03-23)
 - Bug Fixes - URLOpenListenerEvent now deserializes correctly on iOS

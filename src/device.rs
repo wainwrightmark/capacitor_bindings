@@ -67,6 +67,12 @@ pub struct DeviceInfo {
     pub real_disk_total: Option<u64>,
     /// The web view browser version
     pub web_view_version: Option<String>,
+    #[serde(rename = "iOSVersion")]
+    /// The iOS version number. Only available on iOS. Multi-part version numbers are crushed down into an integer padded to two-digits, ex: "16.3.1" -> 160301
+    pub ios_version: Option<String>,
+    #[serde(rename = "androidSDKVersion	")]
+    /// The Android SDK version number. Only available on Android.
+    pub android_sdk_version: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
