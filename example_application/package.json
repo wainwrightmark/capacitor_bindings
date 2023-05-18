@@ -1,24 +1,24 @@
 {
   "dependencies": {
-    "@capacitor/action-sheet": "^4.1.0",
-    "@capacitor/android": "^4.7.0",
-    "@capacitor/app": "^4.1.1",
-    "@capacitor/camera": "^4.1.4",
-    "@capacitor/core": "^4.7.0",
-    "@capacitor/device": "^4.1.0",
-    "@capacitor/dialog": "^4.1.0",
-    "@capacitor/haptics": "^4.1.0",
-    "@capacitor/ios": "^4.7.0",
-    "@capacitor/local-notifications": "^4.1.5",
-    "@capacitor/network": "^4.1.0",
-    "@capacitor/preferences": "^4.0.2",
-    "@capacitor/screen-reader": "^4.1.2",
-    "@capacitor/share": "^4.1.1",
-    "@capacitor/status-bar": "^4.1.1",
-    "@capacitor/toast": "^4.1.0",
+    "@capacitor/action-sheet": "^5.0.0",
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/app": "^5.0.0",
+    "@capacitor/camera": "^5.0.0",
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/device": "^5.0.0",
+    "@capacitor/dialog": "^5.0.0",
+    "@capacitor/haptics": "^5.0.0",
+    "@capacitor/ios": "^5.0.0",
+    "@capacitor/local-notifications": "^5.0.0",
+    "@capacitor/network": "^5.0.0",
+    "@capacitor/preferences": "^5.0.0",
+    "@capacitor/screen-reader": "^5.0.0",
+    "@capacitor/share": "^5.0.0",
+    "@capacitor/status-bar": "^5.0.0",
+    "@capacitor/toast": "^5.0.0",
     "pika": "^0.0.1-security"
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.7.0"
+    "@capacitor/cli": "^5.0.0"
   }
 }

@@ -76,11 +76,22 @@ npm i -D @capacitor/cli
 ```
 
 Initialize your app with the questionnaire.
+You will have to answer some questions and decide the name of your app.
 Make sure the "web asset directory" is the same as your trunk output folder (usually `dist`)
 
 ```
 npx cap init
 ```
+
+You should probably add the following to your .gitignore as some npm files do not need to be committed
+
+```
+## Node
+node_modules
+package-lock.json
+package.json
+```
+
 
 Add android and ios as needed
 
@@ -101,7 +112,7 @@ npm install @capacitor/toast
 Add this crate to your project
 
 ```
-cargo add capacitor_bindings
+cargo add capacitor_bindings --features web,android,ios
 ```
 
 Add calls to the plugins where you need them. If you have a yew project, you could add the following to one of your `function_component`
@@ -130,6 +141,7 @@ You must likely want to be able run a web version of your app as well as the mob
 The setup for this is slightly involved
 
 First you need to generate a `capacitor.js` file. The easiest way to do this is to set `bundledWebRuntime` in your `capacitor.config.json` file to true. Then you can run `npx cap sync` and it will create `capacitor.js` in your `dist` folder. Move that into your root folder and set `bundledWebRuntime` back to false.
+Alternatively, just copy the file from the example application in this repository.
 
 You then need to convert all the plugins you are using from npm modules into ordinary js files. The is a tool called pika that will do this for you.
 

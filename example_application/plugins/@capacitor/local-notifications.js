@@ -16,7 +16,7 @@ var Weekday;
 })(Weekday || (Weekday = {}));
 
 const LocalNotifications = registerPlugin('LocalNotifications', {
-    web: () => import('../common/web-2544e789.js').then(m => new m.LocalNotificationsWeb()),
+    web: () => import('../common/web-1ae72a83.js').then(m => new m.LocalNotificationsWeb()),
 });
 
 export { LocalNotifications, Weekday };

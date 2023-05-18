@@ -3,7 +3,7 @@ import { WebPlugin } from '../@capacitor/core.js';
 class DeviceWeb extends WebPlugin {
     async getId() {
         return {
-            uuid: this.getUid(),
+            identifier: this.getUid(),
         };
     }
     async getInfo() {

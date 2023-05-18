@@ -28,7 +28,7 @@ var CameraResultType;
 })(CameraResultType || (CameraResultType = {}));
 
 const Camera = registerPlugin('Camera', {
-    web: () => import('../common/web-57b01c7b.js').then(m => new m.CameraWeb()),
+    web: () => import('../common/web-29b79a6c.js').then(m => new m.CameraWeb()),
 });
 
 export { Camera, CameraDirection, CameraResultType, CameraSource };

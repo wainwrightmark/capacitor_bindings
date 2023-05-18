@@ -36,6 +36,8 @@ var Animation;
      * Slide animation during show/hide.
      * It doesn't work on iOS 15+.
      *
+     * @deprecated Use Animation.Fade or Animation.None instead.
+     *
      * @since 1.0.0
      */
     Animation["Slide"] = "SLIDE";

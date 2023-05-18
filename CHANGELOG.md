@@ -7,7 +7,11 @@ Possible header types:
 - `Features` for any new features added, or for backwards-compatible
   changes to existing functionality.
 - `Bug Fixes` for any bug fixes.
-- `Breaking Changes` for any backwards-incompatible changes.#
+- `Breaking Changes` for any backwards-incompatible changes.
+
+## v0.6.0 (2023-05-18)
+- `Breaking Changes` compatibility update for [capacitor 5.0](https://capacitorjs.com/docs/updating/5-0)
+- `Breaking Changes` `device.uuid` changed to `device.identifier`
 
 ## v0.5.0 (2023-03-14)
 - Features - Added support for Preferences Plugin

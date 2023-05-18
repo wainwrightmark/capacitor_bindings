@@ -54,7 +54,7 @@ const HapticsNotificationType = NotificationType;
 const HapticsImpactStyle = ImpactStyle;
 
 const Haptics = registerPlugin('Haptics', {
-    web: () => import('../common/web-e548ef3f.js').then(m => new m.HapticsWeb()),
+    web: () => import('../common/web-f50f90ec.js').then(m => new m.HapticsWeb()),
 });
 
 export { Haptics, HapticsImpactStyle, HapticsNotificationType, ImpactStyle, NotificationType };
