@@ -2,6 +2,21 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen()]
 extern "C" {
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins","Dialog"], js_name="alert" )]
+    pub(crate) async fn alert(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch,final, js_namespace = ["Capacitor", "Plugins","Dialog"],js_name="prompt" )]
+    pub(crate) async fn prompt(options: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins","Dialog"],js_name="confirm" )]
+    pub(crate) async fn confirm(options: JsValue) -> Result<JsValue, JsValue>;
+
+}
+
+
+#[wasm_bindgen()]
+extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ScreenReader"], js_name = "isEnabled")]
     pub(crate) async fn screen_reader_is_enabled() -> Result<JsValue, JsValue>;
 
