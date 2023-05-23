@@ -5,7 +5,7 @@ use std::{future::Future, sync::Arc};
 use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
 use wasm_bindgen_futures::JsFuture;
 
-/// An error used as a field on some functions
+/// An error that is returned by some capacitor functions.
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -13,6 +13,8 @@ pub struct InnerError {
     pub message: String,
 }
 
+/// An error that can happen when calling a capacitor function
+#[non_exhaustive]
 #[derive(Debug)]
 pub enum Error {
     JsException {
@@ -91,19 +93,22 @@ impl From<JsValue> for Error {
     }
 }
 
+/// An exception thrown by a javascript function
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct JsException {
     pub message: String,
 }
 
-pub(crate) async fn run_unit_unit<Fut: Future<Output = Result<(), JsValue>>, F: Fn() -> Fut>(
+/// Runs a function that takes a unit value and returns a unit result.
+pub async fn run_unit_unit<Fut: Future<Output = Result<(), JsValue>>, F: Fn() -> Fut>(
     f: F,
 ) -> Result<(), Error> {
     Ok(f().await?)
 }
 
-pub(crate) async fn run_unit_value<
+/// Runs a function that takes a unit value and returns a typed result.
+pub async fn run_unit_value<
     'de,
     O: serde::de::DeserializeOwned,
     Fut: Future<Output = Result<JsValue, JsValue>>,
@@ -117,7 +122,8 @@ pub(crate) async fn run_unit_value<
     Ok(o)
 }
 
-pub(crate) async fn run_value_unit<
+/// Runs a function that takes a typed value and returns a unit result.
+pub async fn run_value_unit<
     I: serde::Serialize,
     Fut: Future<Output = Result<(), JsValue>>,
     F: Fn(JsValue) -> Fut,
@@ -131,7 +137,8 @@ pub(crate) async fn run_value_unit<
     Ok(f(js_value).await?)
 }
 
-pub(crate) async fn run_value_value<
+/// Runs a function that takes a typed value and returns a typed result.
+pub async fn run_value_value<
     'de,
     O: serde::de::DeserializeOwned,
     I: serde::Serialize,
@@ -150,7 +157,7 @@ pub(crate) async fn run_value_value<
     Ok(o)
 }
 
-pub(crate) async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
+pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
     func: F,
     name: &'static str,
     add_listener: impl Fn(&str, &Closure<dyn Fn(JsValue)>) -> JsValue,
@@ -173,7 +180,8 @@ pub(crate) async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'sta
     Ok(PluginListenerHandle::new(closure, handle))
 }
 
-/// A handle for a listener
+/// A handle for a listener.
+/// If this is dropped, the callback will not work, so either store it somewhere for removal later using `remove_async` or call `leak`.
 #[derive(Debug, Clone)]
 #[must_use = "Handle must not be dropped without calling `remove_async`"]
 pub struct PluginListenerHandle {
