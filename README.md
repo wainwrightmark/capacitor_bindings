@@ -14,23 +14,39 @@ I have successfully used this to build both iOS and Android apps.
 
 In the Setup section below I explain how you can have a single version of your code and which can be built for both web and mobile platforms.
 
-This crate provides bindings for some of the [official capacitor plugins](https://capacitorjs.com/docs/plugins). I intend to support them all eventually. Please submit an issue or pull request if there is a particular one you need.
+This crate provides bindings for some of the [official capacitor plugins](https://capacitorjs.com/docs/plugins). I intend to support them all eventually. Please submit an issue or pull request if there is a particular one you need as they are fairly easy to add support for.
 
-Currently supported
+Current support is as follows
 
-- App
-- Action Sheet
-- Camera
-- Device
-- Dialog
-- Haptics
-- Local Notifications (incomplete)
-- Network
-- Preferences
-- Share
-- Status Bar
-- Screen Reader
-- Toast
+| Plugin              | Support    |
+| ------------------- | ---------- |
+| App                 | ✅         |
+| App Launcher        | ❌         |
+| Action Sheet        | ✅         |
+| Browser             | ❌         |
+| Camera              | ✅         |
+| Clipboard           | ❌         |
+| Cookies             | ❌         |
+| Device              | ✅         |
+| Dialog              | ✅         |
+| Filesystem          | ❌         |
+| Geolocation         | ❌         |
+| Google Maps         | ❌         |
+| Haptics             | ✅         |
+| Http                | ❌         |
+| Keyboard            | ❌         |
+| Local Notifications | Incomplete |
+| Motion              | ❌         |
+| Network             | ✅         |
+| Preferences         | ✅         |
+| Push Notifications  | ❌         |
+| Screen Orientation  | ❌         |
+| Screen Reader       | ✅         |
+| Share               | ✅         |
+| Splash Screen       | ❌         |
+| Status Bar          | ✅         |
+| Text Zoom           | ❌         |
+| Toast               | ✅         |
 
 Some of the functions are only available on certain platforms. Use the features `web`, `android`, or `ios` to get access to them if you are building for that platform.
 
@@ -181,12 +197,12 @@ If you now do `trunk serve` it should run in the browser and you will have acces
 To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name it `android.html`. From this file you can remove all of the lines you just added to your head section.
 
 Then to run on android, do
+
 ```
 trunk build --release android.html
 npx cap sync
 npx cap run android
 ```
-
 
 ### Features
 
