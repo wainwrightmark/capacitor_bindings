@@ -178,7 +178,15 @@ Replace the `<script src="./plugins/@capacitor/toast.js" type="module"></script>
 
 If you now do `trunk serve` it should run in the browser and you will have access to the web versions of the plugins. This will also not break the android build but you will get error messages about those .js files not being available when you run on android.
 
-To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name in `android.html`. From this file you can remove all of the lines you just added to your head section.
+To prevent this, and also to allow you to pass different features to each version, you should make a copy of your `index.html` and name it `android.html`. From this file you can remove all of the lines you just added to your head section.
+
+Then to run on android, do
+```
+trunk build --release android.html
+npx cap sync
+npx cap run android
+```
+
 
 ### Features
 

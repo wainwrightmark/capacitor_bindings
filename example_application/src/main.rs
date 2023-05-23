@@ -5,6 +5,7 @@ pub mod network;
 pub mod notifications;
 pub mod screen_reader;
 pub mod preferences;
+pub mod toast;
 
 pub mod app_funcs;
 pub mod haptics;

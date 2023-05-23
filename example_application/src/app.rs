@@ -21,6 +21,7 @@ use crate::network::NetworkView;
 use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
 use crate::screen_reader::ScreenReaderView;
+use crate::toast::ToastView;
 
 #[function_component(App)]
 pub fn app() -> Html {
@@ -85,7 +86,7 @@ pub fn app() -> Html {
     html! {
         <main style="height:80%; overflow: scroll;">
             <div style="display: flex; flex-direction: column;">
-            <button onclick={|_| spawn_local(async{Toast::show("Hello Toast").await.expect("Should be able to show toast")})}> {"Show Toast"}</button>
+            <ToastView/>
 
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
 
