@@ -25,7 +25,7 @@ Current support is as follows
 | Action Sheet        | ✅         |
 | Browser             | ❌         |
 | Camera              | ✅         |
-| Clipboard           | ❌         |
+| Clipboard           | ✅         |
 | Cookies             | ❌         |
 | Device              | ✅         |
 | Dialog              | ✅         |

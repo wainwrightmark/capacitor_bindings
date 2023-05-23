@@ -16,6 +16,7 @@ use capacitor_bindings::share::*;
 use capacitor_bindings::toast::*;
 
 use crate::app_funcs::AppView;
+use crate::clipboard::ClipboardView;
 use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
@@ -104,6 +105,7 @@ pub fn app() -> Html {
             </details>
 
             <NetworkView/>
+            <ClipboardView/>
 
             <details>
                 <summary>
