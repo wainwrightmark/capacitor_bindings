@@ -113,6 +113,15 @@ extern "C" {
 
 #[wasm_bindgen()]
 extern "C" {
+    #[wasm_bindgen( final,js_namespace = ["Capacitor", "Plugins", "Motion"], js_name="addListener" )]
+    pub(crate) fn motion_add_listener(
+        eventName: &str,
+        listener_func: &Closure<dyn Fn(JsValue)>,
+    ) -> JsValue;
+}
+
+#[wasm_bindgen()]
+extern "C" {
 
     #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "LocalNotifications"], js_name="areEnabled" )]
     pub(crate) async fn local_notifications_are_enabled() -> Result<JsValue, JsValue>;

@@ -13,3 +13,4 @@ pub mod screen_reader;
 pub mod share;
 pub mod status_bar;
 pub mod toast;
+pub mod motion;

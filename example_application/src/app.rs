@@ -22,6 +22,7 @@ use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
 use crate::screen_reader::ScreenReaderView;
 use crate::toast::ToastView;
+use crate::motion::MotionView;
 
 #[function_component(App)]
 pub fn app() -> Html {
@@ -103,6 +104,7 @@ pub fn app() -> Html {
                 </div>
             </details>
 
+            <MotionView/>
             <NetworkView/>
 
             <details>
