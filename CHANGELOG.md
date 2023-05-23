@@ -9,6 +9,10 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.7.0 (2023-05-18)
+- Breaking Changes - added additional properties to `toast::ShowOptions`
+- Features - added support for the Clipboard plugin
+
 ## v0.6.0 (2023-05-18)
 - Breaking Changes - compatibility update for [capacitor 5.0](https://capacitorjs.com/docs/updating/5-0)
 - Breaking Changes - `device.uuid` changed to `device.identifier`
