@@ -9,7 +9,7 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
-## v0.7.0 (2023-05-18)
+## v0.7.0 (2023-05-23)
 - Breaking Changes - added additional properties to `toast::ShowOptions`
 - Features - added support for the Clipboard plugin
 
