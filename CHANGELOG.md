@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.8.0 (2023-06-27)
+- Features - added support for the SplashScreen plugin
+
 ## v0.7.0 (2023-05-23)
 - Breaking Changes - added additional properties to `toast::ShowOptions`
 - Features - added support for the Clipboard plugin

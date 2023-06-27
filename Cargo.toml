@@ -1,6 +1,6 @@
 [package]
 name = "capacitor_bindings"
-version = "0.7.0"
+version = "0.8.0"
 edition = "2021"
 authors = ["Mark Wainwright <wainwrightml@gmail.com>"]
 description = "Capactior bindings to help you build android and ios apps with rust."

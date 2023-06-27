@@ -14,3 +14,4 @@ pub mod share;
 pub mod status_bar;
 pub mod toast;
 pub mod clipboard;
+pub mod splash_screen;

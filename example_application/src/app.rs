@@ -22,6 +22,7 @@ use crate::network::NetworkView;
 use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
 use crate::screen_reader::ScreenReaderView;
+use crate::splash::SplashView;
 use crate::toast::ToastView;
 
 #[function_component(App)]
@@ -88,7 +89,7 @@ pub fn app() -> Html {
         <main style="height:80%; overflow: scroll;">
             <div style="display: flex; flex-direction: column;">
             <ToastView/>
-
+            <SplashView />
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
 
             <NotificationView/>

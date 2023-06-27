@@ -15,6 +15,7 @@
     "@capacitor/preferences": "^5.0.0",
     "@capacitor/screen-reader": "^5.0.0",
     "@capacitor/share": "^5.0.0",
+    "@capacitor/splash-screen": "^5.0.4",
     "@capacitor/status-bar": "^5.0.0",
     "@capacitor/toast": "^5.0.0",
     "pika": "^0.0.1-security"

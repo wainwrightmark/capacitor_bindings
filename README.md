@@ -44,7 +44,7 @@ Current support is as follows
 | Screen Orientation  | ❌         |
 | Screen Reader       | ✅         |
 | Share               | ✅         |
-| Splash Screen       | ❌         |
+| Splash Screen       | ✅         |
 | Status Bar          | ✅         |
 | Text Zoom           | ❌         |
 | Toast               | ✅         |
@@ -69,7 +69,7 @@ async fn greet() {
 
 ### Prerequisites
 
-You must do the [Capacitor environment setup](https://capacitorjs.com/docs/getting-started/environment-setup) installiong node, xcode and android studio as needed.
+You must do the [Capacitor environment setup](https://capacitorjs.com/docs/getting-started/environment-setup) installing node, xcode and android studio as needed.
 
 You must also have trunk installed
 
@@ -148,7 +148,7 @@ npx cap sync
 npx cap run android
 ```
 
-You can aslo do `npx cap open android` to open the project in android studio.
+You can also do `npx cap open android` to open the project in android studio.
 
 ### Enabling Capacitor on the web
 
@@ -218,7 +218,7 @@ android = ["capacitor_bindings/android"]
 ios = ["capacitor_bindings/ios"]
 ```
 
-To only use a feature when it is availble you need to have a section of your rust code that is only build when that feature is enabled.
+To only use a feature when it is available you need to have a section of your rust code that is only build when that feature is enabled.
 
 ```rust
 #[cfg(feature="android")]

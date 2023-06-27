@@ -1,5 +1,14 @@
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins","SplashScreen"], js_name="show" )]
+    pub(crate) async fn splash_show(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins","SplashScreen"], js_name="hide" )]
+    pub(crate) async fn splash_hide(options: JsValue) -> Result<(), JsValue>;
+}
+
 #[wasm_bindgen()]
 extern "C" {
 
