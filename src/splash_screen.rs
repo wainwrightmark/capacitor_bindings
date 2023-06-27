@@ -1,5 +1,6 @@
 use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
+use typed_builder::TypedBuilder;
 
 use crate::helpers::*;
 
@@ -17,7 +18,7 @@ impl SplashScreen {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(TypedBuilder, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct HideOptions {
     /// How long (in ms) to fade out. On Android, if using the Android 12 Splash Screen API, it's not being used. Use launchFadeOutDuration configuration option instead.
@@ -30,13 +31,15 @@ impl From<f64> for HideOptions {
     }
 }
 
-impl Default for HideOptions{
+impl Default for HideOptions {
     fn default() -> Self {
-        Self { fade_out_duration: 200.0 }
+        Self {
+            fade_out_duration: 200.0,
+        }
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(TypedBuilder, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ShowOptions {
     /// Whether to auto hide the splash after showDuration
