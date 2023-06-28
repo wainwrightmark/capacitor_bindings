@@ -13,8 +13,8 @@ impl Toast {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShowOptions {
     #[builder(setter(into))]
     pub text: String,

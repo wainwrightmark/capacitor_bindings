@@ -22,24 +22,24 @@ impl Share {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct CanShareResult {
     /// Whether sharing is supported or not.
     pub value: bool,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShareResult {
     /// 	Identifier of the app that received the share action. Can be an empty string in some cases. On web it will be undefined.
     pub activity_type: Option<String>,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShareOptions {
     #[builder(setter(into, strip_option), default)]
     /// Set a title for any message. This will be the subject if sharing to email

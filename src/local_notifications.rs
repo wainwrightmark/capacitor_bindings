@@ -87,8 +87,8 @@ impl LocalNotifications {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ScheduleOptions {
     pub notifications: Vec<LocalNotificationSchema>,
 }
@@ -101,14 +101,14 @@ impl From<LocalNotificationSchema> for ScheduleOptions {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct RegisterActionTypesOptions {
     pub types: Vec<ActionType>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct Action {
     /// The action identifier. Referenced in the 'actionPerformed' event as actionId.
     pub id: String,
@@ -118,11 +118,11 @@ pub struct Action {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct EnabledResult {
     /// Whether or not the device has local notifications enabled.
-    value: bool,
+    pub value: bool,
 }
 
 #[skip_serializing_none]
@@ -130,12 +130,12 @@ pub struct EnabledResult {
 #[serde(rename_all = "camelCase")]
 pub struct PermissionStatus {
     /// Whether or not the device has local notifications enabled.
-    display: PermissionState,
+    pub display: PermissionState,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ActionPerformed {
     /// The identifier of the performed action. This might be "tap" if the user tapped the notification.
     pub action_id: String,
@@ -145,9 +145,15 @@ pub struct ActionPerformed {
     pub notification: LocalNotificationSchema,
 }
 
+impl ActionPerformed {
+    pub fn is_tap(&self) -> bool {
+        self.action_id == "tap"
+    }
+}
+
 /// A collection of actions.
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ActionType {
     /// The ID of the action type. Referenced in notifications by the actionTypeId key.
     pub id: String,
@@ -156,29 +162,58 @@ pub struct ActionType {
     pub actions: Vec<Action>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ScheduleResult {
     /// The list of scheduled notifications.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct CancelOptions {
     /// The list of notifications to cancel.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct LocalNotificationDescriptor {
     pub id: i32,
 }
 
+impl Default for LocalNotificationSchema {
+    fn default() -> Self {
+        Self {
+            title: Default::default(),
+            body: Default::default(),
+            schedule: Schedule::On {
+                on: ScheduleOn::default(),
+                allow_while_idle: false,
+            },
+            large_body: Default::default(),
+            summary_text: Default::default(),
+            id: Default::default(),
+            ongoing: Default::default(),
+            auto_cancel: Default::default(),
+            inbox_list: Default::default(),
+            small_icon: Default::default(),
+            large_icon: Default::default(),
+            icon_color: Default::default(),
+            action_type_id: Default::default(),
+            group: Default::default(),
+            group_summary: Default::default(),
+            sound: Default::default(),
+            thread_identifier: Default::default(),
+            summary_argument: Default::default(),
+            channel_id: Default::default(),
+        }
+    }
+}
+
 #[skip_serializing_none]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", default)]
 pub struct LocalNotificationSchema {
     #[builder(setter(into))]
     /// The title of the notification.
@@ -195,13 +230,11 @@ pub struct LocalNotificationSchema {
     #[builder(setter(into, strip_option), default)]
     /// Used to set the summary text detail in inbox and big text notification styles. Only available for Android.
     pub summary_text: Option<String>,
-
     /// The notification identifier. On Android it's a 32-bit int. So the value should be between -2147483648 and 2147483647 inclusive.
     pub id: i32,
     #[builder(default)]
     /// If true, the notification can't be swiped away. Calls setOngoing() on NotificationCompat.Builder with the provided value. Only available for Android.
     pub ongoing: bool,
-
     /// If true, the notification is canceled when the user clicks on it. Calls setAutoCancel() on NotificationCompat.Builder with the provided value. Only available for Android.
     pub auto_cancel: bool,
     #[builder(setter(into, strip_option), default)]
@@ -303,8 +336,8 @@ pub enum ScheduleEvery {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ScheduleOn {
     #[builder(setter(strip_option), default)]
     pub year: Option<u32>,
@@ -346,16 +379,16 @@ pub enum Weekday {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct DeliveredNotifications {
     /// List of notifications that are visible on the notifications screen.
     pub notifications: Vec<DeliveredNotificationSchema>,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct DeliveredNotificationSchema {
     /// The notification identifier.
     pub id: i32,

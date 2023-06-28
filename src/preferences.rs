@@ -37,8 +37,8 @@ impl Preferences {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ConfigureOptions {
     /// Set the preferences group. Preferences groups are used to organize key/value pairs.
     pub group: String,
@@ -53,16 +53,16 @@ impl From<&str> for ConfigureOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct GetResult {
     /// The value from preferences associated with the given key.
     pub value: Option<String>,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct GetOptions {
     /// The key whose value to retrieve from preferences.
     pub key: String,
@@ -77,8 +77,8 @@ impl From<&str> for GetOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct SetOptions {
     /// The key to associate with the value being set in preferences.
     pub key: String,
@@ -87,8 +87,8 @@ pub struct SetOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct RemoveOptions {
     /// The key whose value to remove from preferences.
     pub key: String,
@@ -103,8 +103,8 @@ impl From<&str> for RemoveOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct KeysResult {
     /// The known keys in preferences.
     pub keys: Vec<String>,

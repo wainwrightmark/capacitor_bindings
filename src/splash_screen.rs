@@ -19,7 +19,7 @@ impl SplashScreen {
 }
 
 #[derive(Debug, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", default)]
 pub struct HideOptions {
     /// How long (in ms) to fade out. On Android, if using the Android 12 Splash Screen API, it's not being used. Use launchFadeOutDuration configuration option instead.
     pub fade_out_duration: f64,
@@ -40,7 +40,7 @@ impl Default for HideOptions {
 }
 
 #[derive(Debug, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShowOptions {
     /// Whether to auto hide the splash after showDuration
     pub auto_hide: bool,

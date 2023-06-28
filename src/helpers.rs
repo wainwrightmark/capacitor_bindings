@@ -7,8 +7,8 @@ use wasm_bindgen_futures::JsFuture;
 
 /// An error that is returned by some capacitor functions.
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct InnerError {
     pub message: String,
 }
@@ -94,8 +94,8 @@ impl From<JsValue> for Error {
 }
 
 /// An exception thrown by a javascript function
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct JsException {
     pub message: String,
 }
@@ -157,7 +157,7 @@ pub async fn run_value_value<
     Ok(o)
 }
 
-pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
+pub async fn listen_async<T: serde::de::DeserializeOwned + Default, F: Fn(T) + 'static>(
     func: F,
     name: &'static str,
     add_listener: impl Fn(&str, &Closure<dyn Fn(JsValue)>) -> JsValue,
@@ -165,7 +165,7 @@ pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
     let func2 = move |js_value: JsValue| {
         let schema: T = serde_wasm_bindgen::from_value(js_value)
             .map_err(|e| Error::deserializing::<T>(e))
-            .unwrap();
+            .unwrap_or_default();
         func(schema)
     };
     let closure = Arc::new(Closure::new(func2));

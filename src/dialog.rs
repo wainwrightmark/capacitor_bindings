@@ -27,8 +27,8 @@ impl Dialog {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct AlertOptions {
     #[builder(setter(into))]
     /// Title of the dialog.
@@ -42,8 +42,8 @@ pub struct AlertOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct PromptResult {
     /// Text entered on the prompt.
     pub value: String,
@@ -52,8 +52,8 @@ pub struct PromptResult {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct PromptOptions {
     #[builder(setter(into))]
     /// Title of the dialog.
@@ -76,16 +76,16 @@ pub struct PromptOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ConfirmResult {
     /// true if the positive button was clicked, false otherwise.
     pub value: bool,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ConfirmOptions {
     #[builder(setter(into))]
     /// Title of the dialog.

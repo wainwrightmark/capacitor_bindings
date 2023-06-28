@@ -110,8 +110,8 @@ impl App {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct AppInfo {
     /// The name of the app
     pub name: String,
@@ -125,16 +125,16 @@ pub struct AppInfo {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct AppState {
     /// Whether the app is active or not.
     pub is_active: bool,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct AppLaunchUrl {
     /// The url used to open the app.
     pub url: String,
@@ -142,8 +142,8 @@ pub struct AppLaunchUrl {
 
 #[serde_as]
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct URLOpenListenerEvent {
     /// The URL the app was opened with.
     pub url: String,
@@ -157,8 +157,8 @@ pub struct URLOpenListenerEvent {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct RestoredListenerEvent {
     /// The pluginId this result corresponds to. For example, Camera.
     pub plugin_id: String,
@@ -177,8 +177,8 @@ pub struct RestoredListenerEvent {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct BackButtonListenerEvent {
     /// Indicates whether the browser can go back in history. False when the history stack is on the first entry.
     pub can_go_back: bool,

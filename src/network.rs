@@ -22,12 +22,21 @@ impl Network {
 /// Represents the state and type of the network connection.
 #[skip_serializing_none]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", default)]
 pub struct ConnectionStatus {
     /// Whether there is an active connection or not.
     pub connected: bool,
     /// The type of network connection currently in use. If there is no active network connection, connectionType will be 'none'.
     pub connection_type: ConnectionType,
+}
+
+impl Default for ConnectionStatus {
+    fn default() -> Self {
+        Self {
+            connected: false,
+            connection_type: ConnectionType::Unknown,
+        }
+    }
 }
 
 /// The type of network connection that a device might have.

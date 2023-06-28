@@ -34,8 +34,8 @@ impl ScreenReader {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct SpeakOptions {
     /// The text to speak.
     pub value: String,
@@ -44,8 +44,8 @@ pub struct SpeakOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ScreenReaderState {
     /// Whether a Screen Reader is currently active.
     pub value: bool,

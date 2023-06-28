@@ -4,8 +4,8 @@ use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShowActionsOptions {
     /// The title of the Action Sheet.
     pub title: String,
@@ -16,8 +16,8 @@ pub struct ShowActionsOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ActionSheetButton {
     /// The title of the option
     pub title: String,
@@ -41,8 +41,8 @@ pub enum ActionSheetButtonStyle {
 }
 
 #[skip_serializing_none]
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Copy, Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ShowActionsResult {
     /// The index of the clicked option (Zero-based)
     pub index: u32,

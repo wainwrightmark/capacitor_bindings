@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.9.0 (2023-06-27)
+- Bug Fixes - added defaults to many of the result types. This prevents some potential panics when fields are missing.
+
 ## v0.8.0 (2023-06-27)
 - Features - added support for the SplashScreen plugin
 

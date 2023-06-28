@@ -37,7 +37,7 @@ checksum = "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1"
 
 [[package]]
 name = "capacitor_bindings"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "js-sys",
  "serde",

@@ -46,8 +46,8 @@ impl Camera {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct Photo {
     /// The base64 encoded string representation of the image, if using CameraResultType.Base64.
     pub base64_string: Option<String>,
@@ -105,16 +105,16 @@ pub struct ImageOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct GalleryPhotos {
     /// Array of all the picked photos.
     pub photos: Vec<GalleryPhoto>,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct GalleryPhoto {
     /// Full, platform-specific file URL that can be read later using the Filesystem API.
     pub path: String,
@@ -127,16 +127,16 @@ pub struct GalleryPhoto {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct ExifData {
     #[serde(flatten)]
     pub data: BTreeMap<String, String>,
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct GalleryImageOptions {
     /// The quality of image to return as JPEG, from 0-100
     pub quality: u8,
@@ -161,8 +161,8 @@ pub struct PermissionStatus {
 }
 
 #[skip_serializing_none]
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
 pub struct CameraPluginPermissions {
     pub permissions: Vec<CameraPermissionType>,
 }
