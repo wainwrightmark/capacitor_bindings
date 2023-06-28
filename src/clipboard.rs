@@ -23,7 +23,7 @@ impl Clipboard {
 
 /// Represents the data to be written to the clipboard.
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct WriteOptions {
     #[builder(default, setter(strip_option, into))]
@@ -45,7 +45,7 @@ pub struct WriteOptions {
 
 /// Represents the data read from the clipboard.
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ReadResult {
     /// Data read from the clipboard.

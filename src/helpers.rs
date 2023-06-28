@@ -7,7 +7,7 @@ use wasm_bindgen_futures::JsFuture;
 
 /// An error that is returned by some capacitor functions.
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct InnerError {
     pub message: String,
@@ -94,7 +94,7 @@ impl From<JsValue> for Error {
 }
 
 /// An exception thrown by a javascript function
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct JsException {
     pub message: String,
@@ -182,7 +182,7 @@ pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
 
 /// A handle for a listener.
 /// If this is dropped, the callback will not work, so either store it somewhere for removal later using `remove_async` or call `leak`.
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug)]
 #[must_use = "Handle must not be dropped without calling `remove_async`"]
 pub struct PluginListenerHandle {
     _closure: Arc<Closure<dyn Fn(JsValue)>>,

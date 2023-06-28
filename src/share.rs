@@ -22,7 +22,7 @@ impl Share {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CanShareResult {
     /// Whether sharing is supported or not.
@@ -30,7 +30,7 @@ pub struct CanShareResult {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ShareResult {
     /// 	Identifier of the app that received the share action. Can be an empty string in some cases. On web it will be undefined.
@@ -38,7 +38,7 @@ pub struct ShareResult {
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct ShareOptions {
     #[builder(setter(into, strip_option), default)]

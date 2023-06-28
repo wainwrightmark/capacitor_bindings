@@ -34,7 +34,6 @@ extern "C" {
 
 }
 
-
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "ScreenReader"], js_name = "isEnabled")]

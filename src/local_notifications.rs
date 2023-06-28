@@ -87,7 +87,7 @@ impl LocalNotifications {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ScheduleOptions {
     pub notifications: Vec<LocalNotificationSchema>,
@@ -101,13 +101,13 @@ impl From<LocalNotificationSchema> for ScheduleOptions {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RegisterActionTypesOptions {
     pub types: Vec<ActionType>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Action {
     /// The action identifier. Referenced in the 'actionPerformed' event as actionId.
@@ -118,7 +118,7 @@ pub struct Action {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EnabledResult {
     /// Whether or not the device has local notifications enabled.
@@ -126,7 +126,7 @@ pub struct EnabledResult {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PermissionStatus {
     /// Whether or not the device has local notifications enabled.
@@ -134,7 +134,7 @@ pub struct PermissionStatus {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ActionPerformed {
     /// The identifier of the performed action. This might be "tap" if the user tapped the notification.
@@ -146,7 +146,7 @@ pub struct ActionPerformed {
 }
 
 /// A collection of actions.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ActionType {
     /// The ID of the action type. Referenced in notifications by the actionTypeId key.
@@ -156,28 +156,28 @@ pub struct ActionType {
     pub actions: Vec<Action>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ScheduleResult {
     /// The list of scheduled notifications.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CancelOptions {
     /// The list of notifications to cancel.
     pub notifications: Vec<LocalNotificationDescriptor>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalNotificationDescriptor {
     pub id: i32,
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct LocalNotificationSchema {
     #[builder(setter(into))]
@@ -239,7 +239,7 @@ pub struct LocalNotificationSchema {
     pub channel_id: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum Schedule {
@@ -289,7 +289,7 @@ impl From<(ScheduleEvery, usize)> for Schedule {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum ScheduleEvery {
     Year,
@@ -303,7 +303,7 @@ pub enum ScheduleEvery {
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct ScheduleOn {
     #[builder(setter(strip_option), default)]
@@ -322,7 +322,7 @@ pub struct ScheduleOn {
     pub second: Option<u32>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 #[repr(u8)]
 pub enum PermissionState {
@@ -332,7 +332,7 @@ pub enum PermissionState {
     Denied,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[repr(u8)]
 pub enum Weekday {
@@ -346,7 +346,7 @@ pub enum Weekday {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DeliveredNotifications {
     /// List of notifications that are visible on the notifications screen.
@@ -354,7 +354,7 @@ pub struct DeliveredNotifications {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DeliveredNotificationSchema {
     /// The notification identifier.

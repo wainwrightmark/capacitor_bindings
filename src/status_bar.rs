@@ -47,7 +47,7 @@ impl StatusBar {
     }
 }
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BackgroundColorOptions {
     /// A hex color (e.g. #FF0000) to which the status bar color is set. This option is only supported on Android.
     pub color: String,
@@ -61,7 +61,7 @@ impl From<&str> for BackgroundColorOptions {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Copy, Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct StyleOptions {
     #[serde(rename = "style")]
     /// Style of the text of the status bar.
@@ -74,7 +74,7 @@ impl From<Style> for StyleOptions {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Copy, Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum Style {
     #[default]
@@ -86,7 +86,7 @@ pub enum Style {
     Light,
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+#[derive(Copy, Clone, Default, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SetOverlaysWebViewOptions {
     /// Whether to overlay the status bar or not.
     pub overlay: bool,

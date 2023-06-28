@@ -21,7 +21,7 @@ impl Network {
 
 /// Represents the state and type of the network connection.
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConnectionStatus {
     /// Whether there is an active connection or not.
@@ -32,7 +32,7 @@ pub struct ConnectionStatus {
 
 /// The type of network connection that a device might have.
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[repr(u8)]
 pub enum ConnectionType {

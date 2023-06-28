@@ -13,7 +13,7 @@ impl Toast {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Clone, Debug, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct ShowOptions {
     #[builder(setter(into))]
@@ -45,7 +45,7 @@ impl From<String> for ShowOptions {
 }
 
 /// Duration of the Toast
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd, Default)]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[repr(u8)]
 pub enum ToastDuration {
@@ -57,7 +57,7 @@ pub enum ToastDuration {
 }
 
 /// Position of the Toast. On Android 12 and newer all toasts are shown at the bottom. On web all toasts are also shown at the bottom but this seems to be an oversight on Ionic's part.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Ord, PartialOrd, Default)]
+#[derive(Clone, Default, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[repr(u8)]
 pub enum ToastPosition {

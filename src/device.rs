@@ -32,13 +32,13 @@ impl Device {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DeviceId {
     /// The identifier of the device as available to the app. This identifier may change on modern mobile platforms that only allow per-app install ids. On iOS, the identifier is a UUID that uniquely identifies a device to the app’s vendor (read more). on Android 8+, the identifier is a 64-bit number (expressed as a hexadecimal string), unique to each combination of app-signing key, user, and device (read more). On web, a random identifier is generated and stored on localStorage for subsequent calls. If localStorage is not available a new random identifier will be generated on every call.
     pub identifier: String,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DeviceInfo {
     /// The name of the device. For example, "John's iPhone". This is only supported on iOS and Android 7.1 or above.
@@ -75,7 +75,7 @@ pub struct DeviceInfo {
     pub android_sdk_version: Option<String>,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BatteryInfo {
     /// A percentage (0 to 1) indicating how much the battery is charged.
@@ -84,21 +84,21 @@ pub struct BatteryInfo {
     pub is_charging: bool,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLanguageCodeResult {
     /// Two character language code.
     pub value: String,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LanguageTag {
     /// Returns a well-formed IETF BCP 47 language tag.
     pub value: String,
 }
 
-#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, PartialOrd, Ord, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Platform {
     IOs,
@@ -106,7 +106,7 @@ pub enum Platform {
     Web,
 }
 
-#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, PartialOrd, Ord, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum OperatingSystem {
     IOs,

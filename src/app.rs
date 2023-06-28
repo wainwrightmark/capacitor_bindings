@@ -110,7 +110,7 @@ impl App {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AppInfo {
     /// The name of the app
@@ -125,7 +125,7 @@ pub struct AppInfo {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AppState {
     /// Whether the app is active or not.
@@ -133,7 +133,7 @@ pub struct AppState {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AppLaunchUrl {
     /// The url used to open the app.
@@ -142,7 +142,7 @@ pub struct AppLaunchUrl {
 
 #[serde_as]
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct URLOpenListenerEvent {
     /// The URL the app was opened with.
@@ -157,7 +157,7 @@ pub struct URLOpenListenerEvent {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RestoredListenerEvent {
     /// The pluginId this result corresponds to. For example, Camera.
@@ -177,7 +177,7 @@ pub struct RestoredListenerEvent {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BackButtonListenerEvent {
     /// Indicates whether the browser can go back in history. False when the history stack is on the first entry.

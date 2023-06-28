@@ -2,7 +2,10 @@ use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use typed_builder::TypedBuilder;
 
-use crate::{helpers::*, extern_functions::{alert, prompt, confirm}};
+use crate::{
+    extern_functions::{alert, confirm, prompt},
+    helpers::*,
+};
 
 pub struct Dialog;
 
@@ -24,7 +27,7 @@ impl Dialog {
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct AlertOptions {
     #[builder(setter(into))]
@@ -39,7 +42,7 @@ pub struct AlertOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PromptResult {
     /// Text entered on the prompt.
@@ -49,7 +52,7 @@ pub struct PromptResult {
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct PromptOptions {
     #[builder(setter(into))]
@@ -73,7 +76,7 @@ pub struct PromptOptions {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfirmResult {
     /// true if the positive button was clicked, false otherwise.
@@ -81,7 +84,7 @@ pub struct ConfirmResult {
 }
 
 #[skip_serializing_none]
-#[derive(TypedBuilder, Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct ConfirmOptions {
     #[builder(setter(into))]

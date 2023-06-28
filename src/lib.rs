@@ -1,6 +1,7 @@
 pub mod action_sheet;
 pub mod app;
 pub mod camera;
+pub mod clipboard;
 pub mod device;
 pub mod dialog;
 pub mod extern_functions;
@@ -11,7 +12,6 @@ pub mod network;
 pub mod preferences;
 pub mod screen_reader;
 pub mod share;
+pub mod splash_screen;
 pub mod status_bar;
 pub mod toast;
-pub mod clipboard;
-pub mod splash_screen;
