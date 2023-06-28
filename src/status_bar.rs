@@ -1,5 +1,7 @@
 #[cfg(any(feature = "ios", feature = "android"))]
 use crate::helpers::*;
+#[cfg(any(feature = "ios", feature = "android"))]
+use crate::error::Error;
 use serde::{Deserialize, Serialize};
 
 #[cfg(any(feature = "ios", feature = "android"))]

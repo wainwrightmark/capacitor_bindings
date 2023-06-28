@@ -5,6 +5,7 @@ use typed_builder::TypedBuilder;
 use crate::extern_functions::*;
 
 use crate::helpers::*;
+use crate::{error::Error, plugin_listener_handle::PluginListenerHandle};
 
 pub struct LocalNotifications;
 

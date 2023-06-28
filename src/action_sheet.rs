@@ -1,5 +1,6 @@
 use crate::extern_functions::*;
 use crate::helpers::*;
+use crate::{error::Error};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 

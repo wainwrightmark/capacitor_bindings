@@ -1,5 +1,5 @@
 use crate::app::*;
-use capacitor_bindings::splash_screen   ::*;
+use capacitor_bindings::splash_screen::*;
 use yew::prelude::*;
 
 #[function_component(SplashView)]

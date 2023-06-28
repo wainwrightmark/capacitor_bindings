@@ -2,7 +2,7 @@ use std::any::type_name;
 use std::future::Future;
 use std::rc::Rc;
 
-use capacitor_bindings::helpers::PluginListenerHandle;
+use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use yew::function_component;
 use yew::html;
 use yew::Html;
@@ -11,7 +11,7 @@ use yewdux::store::AsyncReducer;
 use yewdux::store::Store;
 
 pub trait ListenerState: Clone + PartialEq + Store + Default {
-    type Fut: Future<Output = Result<PluginListenerHandle, capacitor_bindings::helpers::Error>>;
+    type Fut: Future<Output = Result<PluginListenerHandle, capacitor_bindings::error::Error>>;
 
     fn get_handle(&self) -> &Option<PluginListenerHandle>;
     fn take_handle(&mut self) -> Option<PluginListenerHandle>;

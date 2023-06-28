@@ -2,6 +2,7 @@ use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
 
 use crate::helpers::*;
+use crate::{error::Error};
 
 pub struct Device;
 

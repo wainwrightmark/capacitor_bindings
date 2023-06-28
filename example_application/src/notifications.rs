@@ -1,6 +1,6 @@
-use capacitor_bindings::helpers::Error;
-use capacitor_bindings::helpers::PluginListenerHandle;
+use capacitor_bindings::error::Error;
 use capacitor_bindings::local_notifications::*;
+use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use log::info;
 use std::future::Future;
 use std::pin::Pin;
@@ -54,15 +54,21 @@ pub fn notification_view() -> Html {
 fn schedule_notifications() {
     do_and_toast_result(|| {
         let options = LocalNotificationSchema::builder()
-        .title("Notification Title")
-        .body("Notification Body")
-        .auto_cancel(true)
-        .schedule(ScheduleOn::builder().second(0).build())
-        .id(123)
-        .large_body("Notification Large Body")
-        .summary_text("Notification Summary Text")
-        .inbox_list(vec!["N One".into(), "N Two".into(), "N Three".into(), "N Four".into(), "N Five".into()])
-        .build();
+            .title("Notification Title")
+            .body("Notification Body")
+            .auto_cancel(true)
+            .schedule(ScheduleOn::builder().second(0).build())
+            .id(123)
+            .large_body("Notification Large Body")
+            .summary_text("Notification Summary Text")
+            .inbox_list(vec![
+                "N One".into(),
+                "N Two".into(),
+                "N Three".into(),
+                "N Four".into(),
+                "N Five".into(),
+            ])
+            .build();
 
         LocalNotifications::schedule(options)
     });

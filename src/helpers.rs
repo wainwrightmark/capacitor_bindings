@@ -1,8 +1,9 @@
-use js_sys::{Function, Promise};
+use crate::{error::Error, plugin_listener_handle::PluginListenerHandle};
+use js_sys::Promise;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use std::{future::Future, sync::Arc};
-use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
+use wasm_bindgen::{prelude::Closure, JsValue};
 use wasm_bindgen_futures::JsFuture;
 
 /// An error that is returned by some capacitor functions.
@@ -11,86 +12,6 @@ use wasm_bindgen_futures::JsFuture;
 #[serde(rename_all = "camelCase", default)]
 pub struct InnerError {
     pub message: String,
-}
-
-/// An error that can happen when calling a capacitor function
-#[non_exhaustive]
-#[derive(Debug)]
-pub enum Error {
-    JsException {
-        message: String,
-    },
-    NotAFunction {
-        name: &'static str,
-    },
-    SerializeError {
-        typename: &'static str,
-        error: serde_wasm_bindgen::Error,
-    },
-    DeserializeError {
-        typename: &'static str,
-        error: serde_wasm_bindgen::Error,
-    },
-}
-
-impl std::fmt::Display for Error {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Error::JsException { message } => write!(f, "Js Exception: {message}"),
-            Error::SerializeError { typename, error } => {
-                write!(f, "Error Serializing {typename} to JsValue: {error}")
-            }
-            Error::DeserializeError { typename, error } => {
-                write!(f, "Error Deserializing JsValue to {typename}: {error}")
-            }
-            Error::NotAFunction { name } => write!(f, "Not a function: {name}"),
-        }
-    }
-}
-
-impl std::error::Error for Error {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            Error::JsException { .. } => None,
-            Error::NotAFunction { .. } => None,
-            Error::SerializeError { error, .. } => error.source(),
-            Error::DeserializeError { error, .. } => error.source(),
-        }
-    }
-}
-
-impl Error {
-    pub fn deserializing<O: serde::de::DeserializeOwned>(error: serde_wasm_bindgen::Error) -> Self {
-        let typename = std::any::type_name::<O>();
-        Self::DeserializeError { typename, error }
-    }
-
-    pub fn serializing<I: serde::Serialize>(error: serde_wasm_bindgen::Error) -> Self {
-        let typename = std::any::type_name::<I>();
-        Self::DeserializeError { typename, error }
-    }
-}
-
-impl From<InnerError> for Error {
-    fn from(value: InnerError) -> Self {
-        Self::JsException {
-            message: value.message,
-        }
-    }
-}
-
-impl From<JsValue> for Error {
-    fn from(value: JsValue) -> Self {
-        if let Ok(exception) = serde_wasm_bindgen::from_value::<JsException>(value.clone()) {
-            Error::JsException {
-                message: exception.message,
-            }
-        } else {
-            Error::JsException {
-                message: format!("{value:?}"),
-            }
-        }
-    }
 }
 
 /// An exception thrown by a javascript function
@@ -178,50 +99,4 @@ pub async fn listen_async<T: serde::de::DeserializeOwned + Default, F: Fn(T) + '
     let handle = future.await?;
 
     Ok(PluginListenerHandle::new(closure, handle))
-}
-
-/// A handle for a listener.
-/// If this is dropped, the callback will not work, so either store it somewhere for removal later using `remove_async` or call `leak`.
-#[derive(Clone, Debug)]
-#[must_use = "Handle must not be dropped without calling `remove_async`"]
-pub struct PluginListenerHandle {
-    _closure: Arc<Closure<dyn Fn(JsValue)>>,
-    handle: JsValue,
-}
-
-impl PluginListenerHandle {
-    pub(crate) fn new(closure: Arc<Closure<dyn Fn(JsValue)>>, handle: JsValue) -> Self {
-        Self {
-            handle,
-            _closure: closure,
-        }
-    }
-
-    /// Leak this listener so it will never be dropped
-    pub fn leak(self) {
-        Box::leak(Box::new(self));
-    }
-}
-
-impl PartialEq for PluginListenerHandle {
-    fn eq(&self, other: &Self) -> bool {
-        self.handle == other.handle
-    }
-}
-
-impl PluginListenerHandle {
-    /// Remove this listener
-    pub async fn remove_async(self) -> Result<(), Error> {
-        let remove = js_sys::Reflect::get(&self.handle, &JsValue::from_str("remove"))?;
-        let remove_function = remove
-            .dyn_ref::<Function>()
-            .ok_or(Error::NotAFunction { name: "remove" })?;
-
-        let result = remove_function.call0(&self.handle)?;
-
-        let promise = js_sys::Promise::resolve(&result);
-
-        wasm_bindgen_futures::JsFuture::from(promise).await?;
-        Ok(())
-    }
 }

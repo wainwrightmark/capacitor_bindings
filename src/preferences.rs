@@ -3,6 +3,7 @@ use serde_with::skip_serializing_none;
 
 use crate::{extern_functions::*, helpers::*};
 
+use crate::{error::Error};
 pub struct Preferences;
 impl Preferences {
     /// Configure the preferences plugin at runtime.

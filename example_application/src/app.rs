@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::future::Future;
 
 use capacitor_bindings::action_sheet::*;
-use capacitor_bindings::helpers::Error;
+use capacitor_bindings::error::Error;
 
 use capacitor_bindings::toast;
 use wasm_bindgen_futures::spawn_local;

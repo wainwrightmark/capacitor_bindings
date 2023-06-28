@@ -7,6 +7,8 @@ use crate::{
     helpers::*,
 };
 
+use crate::error::Error;
+
 pub struct Clipboard;
 
 impl Clipboard {

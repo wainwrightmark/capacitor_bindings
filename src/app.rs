@@ -5,7 +5,7 @@ use serde_with::NoneAsEmptyString;
 
 use crate::extern_functions::*;
 use crate::helpers::*;
-
+use crate::{error::Error, plugin_listener_handle::PluginListenerHandle};
 pub struct App;
 
 impl App {

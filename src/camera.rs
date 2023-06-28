@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 
 use crate::helpers::*;
+use crate::{error::Error};
 
 pub struct Camera;
 

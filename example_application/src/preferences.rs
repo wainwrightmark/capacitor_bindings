@@ -26,9 +26,9 @@ pub fn preferences_view() -> Html {
 
                 <button onclick={|_| do_and_toast_result(||Preferences::remove("key1")) }> {"Remove"}</button>
 
-                <button onclick={|_| do_and_toast_result(||Preferences::clear()) }> {"Clear"}</button>
+                <button onclick={|_| do_and_toast_result(Preferences::clear) }> {"Clear"}</button>
 
-                <button onclick={|_| do_and_toast_result(||Preferences::keys()) }> {"Keys"}</button>
+                <button onclick={|_| do_and_toast_result(Preferences::keys) }> {"Keys"}</button>
             </div>
         </details>
     )

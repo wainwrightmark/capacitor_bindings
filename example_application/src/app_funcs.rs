@@ -1,7 +1,7 @@
 use crate::listener::*;
 use capacitor_bindings::app::App;
-use capacitor_bindings::helpers::Error;
-use capacitor_bindings::helpers::PluginListenerHandle;
+use capacitor_bindings::error::Error;
+use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use log::info;
 use std::future::Future;
 use std::pin::Pin;

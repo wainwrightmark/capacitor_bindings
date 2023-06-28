@@ -4,6 +4,7 @@ use serde_with::skip_serializing_none;
 use typed_builder::TypedBuilder;
 
 use crate::helpers::*;
+use crate::{error::Error};
 
 /// The Share API provides methods for sharing content in any sharing-enabled apps the user may have installed.
 /// The Share API works on iOS, Android, and the Web (using the new Web Share API), though web support is currently spotty.

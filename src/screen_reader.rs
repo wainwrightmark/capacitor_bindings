@@ -1,8 +1,8 @@
 use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-
 use crate::helpers::*;
+use crate::{error::Error};
 
 pub struct ScreenReader;
 
@@ -28,7 +28,7 @@ impl ScreenReader {
     /// This method is not supported on web (it is not possible to detect Screen Readers).
     pub async fn add_state_change_listener<F: Fn(ScreenReaderState) + 'static>(
         func: F,
-    ) -> Result<PluginListenerHandle, Error> {
+    ) -> Result<crate::plugin_listener_handle::PluginListenerHandle, Error> {
         listen_async(func, "stateChange", network_add_listener).await
     }
 }

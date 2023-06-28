@@ -1,14 +1,14 @@
 use crate::listener::*;
+use capacitor_bindings::error::Error;
+use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use capacitor_bindings::screen_reader::*;
-use capacitor_bindings::helpers::Error;
-use capacitor_bindings::helpers::PluginListenerHandle;
 use log::info;
 use std::future::Future;
 use std::pin::Pin;
 use yew::prelude::*;
 use yewdux::store::Store;
 
-#[cfg(any(feature = "android", feature= "ios"))]
+#[cfg(any(feature = "android", feature = "ios"))]
 listener_state!(
     StateChangeState,
     ScreenReader::add_state_change_listener,
@@ -17,7 +17,7 @@ listener_state!(
 
 #[function_component(ScreenReaderView)]
 pub fn screen_reader_view() -> Html {
-    #[cfg(any(feature = "android", feature= "ios"))]
+    #[cfg(any(feature = "android", feature = "ios"))]
     {
         html! {
             <details>

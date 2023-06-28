@@ -14,7 +14,7 @@ pub fn clipboard_view() -> Html {
                 <br/>
                 <button onclick={|_| do_and_toast_result(||Clipboard::write(WriteOptions::builder().string("Hello from Capacitor").build())) }> {"Set Clipboard"}</button>
 
-                <button onclick={|_| do_and_toast_result(||Clipboard::read()) }> {"Read Clipboard"}</button>
+                <button onclick={|_| do_and_toast_result(Clipboard::read) }> {"Read Clipboard"}</button>
             </div>
         </details>
     )
