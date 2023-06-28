@@ -13,6 +13,9 @@ Possible header types:
 
 - Bug Fixes - added defaults to many of the result types. This prevents some potential panics when fields are missing.
 - Breaking Changes - moved `Error` and `PluginListenerHandle` to their own files. They are now accessible through the prelude.
+- Breaking Changes - `SplashScreen` functions now require the `ios` or `android` feature.
+- Features added [rate plugin](https://github.com/Nodonisko/capacitor-rate-app) behind the `rate_plugin` feature
+
 
 ## v0.8.0 (2023-06-27)
 

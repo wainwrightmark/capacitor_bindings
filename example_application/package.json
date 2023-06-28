@@ -18,6 +18,7 @@
     "@capacitor/splash-screen": "^5.0.4",
     "@capacitor/status-bar": "^5.0.0",
     "@capacitor/toast": "^5.0.0",
+    "capacitor-rate-app": "^4.0.3",
     "pika": "^0.0.1-security"
   },
   "devDependencies": {

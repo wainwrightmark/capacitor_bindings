@@ -8,11 +8,13 @@ use crate::{error::Error};
 pub struct SplashScreen;
 
 impl SplashScreen {
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Show the splash screen
     pub async fn show(options: impl Into<ShowOptions>) -> Result<(), Error> {
         run_value_unit(options, splash_show).await
     }
 
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Hide the splash screen
     pub async fn hide(options: impl Into<HideOptions>) -> Result<(), Error> {
         run_value_unit(options, splash_hide).await

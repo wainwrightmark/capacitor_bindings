@@ -8,6 +8,7 @@ pub mod preferences;
 pub mod screen_reader;
 pub mod splash;
 pub mod toast;
+pub mod rate;
 
 pub mod app_funcs;
 pub mod haptics;

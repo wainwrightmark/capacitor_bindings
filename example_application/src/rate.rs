@@ -1,20 +1,19 @@
 use crate::app::*;
-use capacitor_bindings::splash_screen::*;
+use capacitor_bindings::rate::*;
 use yew::prelude::*;
 
-#[function_component(SplashView)]
-pub fn splash_view() -> Html {
-
+#[function_component(RateView)]
+pub fn rate_view() -> Html {
     #[cfg(any(feature = "ios", feature = "android"))]
     {
         html!(
             <details>
                 <summary>
-                    {"Splash"}
+                    {"Rate"}
                     <span class="icon">{"↓"}</span>
                 </summary>
                 <div style="display: flex; flex-direction: column;">
-                    <button onclick={|_| do_and_toast_result(||SplashScreen::show(ShowOptions::default())) }> {"Show Splash"}</button>
+                    <button onclick={|_| do_and_toast_result(||Rate::request_review()) }> {"Request Review"}</button>
                 </div>
             </details>
         )

@@ -15,6 +15,7 @@
     "@capacitor/share": "./@capacitor/share.js",
     "@capacitor/splash-screen": "./@capacitor/splash-screen.js",
     "@capacitor/status-bar": "./@capacitor/status-bar.js",
-    "@capacitor/toast": "./@capacitor/toast.js"
+    "@capacitor/toast": "./@capacitor/toast.js",
+    "capacitor-rate-app": "./capacitor-rate-app.js"
   }
 }

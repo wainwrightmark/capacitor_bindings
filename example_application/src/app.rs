@@ -23,6 +23,7 @@ use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
 use crate::screen_reader::ScreenReaderView;
 use crate::splash::SplashView;
+use crate::rate::RateView;
 use crate::toast::ToastView;
 
 #[function_component(App)]
@@ -90,6 +91,7 @@ pub fn app() -> Html {
             <div style="display: flex; flex-direction: column;">
             <ToastView/>
             <SplashView />
+            <RateView />
             <button onclick={|_| show_actions()}> {"Show Actions"}</button>
 
             <NotificationView/>

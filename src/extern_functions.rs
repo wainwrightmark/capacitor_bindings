@@ -265,3 +265,12 @@ extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="keys" )]
     pub(crate) async fn preferences_keys() -> Result<JsValue, JsValue>;
 }
+
+
+
+#[cfg(all(feature="rate_plugin") )]
+#[wasm_bindgen()]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "RateApp"], js_name="requestReview" )]
+    pub (crate) async fn request_review() -> Result<(), JsValue>;
+}

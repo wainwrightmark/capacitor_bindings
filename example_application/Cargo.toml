@@ -19,7 +19,7 @@ wasm-bindgen-futures = "0.4.34"
 wasm-logger = "0.2.0"
 yew = { version="0.20", features=["csr"] }
 
-capacitor_bindings = { path = ".." }
+capacitor_bindings = { path = "..", features=["rate_plugin"] }
 yewdux = "0.9.2"
 
 

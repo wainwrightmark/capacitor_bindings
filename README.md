@@ -49,6 +49,12 @@ Current support is as follows
 | Text Zoom           | ❌         |
 | Toast               | ✅         |
 
+Some unofficial plugins are also supported behind feature flags
+
+|Plugin|Feature Flag|
+|-|-|
+|[Capacitor Rate App](https://github.com/Nodonisko/capacitor-rate-app)|`rate_plugin`|
+
 Some of the functions are only available on certain platforms. Use the features `web`, `android`, or `ios` to get access to them if you are building for that platform.
 
 Run the example project to see all of the available features in action.

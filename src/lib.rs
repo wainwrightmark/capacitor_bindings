@@ -17,6 +17,7 @@ pub mod share;
 pub mod splash_screen;
 pub mod status_bar;
 pub mod toast;
+pub mod rate;
 
 
 pub mod prelude{
