@@ -1,5 +1,4 @@
-use crate::error::Error;
-use crate::prelude::run_unit_unit;
+use crate::prelude::*;
 
 pub struct Rate {}
 

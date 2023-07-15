@@ -266,11 +266,32 @@ extern "C" {
     pub(crate) async fn preferences_keys() -> Result<JsValue, JsValue>;
 }
 
-
-
-#[cfg(all(feature="rate_plugin") )]
+#[cfg(all(feature = "rate_plugin"))]
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "RateApp"], js_name="requestReview" )]
-    pub (crate) async fn request_review() -> Result<(), JsValue>;
+    pub(crate) async fn request_review() -> Result<(), JsValue>;
+}
+
+#[cfg(feature = "game_plugin")]
+#[wasm_bindgen()]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="signIn" )]
+    pub(crate) async fn game_connect_sign_in() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="showLeaderboard" )]
+    pub(crate) async fn game_connect_show_leaderboard(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="submitScore" )]
+    pub(crate) async fn game_connect_submit_score(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="showAchievements" )]
+    pub(crate) async fn game_connect_show_achievements() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="unlockAchievement" )]
+    pub(crate) async fn game_connect_unlock_achievement(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="incrementAchievementProgress" )]
+    pub(crate) async fn game_connect_increment_achievement_progress(options: JsValue) -> Result<(), JsValue>;
+
 }

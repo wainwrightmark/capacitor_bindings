@@ -6,6 +6,7 @@ pub mod device;
 pub mod dialog;
 pub mod error;
 pub mod extern_functions;
+pub mod game_connect;
 pub mod haptics;
 pub mod helpers;
 pub mod local_notifications;

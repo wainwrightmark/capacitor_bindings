@@ -32,3 +32,4 @@ android = []
 ios = []
 
 rate_plugin = []
+game_plugin = []

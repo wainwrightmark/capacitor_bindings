@@ -4,7 +4,7 @@ use typed_builder::TypedBuilder;
 
 use crate::helpers::run_value_unit;
 
-use crate::{error::Error};
+use crate::error::Error;
 pub struct Toast;
 
 impl Toast {
