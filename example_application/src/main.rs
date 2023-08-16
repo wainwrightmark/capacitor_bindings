@@ -19,6 +19,7 @@ fn main() {
 
     log::info!("App started");
 
+    #[cfg(any(feature = "ios", feature = "android"))]
     app::do_async(|| capacitor_bindings::splash_screen::SplashScreen::hide(1000.0));
 
     yew::Renderer::<App>::new().render();

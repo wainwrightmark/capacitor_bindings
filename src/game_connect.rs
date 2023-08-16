@@ -1,5 +1,3 @@
-use crate::extern_functions::*;
-use crate::prelude::*;
 use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
 
@@ -7,7 +5,7 @@ use typed_builder::TypedBuilder;
 pub struct GameConnect {}
 
 impl GameConnect {
-    /// Method to sign-in a user
+    /// Method to sign-in a user.
     #[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
     pub async fn sign_in() -> Result<(), Error> {
         run_unit_unit(game_connect_sign_in).await
@@ -25,7 +23,7 @@ impl GameConnect {
         run_value_unit(options, game_connect_show_leaderboard).await
     }
 
-    /// Method to submit a score to the Google Play Services SDK
+    /// Method to submit a score to the Google Play Services SDK or IOS Leaderboards
     #[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
     pub async fn submit_score(options: impl Into<SubmitScoreOptions>) -> Result<(), Error> {
         run_value_unit(options, game_connect_submit_score).await
@@ -76,8 +74,12 @@ pub struct SubmitScoreOptions {
     #[builder(setter(into))]
     #[serde(rename = "leaderboardID")]
     pub leaderboard_id: String,
+
+
+    /// If your leaderboard has decimal places, this will be the amount with the decimal point removed.
+    /// For example, if your leaderboard shows two decimal places and you want to submit 123.45, this number should be 12345.
     #[serde(rename = "totalScoreAmount")]
-    pub total_score_amount: f32,
+    pub total_score_amount: i32,
 }
 
 #[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
@@ -110,5 +112,5 @@ pub struct IncrementAchievementOptions {
     pub achievement_id: String,
 
     #[serde(rename = "pointsToIncrement")]
-    pub points_to_increment: f32,
+    pub points_to_increment: i32,
 }
