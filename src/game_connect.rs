@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
+#[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
+use crate::{prelude::*, extern_functions::*};
 
 /// For details, https://github.com/openforge/capacitor-game-connect
 pub struct GameConnect {}

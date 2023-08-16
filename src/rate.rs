@@ -1,3 +1,4 @@
+#[cfg(any(feature = "ios", feature = "android"))]
 use crate::prelude::*;
 
 pub struct Rate {}

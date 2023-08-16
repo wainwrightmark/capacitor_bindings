@@ -1,9 +1,10 @@
-use crate::extern_functions::*;
+#[cfg(any(feature = "ios", feature = "android"))]
+use crate::{prelude::*, extern_functions::*};
 use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
 
-use crate::helpers::*;
-use crate::{error::Error};
+
+
 
 pub struct SplashScreen;
 

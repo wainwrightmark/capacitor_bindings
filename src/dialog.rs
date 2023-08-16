@@ -7,7 +7,7 @@ use crate::{
     helpers::*,
 };
 
-use crate::{error::Error};
+use crate::error::Error;
 
 pub struct Dialog;
 
