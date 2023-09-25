@@ -9,8 +9,8 @@ pub struct GameConnect {}
 impl GameConnect {
     /// Method to sign-in a user.
     #[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
-    pub async fn sign_in() -> Result<User, Error> {
-        run_unit_value(game_connect_sign_in).await
+    pub async fn sign_in() -> Result<(), Error> {
+        run_unit_unit(game_connect_sign_in).await
     }
 
     /// Method to display the Achievements view
@@ -115,13 +115,4 @@ pub struct IncrementAchievementOptions {
 
     #[serde(rename = "pointsToIncrement")]
     pub points_to_increment: i32,
-}
-
-#[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
-#[serde(default)]
-pub struct User{
-    #[serde(rename = "player_name")]
-    pub player_name: String,
-    #[serde(rename = "player_id")]
-    pub player_id: String
 }
