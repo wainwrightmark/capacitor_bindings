@@ -277,7 +277,7 @@ extern "C" {
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="signIn" )]
-    pub(crate) async fn game_connect_sign_in() -> Result<(), JsValue>;
+    pub(crate) async fn game_connect_sign_in() -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="showLeaderboard" )]
     pub(crate) async fn game_connect_show_leaderboard(options: JsValue) -> Result<(), JsValue>;
@@ -293,5 +293,8 @@ extern "C" {
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="incrementAchievementProgress" )]
     pub(crate) async fn game_connect_increment_achievement_progress(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="getUserTotalScore" )]
+    pub (crate) async fn game_connect_get_user_total_score(options: JsValue) -> Result<JsValue, JsValue>;
 
 }

@@ -1,7 +1,7 @@
+#[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
+use crate::{extern_functions::*, prelude::*};
 use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
-#[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
-use crate::{prelude::*, extern_functions::*};
 
 /// For details, https://github.com/openforge/capacitor-game-connect
 pub struct GameConnect {}
@@ -9,8 +9,8 @@ pub struct GameConnect {}
 impl GameConnect {
     /// Method to sign-in a user.
     #[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
-    pub async fn sign_in() -> Result<(), Error> {
-        run_unit_unit(game_connect_sign_in).await
+    pub async fn sign_in() -> Result<PlayerSignIn, Error> {
+        run_unit_value(game_connect_sign_in).await
     }
 
     /// Method to display the Achievements view
@@ -46,6 +46,14 @@ impl GameConnect {
     ) -> Result<(), Error> {
         run_value_unit(options, game_connect_increment_achievement_progress).await
     }
+
+    /// Method to get total player score from a leaderboard
+    #[cfg(all(feature = "game_plugin", any(feature = "ios", feature = "android")))]
+    pub async fn get_user_total_score(
+        options: impl Into<UserScoreOptions>,
+    ) -> Result<PlayerScore, Error> {
+        run_value_value(options, game_connect_get_user_total_score).await
+    }
 }
 
 #[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
@@ -76,7 +84,6 @@ pub struct SubmitScoreOptions {
     #[builder(setter(into))]
     #[serde(rename = "leaderboardID")]
     pub leaderboard_id: String,
-
 
     /// If your leaderboard has decimal places, this will be the amount with the decimal point removed.
     /// For example, if your leaderboard shows two decimal places and you want to submit 123.45, this number should be 12345.
@@ -115,4 +122,46 @@ pub struct IncrementAchievementOptions {
 
     #[serde(rename = "pointsToIncrement")]
     pub points_to_increment: i32,
+}
+
+#[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
+#[serde(default)]
+pub struct PlayerSignIn {
+    #[builder(setter(into))]
+    #[serde(rename = "player_name")]
+    pub player_name: String,
+
+    #[builder(setter(into))]
+    #[serde(rename = "player_id")]
+    pub player_id: String,
+}
+
+#[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
+#[serde(default)]
+pub struct UserScoreOptions {
+    #[builder(setter(into))]
+    #[serde(rename = "leaderboardID")]
+    pub leaderboard_id: String,
+}
+
+impl From<&str> for UserScoreOptions {
+    fn from(value: &str) -> Self {
+        UserScoreOptions {
+            leaderboard_id: value.to_string(),
+        }
+    }
+}
+
+impl From<String> for UserScoreOptions {
+    fn from(leaderboard_id: String) -> Self {
+        UserScoreOptions { leaderboard_id }
+    }
+}
+
+#[derive(Clone, Default, Debug, Serialize, Deserialize, TypedBuilder)]
+#[serde(default)]
+pub struct PlayerScore{
+    #[builder(setter(into))]
+    #[serde(rename = "player_score")]
+    pub player_score: i32
 }
