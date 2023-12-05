@@ -9,6 +9,9 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.10.0 (2023-12-05)
+- Features added [game plugin](https://github.com/openforge/capacitor-game-connect) behind the `game_plugin` feature
+
 ## v0.9.0 (2023-06-27)
 
 - Bug Fixes - added defaults to many of the result types. This prevents some potential panics when fields are missing.
