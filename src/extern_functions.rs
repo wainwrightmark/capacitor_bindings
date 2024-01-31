@@ -292,9 +292,75 @@ extern "C" {
     pub(crate) async fn game_connect_unlock_achievement(options: JsValue) -> Result<(), JsValue>;
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="incrementAchievementProgress" )]
-    pub(crate) async fn game_connect_increment_achievement_progress(options: JsValue) -> Result<(), JsValue>;
+    pub(crate) async fn game_connect_increment_achievement_progress(
+        options: JsValue,
+    ) -> Result<(), JsValue>;
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "CapacitorGameConnect"], js_name="getUserTotalScore" )]
-    pub (crate) async fn game_connect_get_user_total_score(options: JsValue) -> Result<JsValue, JsValue>;
+    pub(crate) async fn game_connect_get_user_total_score(
+        options: JsValue,
+    ) -> Result<JsValue, JsValue>;
 
+}
+
+#[cfg(feature = "admob_plugin")]
+#[wasm_bindgen()]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="initialize" )]
+    pub(crate) async fn admob_initialize(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="trackingAuthorizationStatus" )]
+    pub(crate) async fn admob_tracking_authorization_status() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="requestTrackingAuthorization" )]
+    pub(crate) async fn admob_request_tracking_authorization() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="setApplicationMuted" )]
+    pub(crate) async fn admob_set_application_muted(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="setApplicationVolume" )]
+    pub(crate) async fn admob_set_application_volume(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showBanner" )]
+    pub(crate) async fn admob_show_banner(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="hideBanner" )]
+    pub(crate) async fn admob_hide_banner() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="resumeBanner" )]
+    pub(crate) async fn admob_resume_banner() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="removeBanner" )]
+    pub(crate) async fn admob_remove_banner() -> Result<(), JsValue>;
+
+    //TODO listeners
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="requestConsentInfo" )]
+    pub(crate) async fn admob_request_consent_info(options: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showConsentForm" )]
+    pub(crate) async fn admob_show_consent_form() -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="resetConsentInfo" )]
+    pub(crate) async fn admob_reset_consent_info() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="prepareInterstitial" )]
+    pub(crate) async fn admob_prepare_interstitial(options: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showInterstitial" )]
+    pub(crate) async fn admob_show_interstitial() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="prepareRewardVideoAd" )]
+    pub(crate) async fn admob_prepare_reward_video_ad(options: JsValue)
+        -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showRewardVideoAd" )]
+    pub(crate) async fn admob_show_reward_video_ad() -> Result<JsValue, JsValue>;
+
+
+    #[wasm_bindgen( final,js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="addListener" )]
+    pub(crate) fn admob_add_listener(
+        eventName: &str,
+        listener_func: &Closure<dyn Fn(JsValue)>,
+    ) -> JsValue;
 }

@@ -86,7 +86,7 @@ pub async fn listen_async<T: serde::de::DeserializeOwned + Default, F: Fn(T) + '
     let func2 = move |js_value: JsValue| {
         let schema: T = serde_wasm_bindgen::from_value(js_value)
             .map_err(|e| Error::deserializing::<T>(e))
-            .unwrap_or_default();
+            .unwrap_or_default(); //TODO this is incorrect - should not require default
         func(schema)
     };
     let closure = Arc::new(Closure::new(func2));
