@@ -78,7 +78,7 @@ pub async fn run_value_value<
     Ok(o)
 }
 
-pub async fn listen_async<T: serde::de::DeserializeOwned + Default, F: Fn(T) + 'static>(
+pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
     func: F,
     name: &'static str,
     add_listener: impl Fn(&str, &Closure<dyn Fn(JsValue)>) -> JsValue,
@@ -86,7 +86,7 @@ pub async fn listen_async<T: serde::de::DeserializeOwned + Default, F: Fn(T) + '
     let func2 = move |js_value: JsValue| {
         let schema: T = serde_wasm_bindgen::from_value(js_value)
             .map_err(|e| Error::deserializing::<T>(e))
-            .unwrap_or_default(); //TODO this is incorrect - should not require default
+            .unwrap(); //deserialize should always succeed assuming I have done everything else right
         func(schema)
     };
     let closure = Arc::new(Closure::new(func2));

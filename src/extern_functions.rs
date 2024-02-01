@@ -333,8 +333,6 @@ extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="removeBanner" )]
     pub(crate) async fn admob_remove_banner() -> Result<(), JsValue>;
 
-    //TODO listeners
-
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="requestConsentInfo" )]
     pub(crate) async fn admob_request_consent_info(options: JsValue) -> Result<JsValue, JsValue>;
 

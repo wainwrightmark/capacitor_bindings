@@ -16,7 +16,8 @@ impl Admob {
 
     /// Confirm requestTrackingAuthorization status (iOS >14)
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
-    pub async fn tracking_authorization_status() -> Result<TrackingAuthorizationStatusInterface, Error> {
+    pub async fn tracking_authorization_status(
+    ) -> Result<TrackingAuthorizationStatusInterface, Error> {
         run_unit_value(admob_tracking_authorization_status).await
     }
 
@@ -238,8 +239,7 @@ impl Admob {
     }
 }
 
-#[derive(Clone, Debug, Serialize, TypedBuilder)]
-#[serde(default)]
+#[derive(Clone, Debug, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct AdMobInitializationOptions {
     ///An Array of devices IDs that will be marked as tested devices if `AdMobInitializationOptions.initializeForTesting` is true (Real Ads will be served to Testing devices, but they will not count as 'real').
@@ -268,7 +268,7 @@ pub struct AdMobInitializationOptions {
     pub max_ad_content_rating: MaxAdContentRating,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub enum MaxAdContentRating {
     /// Content suitable for general audiences, including families.
@@ -324,7 +324,7 @@ impl From<f32> for ApplicationVolumeOptions {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 /// When notice listener of OnAdLoaded, you can get banner size.
 pub struct AdMobBannerSize {
@@ -333,7 +333,7 @@ pub struct AdMobBannerSize {
 }
 
 /// For more information https://developers.google.com/android/reference/com/google/android/gms/ads/AdError
-#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)] //TODO remove default
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AdMobError {
     /// Gets the error's code.
@@ -370,7 +370,7 @@ pub struct AdmobConsentRequestOptions {
     pub tag_for_under_age_of_consent: bool,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder, Default)] //todo remove default
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
 pub struct AdLoadInfo {
     pub ad_unit_id: String,
@@ -389,7 +389,7 @@ pub struct AdOptions {
     pub npa: bool,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder, Default)] //todo REMOVE default
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 
 pub struct AdMobRewardItem {
     /// Rewarded type user got
