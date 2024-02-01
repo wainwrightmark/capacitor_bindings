@@ -1,11 +1,6 @@
 name: Publish Crate
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - Cargo.toml
   repository_dispatch:
     types: publish
   workflow_dispatch:

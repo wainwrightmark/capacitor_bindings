@@ -4,10 +4,10 @@ use serde::{Deserialize, Serialize};
 use serde_repr::*;
 use typed_builder::TypedBuilder;
 
-/// For details, https://github.com/openforge/capacitor-game-connect
-pub struct GameConnect {}
+/// For details, https://github.com/capacitor-community/admob
+pub struct Admob {}
 
-impl GameConnect {
+impl Admob {
     /// Initialize AdMob with AdMobInitializationOptions
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
     pub async fn initialize(options: impl Into<AdMobInitializationOptions>) -> Result<(), Error> {
