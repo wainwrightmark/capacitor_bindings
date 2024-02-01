@@ -16,7 +16,7 @@ impl Admob {
 
     /// Confirm requestTrackingAuthorization status (iOS >14)
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
-    pub async fn tracking_authorization_status() -> Result<TrackingAuthorizationStatus, Error> {
+    pub async fn tracking_authorization_status() -> Result<TrackingAuthorizationStatusInterface, Error> {
         run_unit_value(admob_tracking_authorization_status).await
     }
 
@@ -136,7 +136,7 @@ impl Admob {
     }
 
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
-    /// Emits after trying to prepare and Interstitial, when it is loaded and ready to be show
+    /// Emits after trying to prepare an Interstitial, when it is loaded and ready to be show
     pub async fn add_interstitial_ad_loaded_listener<F: Fn(AdLoadInfo) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
@@ -161,7 +161,7 @@ impl Admob {
 
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
     /// Emits when the Interstitial ad is failed to show
-    pub async fn add_interstitial_ad_failed_to_show_listener<F: Fn(AdMobError) + 'static>(
+    pub async fn add_interstitial_failed_to_show_listener<F: Fn(AdMobError) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
         listen_async(func, "interstitialAdFailedToShow", admob_add_listener).await
@@ -341,6 +341,14 @@ pub struct AdMobError {
     /// Gets the message describing the error.
     pub message: String,
 }
+
+impl std::fmt::Display for AdMobError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.message)
+    }
+}
+
+impl std::error::Error for AdMobError {}
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, TypedBuilder)]
 #[serde(rename_all = "camelCase")]
