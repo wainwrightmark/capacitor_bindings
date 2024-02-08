@@ -355,6 +355,7 @@ impl std::error::Error for AdMobError {}
 pub struct AdmobConsentInfo {
     /// The consent status of the user.
     pub status: AdmobConsentStatus,
+    #[serde(default)]
     /// If `true` a consent form is available and vice versa.
     pub is_consent_form_available: bool,
 }
