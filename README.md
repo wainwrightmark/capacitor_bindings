@@ -55,6 +55,7 @@ Some unofficial plugins are also supported behind feature flags
 |-|-|
 |[Capacitor Rate App](https://github.com/Nodonisko/capacitor-rate-app)|`rate_plugin`|
 |[Capacitor Game Connect](https://github.com/openforge/capacitor-game-connect)|`game_plugin`|
+|[Admob](https://github.com/capacitor-community/admob)|`admob_plugin`|
 
 Some of the functions are only available on certain platforms. Use the features `web`, `android`, or `ios` to get access to them if you are building for that platform.
 
