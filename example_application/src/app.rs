@@ -21,6 +21,7 @@ use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
+use crate::browser::BrowserView;
 use crate::screen_reader::ScreenReaderView;
 use crate::splash::SplashView;
 use crate::rate::RateView;
@@ -179,6 +180,8 @@ pub fn app() -> Html {
                     <button onclick={|_| do_and_toast_result(Device::get_language_tag)}> {"Language Tag"}</button>
                 </div>
             </details>
+
+            <BrowserView/>
 
 
             </div>

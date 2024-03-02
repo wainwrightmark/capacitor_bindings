@@ -1,6 +1,7 @@
 pub mod action_sheet;
 pub mod admob;
 pub mod app;
+pub mod browser;
 pub mod camera;
 pub mod clipboard;
 pub mod device;
