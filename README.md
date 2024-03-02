@@ -24,7 +24,7 @@ Current support is as follows
 | App                 | ✅         |
 | App Launcher        | ❌         |
 | Action Sheet        | ✅         |
-| Browser             | ❌         |
+| Browser             | ✅         |
 | Camera              | ✅         |
 | Clipboard           | ✅         |
 | Cookies             | ❌         |
