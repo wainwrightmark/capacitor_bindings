@@ -2,6 +2,7 @@
   "imports": {
     "@capacitor/action-sheet": "./@capacitor/action-sheet.js",
     "@capacitor/app": "./@capacitor/app.js",
+    "@capacitor/browser": "./@capacitor/browser.js",
     "@capacitor/camera": "./@capacitor/camera.js",
     "@capacitor/clipboard": "./@capacitor/clipboard.js",
     "@capacitor/core": "./@capacitor/core.js",

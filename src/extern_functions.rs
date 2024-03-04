@@ -266,6 +266,28 @@ extern "C" {
     pub(crate) async fn preferences_keys() -> Result<JsValue, JsValue>;
 }
 
+#[wasm_bindgen()]
+extern "C" {
+
+    /// Open a page with the specified options.
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Browser"], js_name = "open")]
+    pub(crate) async fn browser_open(options: JsValue) -> Result<(), JsValue>;
+
+    /// Web & iOS only: Close an open browser window. No-op on other platforms.
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Browser"], js_name = "close")]
+    pub(crate) async fn browser_close() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(final, js_namespace = ["Capacitor", "Plugins", "Browser"],js_name = "addListener")]
+    pub(crate) fn browser_add_listener(
+        eventName: &str,
+        listener_func: &Closure<dyn Fn(JsValue)>,
+    ) -> JsValue;
+
+    /// Remove all native listeners for this plugin.
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "Browser"], js_name = "removeAllListeners")]
+    pub(crate) async fn browser_remove_all_listeners() -> Result<(), JsValue>;
+}
+
 #[cfg(all(feature = "rate_plugin"))]
 #[wasm_bindgen()]
 extern "C" {
@@ -354,7 +376,6 @@ extern "C" {
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showRewardVideoAd" )]
     pub(crate) async fn admob_show_reward_video_ad() -> Result<JsValue, JsValue>;
-
 
     #[wasm_bindgen( final,js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="addListener" )]
     pub(crate) fn admob_add_listener(

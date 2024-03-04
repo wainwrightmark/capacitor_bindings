@@ -18,7 +18,7 @@ listener_state!(ResumeState, App::add_resume_listener, "App Resumed");
 
 listener_state!(UrlOpenState, App::add_app_url_open_listener, "Url opened");
 
-#[cfg(any(feature = "android", feature = "ios"))]
+#[cfg(any(feature = "android"))]
 listener_state!(RestoreState, App::add_app_restored_listener, "App Restored");
 #[cfg(any(feature = "android",))]
 listener_state!(
