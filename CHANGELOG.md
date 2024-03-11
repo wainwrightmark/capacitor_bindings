@@ -9,10 +9,13 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
-## v0.11.0 (2024-02-02)
+## v0.11.0 (2024-03-11)
+
 - Features - added [admob plugin](https://github.com/capacitor-community/admob) behind the `admob_plugin` feature
+- Features - added [browser plugin](https://capacitorjs.com/docs/apis/browser) - thanks [Soren Hansen](https://github.com/SorenHolstHansen)
 
 ## v0.10.0 (2023-12-05)
+
 - Features - added [game plugin](https://github.com/openforge/capacitor-game-connect) behind the `game_plugin` feature
 
 ## v0.9.0 (2023-06-27)
@@ -21,7 +24,6 @@ Possible header types:
 - Breaking Changes - moved `Error` and `PluginListenerHandle` to their own files. They are now accessible through the prelude.
 - Breaking Changes - `SplashScreen` functions now require the `ios` or `android` feature.
 - Features - added [rate plugin](https://github.com/Nodonisko/capacitor-rate-app) behind the `rate_plugin` feature
-
 
 ## v0.8.0 (2023-06-27)
 
