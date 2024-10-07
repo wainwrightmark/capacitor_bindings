@@ -9,6 +9,11 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.12.0 (2024-07-10)
+
+- Breaking Changes - Support capacitor 6
+- Breaking Changes - Removed support for capacitor-rate-app and replaced it with in-app-review. The old plugin was deprecated and this is the recommended migration and has the exact same api. The name of the cargo feature has changed from `rate-plugin` to `review-plugin`
+
 ## v0.11.0 (2024-03-11)
 
 - Features - added [admob plugin](https://github.com/capacitor-community/admob) behind the `admob_plugin` feature

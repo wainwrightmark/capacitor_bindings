@@ -53,7 +53,7 @@ Some unofficial plugins are also supported behind feature flags
 
 |Plugin|Feature Flag|
 |-|-|
-|[Capacitor Rate App](https://github.com/Nodonisko/capacitor-rate-app)|`rate_plugin`|
+|[In App Review](https://github.com/capacitor-community/in-app-review)|`review_plugin`|
 |[Capacitor Game Connect](https://github.com/openforge/capacitor-game-connect)|`game_plugin`|
 |[Admob](https://github.com/capacitor-community/admob)|`admob_plugin`|
 

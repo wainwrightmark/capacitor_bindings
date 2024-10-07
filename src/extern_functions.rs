@@ -288,10 +288,10 @@ extern "C" {
     pub(crate) async fn browser_remove_all_listeners() -> Result<(), JsValue>;
 }
 
-#[cfg(all(feature = "rate_plugin"))]
+#[cfg(all(feature = "review_plugin"))]
 #[wasm_bindgen()]
 extern "C" {
-    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "RateApp"], js_name="requestReview" )]
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "InAppReview"], js_name="requestReview" )]
     pub(crate) async fn request_review() -> Result<(), JsValue>;
 }
 
