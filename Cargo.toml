@@ -17,9 +17,9 @@ license = "MIT"
 js-sys = "0.3"
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.6"
-serde_repr = "0.1.18"
+serde_repr = "0.1"
 serde_with = "3"
-typed-builder = "0.18"
+typed-builder = "0.20"
 wasm-bindgen = { version = "0.2" }
 wasm-bindgen-futures = "0.4"
 

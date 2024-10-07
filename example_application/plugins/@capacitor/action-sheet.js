@@ -29,7 +29,7 @@ var ActionSheetButtonStyle;
 const ActionSheetOptionStyle = ActionSheetButtonStyle;
 
 const ActionSheet = registerPlugin('ActionSheet', {
-    web: () => import('../common/web-266235e8.js').then(m => new m.ActionSheetWeb()),
+    web: () => import('../common/web-eded3047.js').then(m => new m.ActionSheetWeb()),
 });
 
 export { ActionSheet, ActionSheetButtonStyle, ActionSheetOptionStyle };

@@ -90,6 +90,12 @@ class LocalNotificationsWeb extends WebPlugin {
             value: display === 'granted',
         };
     }
+    async changeExactNotificationSetting() {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    async checkExactNotificationSetting() {
+        throw this.unimplemented('Not implemented on web.');
+    }
     async requestPermissions() {
         if (!this.hasNotificationSupport()) {
             throw this.unavailable('Notifications not supported in this browser.');

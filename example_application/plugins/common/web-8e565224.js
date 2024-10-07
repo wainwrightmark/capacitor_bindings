@@ -99,9 +99,9 @@ class DeviceWeb extends WebPlugin {
             uaFields.operatingSystem = 'unknown';
         }
         // Check for browsers based on non-standard javascript apis, only not user agent
-        const isFirefox = !!window.InstallTrigger;
         const isSafari = !!window.ApplePaySession;
         const isChrome = !!window.chrome;
+        const isFirefox = /Firefox/.test(ua);
         const isEdge = /Edg/.test(ua);
         const isFirefoxIOS = /FxiOS/.test(ua);
         const isChromeIOS = /CriOS/.test(ua);
