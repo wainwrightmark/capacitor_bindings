@@ -22,7 +22,7 @@ Current support is as follows
 | Plugin              | Support    |
 | ------------------- | ---------- |
 | App                 | ✅         |
-| App Launcher        | ❌         |
+| App Launcher        | ✅         |
 | Action Sheet        | ✅         |
 | Browser             | ✅         |
 | Camera              | ✅         |

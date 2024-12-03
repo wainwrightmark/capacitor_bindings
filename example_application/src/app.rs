@@ -16,6 +16,7 @@ use capacitor_bindings::share::*;
 use capacitor_bindings::toast::*;
 
 use crate::app_funcs::AppView;
+use crate::app_launcher::AppLauncherView;
 use crate::clipboard::ClipboardView;
 use crate::haptics::HapticsView;
 use crate::network::NetworkView;
@@ -97,6 +98,7 @@ pub fn app() -> Html {
 
             <NotificationView/>
             <AppView/>
+            <AppLauncherView/>
             <details>
                 <summary>
                     {"Share"}

@@ -36,6 +36,10 @@
         </provider>
     </application>
 
+    <queries>
+        <package android:name="com.numbersalad.app" />
+    </queries>
+
     <!-- Permissions -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.INTERNET" />

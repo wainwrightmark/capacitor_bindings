@@ -10,6 +10,7 @@ pub mod rate;
 pub mod screen_reader;
 pub mod splash;
 pub mod toast;
+pub mod app_launcher;
 
 pub mod app_funcs;
 pub mod haptics;

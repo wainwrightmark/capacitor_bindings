@@ -247,6 +247,16 @@ extern "C" {
 
 #[wasm_bindgen()]
 extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AppLauncher"], js_name="canOpenUrl" )]
+    pub(crate) async fn can_open_url(options: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AppLauncher"], js_name="openUrl" )]
+    pub(crate) async fn open_url(options: JsValue) -> Result<JsValue, JsValue>;
+
+}
+
+#[wasm_bindgen()]
+extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Preferences"], js_name="configure" )]
     pub(crate) async fn preferences_configure(options: JsValue) -> Result<(), JsValue>;
 

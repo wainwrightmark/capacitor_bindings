@@ -9,6 +9,10 @@ Possible header types:
 - `Bug Fixes` for any bug fixes.
 - `Breaking Changes` for any backwards-incompatible changes.
 
+## v0.12.1 (2024-12-03)
+
+- Features - Add App Launcher plugin support https://capacitorjs.com/docs/apis/app-launcher
+
 ## v0.12.0 (2024-07-10)
 
 - Breaking Changes - Support capacitor 6
