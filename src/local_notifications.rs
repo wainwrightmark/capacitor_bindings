@@ -1,8 +1,7 @@
+use crate::extern_functions::*;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
 use typed_builder::TypedBuilder;
-
-use crate::extern_functions::*;
 
 use crate::helpers::*;
 use crate::{error::Error, plugin_listener_handle::PluginListenerHandle};
@@ -273,6 +272,7 @@ pub struct LocalNotificationSchema {
     pub channel_id: Option<String>,
 }
 
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
@@ -284,15 +284,30 @@ pub enum Schedule {
         /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
         allow_while_idle: bool,
     },
-    // At {
-    //     /// Schedule a notification at a specific date and time.
-    //     at: Date,
+    At {
+        #[serde(
+            skip_deserializing,
+            default = "js_sys::Date::new_0",
+            serialize_with = "serde_wasm_bindgen::preserve::serialize"
+        )]
 
-    //     /// Repeat delivery of this notification at the date and time specified by at. Only available for iOS and Android.
-    //     repeats: bool,
-    //     /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
-    //     allow_while_idle: bool,
-    // },
+
+        /// WARNING: This will not be deserialized correctly
+        ///
+        /// Schedule a notification at a specific date and time.
+        /// ```ignore
+        /// let time: chrono::DateTime<chrono::Utc> = chrono::Utc::now() + Duration::seconds(5); //notify 5 seconds from now
+        /// let time_string = time.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        /// let at_millis = JsValue::from_f64(js_sys::Date::parse(&time_string));
+        /// let at = js_sys::Date::new(&at_millis);
+        /// ```
+        at: js_sys::Date,
+
+        /// Repeat delivery of this notification at the date and time specified by at. Only available for iOS and Android.
+        repeats: bool,
+        /// Allow this notification to fire while in Doze Only available for Android 23+. Note that these notifications can only fire once per 9 minutes, per app.
+        allow_while_idle: bool,
+    },
     Every {
         /// Schedule a notification on a particular interval.
         every: ScheduleEvery,

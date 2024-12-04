@@ -84,10 +84,14 @@ pub async fn listen_async<T: serde::de::DeserializeOwned, F: Fn(T) + 'static>(
     add_listener: impl Fn(&str, &Closure<dyn Fn(JsValue)>) -> JsValue,
 ) -> Result<PluginListenerHandle, Error> {
     let func2 = move |js_value: JsValue| {
-        let schema: T = serde_wasm_bindgen::from_value(js_value)
-            .map_err(|e| Error::deserializing::<T>(e))
-            .unwrap(); //deserialize should always succeed assuming I have done everything else right
-        func(schema)
+        let jv = js_value.clone();
+
+        match serde_wasm_bindgen::from_value(js_value).map_err(|e| Error::deserializing::<T>(e)) {
+            Ok(schema) => func(schema),
+            Err(err) => {
+                println!("Notification deserialize error: {err} js_value: {jv:?}")
+            },
+        }
     };
     let closure = Arc::new(Closure::new(func2));
 

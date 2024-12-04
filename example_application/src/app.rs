@@ -17,15 +17,15 @@ use capacitor_bindings::toast::*;
 
 use crate::app_funcs::AppView;
 use crate::app_launcher::AppLauncherView;
+use crate::browser::BrowserView;
 use crate::clipboard::ClipboardView;
 use crate::haptics::HapticsView;
 use crate::network::NetworkView;
 use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
-use crate::browser::BrowserView;
+use crate::rate::RateView;
 use crate::screen_reader::ScreenReaderView;
 use crate::splash::SplashView;
-use crate::rate::RateView;
 use crate::toast::ToastView;
 
 #[function_component(App)]

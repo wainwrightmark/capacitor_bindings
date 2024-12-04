@@ -1,8 +1,8 @@
+use crate::error::Error;
+use crate::helpers::*;
 use crate::{extern_functions::*, prelude::*};
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use crate::helpers::*;
-use crate::{error::Error};
 
 pub struct Browser;
 
@@ -13,14 +13,12 @@ impl Browser {
     }
     #[cfg(any(feature = "ios", feature = "web"))]
     /// Web & iOS only: Close an open browser window.
-    pub async fn close(
-    ) -> Result<(), Error> {
+    pub async fn close() -> Result<(), Error> {
         run_unit_unit(browser_close).await
     }
 
     /// Remove all native listeners for this plugin.
-    pub async fn remove_all_listeners(
-    ) -> Result<(), Error> {
+    pub async fn remove_all_listeners() -> Result<(), Error> {
         run_unit_unit(browser_remove_all_listeners).await
     }
 
@@ -28,26 +26,15 @@ impl Browser {
     pub async fn add_browser_finished_listener<F: Fn(()) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(
-            func,
-            "browserFinished",
-            browser_add_listener,
-        )
-        .await
+        listen_async(func, "browserFinished", browser_add_listener).await
     }
 
     #[cfg(any(feature = "ios", feature = "android"))]
     pub async fn add_browser_page_loaded_listener<F: Fn(()) + 'static>(
         func: F,
     ) -> Result<PluginListenerHandle, Error> {
-        listen_async(
-            func,
-            "browserPageLoaded",
-            browser_add_listener,
-        )
-        .await
+        listen_async(func, "browserPageLoaded", browser_add_listener).await
     }
-
 }
 
 #[skip_serializing_none]

@@ -4,7 +4,6 @@ use yew::prelude::*;
 
 #[function_component(SplashView)]
 pub fn splash_view() -> Html {
-
     #[cfg(any(feature = "ios", feature = "android"))]
     {
         html!(

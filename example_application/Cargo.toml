@@ -21,6 +21,7 @@ yew = { version="0.21", features=["csr"] }
 
 capacitor_bindings = { path = "..", features=["review_plugin"] }
 yewdux = "0.10"
+chrono = "0.4.38"
 
 
 [features]

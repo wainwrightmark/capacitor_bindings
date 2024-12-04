@@ -1,9 +1,12 @@
 use capacitor_bindings::error::Error;
 use capacitor_bindings::local_notifications::*;
 use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
+use chrono::{Datelike, Duration, Timelike};
+use core::time;
 use log::info;
 use std::future::Future;
 use std::pin::Pin;
+use wasm_bindgen::JsValue;
 use yew::prelude::*;
 use yewdux::store::Store;
 
@@ -36,6 +39,7 @@ pub fn notification_view() -> Html {
                 <ListenerButton<NotificationActionState> />
 
                 <button onclick={|_| schedule_notifications()}> {"Schedule Notifications"}</button>
+                <button onclick={|_| schedule_a_notification()}> {"Schedule a notification"}</button>
 
                 <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::are_enabled)}> {"Are Enabled"}</button>
                 <button onclick={|_| crate::app::do_and_toast_result(LocalNotifications::get_delivered_notifications)}> {"Get Delivered Notifications"}</button>
@@ -54,13 +58,49 @@ pub fn notification_view() -> Html {
 fn schedule_notifications() {
     do_and_toast_result(|| {
         let options = LocalNotificationSchema::builder()
-            .title("Notification Title")
-            .body("Notification Body")
+            .title("Notification Title 1")
+            .body("Notification Body 1")
             .auto_cancel(true)
             .schedule(ScheduleOn::builder().second(0).build())
-            .id(123)
-            .large_body("Notification Large Body")
-            .summary_text("Notification Summary Text")
+            .id(1)
+            .large_body("Notification Large Body 1")
+            .summary_text("Notification Summary Text 1")
+            .inbox_list(vec![
+                "N One".into(),
+                "N Two".into(),
+                "N Three".into(),
+                "N Four".into(),
+                "N Five".into(),
+            ])
+            .build();
+
+        LocalNotifications::schedule(options)
+    });
+}
+
+fn schedule_a_notification() {
+    do_and_toast_result(|| {
+        let time: chrono::DateTime<chrono::Utc> = chrono::Utc::now() + Duration::seconds(5); //notify 5 seconds from now
+        let time_string = time.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let at_millis = JsValue::from_f64(js_sys::Date::parse(&time_string));
+        let at = js_sys::Date::new(&at_millis);
+
+        if let Some(at_str) = at.to_utc_string().as_string() {
+            info!("Scheduling notification at {at_str}")
+        }
+
+        let options = LocalNotificationSchema::builder()
+            .title("Notification Title 2")
+            .body("Notification Body 2")
+            .auto_cancel(true)
+            .schedule(Schedule::At {
+                at,
+                repeats: false,
+                allow_while_idle: true,
+            })
+            .id(2)
+            .large_body("Notification Large Body 2")
+            .summary_text("Notification Summary Text 2")
             .inbox_list(vec![
                 "N One".into(),
                 "N Two".into(),

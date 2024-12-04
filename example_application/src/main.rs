@@ -1,6 +1,7 @@
 mod app;
 #[macro_use]
 pub mod listener;
+pub mod app_launcher;
 pub mod browser;
 pub mod clipboard;
 pub mod network;
@@ -10,7 +11,6 @@ pub mod rate;
 pub mod screen_reader;
 pub mod splash;
 pub mod toast;
-pub mod app_launcher;
 
 pub mod app_funcs;
 pub mod haptics;

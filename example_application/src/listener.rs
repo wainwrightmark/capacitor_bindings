@@ -1,6 +1,6 @@
+use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use std::any::type_name;
 use std::future::Future;
-use capacitor_bindings::plugin_listener_handle::PluginListenerHandle;
 use yew::function_component;
 use yew::html;
 use yew::Html;
@@ -57,7 +57,7 @@ async fn listen_async<T: ListenerState>(dispatch: Dispatch<T>) -> () {
     dispatch.set(state);
 }
 
-async fn remove_async<T: ListenerState>(dispatch: Dispatch<T>)-> (){
+async fn remove_async<T: ListenerState>(dispatch: Dispatch<T>) -> () {
     let mut state = (dispatch.get()).as_ref().clone();
 
     if let Some(previous_handle) = state.take_handle() {
@@ -73,11 +73,8 @@ async fn remove_async<T: ListenerState>(dispatch: Dispatch<T>)-> (){
         }
     }
 
-
-
     dispatch.set(state);
 }
-
 
 #[function_component(ListenerButton)]
 pub fn listener_button<T: ListenerState>() -> Html {
