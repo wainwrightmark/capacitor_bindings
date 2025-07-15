@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.2"
+  }
+}

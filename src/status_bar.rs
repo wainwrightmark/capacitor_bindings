@@ -1,7 +1,7 @@
 #[cfg(any(feature = "ios", feature = "android"))]
-use crate::helpers::*;
-#[cfg(any(feature = "ios", feature = "android"))]
 use crate::error::Error;
+#[cfg(any(feature = "ios", feature = "android"))]
+use crate::helpers::*;
 use serde::{Deserialize, Serialize};
 
 #[cfg(any(feature = "ios", feature = "android"))]
@@ -30,18 +30,16 @@ impl StatusBar {
         run_value_unit(options, status_bar_set_style).await
     }
 
-    #[cfg(any(feature = "android"))]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Set the background color of the status bar.
-    /// This method is only supported on Android.
     pub async fn set_background_color(
         options: impl Into<BackgroundColorOptions>,
     ) -> Result<(), Error> {
         run_value_unit(options, status_bar_set_background_color).await
     }
 
-    #[cfg(any(feature = "android"))]
+    #[cfg(any(feature = "ios", feature = "android"))]
     /// Set whether or not the status bar should overlay the webview to allow usage of the space underneath it.
-    /// This method is only supported on Android.
     pub async fn set_overlays_web_view(
         options: impl Into<SetOverlaysWebViewOptions>,
     ) -> Result<(), Error> {

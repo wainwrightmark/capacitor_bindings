@@ -1,9 +1,9 @@
 [package]
 name = "capacitor_bindings"
-version = "0.12.2"
+version = "0.13.0"
 edition = "2021"
 authors = ["Mark Wainwright <wainwrightml@gmail.com>"]
-description = "Capactior bindings to help you build android and ios apps with rust."
+description = "Capacitor bindings to help you build android and ios apps with rust."
 documentation = "https://docs.rs/capacitor_bindings"
 repository = "https://github.com/wainwrightmark/capacitor_bindings"
 readme = "README.md"
@@ -19,7 +19,7 @@ serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.6"
 serde_repr = "0.1"
 serde_with = "3"
-typed-builder = "0.20"
+typed-builder = "0.21"
 wasm-bindgen = { version = "0.2" }
 wasm-bindgen-futures = "0.4"
 

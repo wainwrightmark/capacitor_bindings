@@ -65,15 +65,19 @@ pub struct DeviceInfo {
     /// Approximate memory used by the current app, in bytes. Divide by 1048576 to get the number of MBs used.
     pub mem_used: Option<u64>,
     #[serde(default)]
+    #[deprecated="Removed in capacitor 7.0"]
     /// How much free disk space is available on the normal data storage path for the os, in bytes. On Android it returns the free disk space on the "system" partition holding the core Android OS. On iOS this value is not accurate.
     pub disk_free: Option<u64>,
     #[serde(default)]
+    #[deprecated="Removed in capacitor 7.0"]
     /// The total size of the normal data storage path for the OS, in bytes. On Android it returns the disk space on the "system" partition holding the core Android OS.
     pub disk_total: Option<u64>,
     #[serde(default)]
+    #[deprecated="Removed in capacitor 7.0"]
     /// How much free disk space is available on the normal data storage, in bytes.
     pub real_disk_free: Option<u64>,
     #[serde(default)]
+    #[deprecated="Removed in capacitor 7.0"]
     /// The total size of the normal data storage path, in bytes.
     pub real_disk_total: Option<u64>,
     #[serde(default)]
