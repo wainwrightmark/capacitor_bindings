@@ -1,6 +1,6 @@
 [package]
 name = "capacitor_bindings"
-version = "0.13.0"
+version = "0.14.0"
 edition = "2021"
 authors = ["Mark Wainwright <wainwrightml@gmail.com>"]
 description = "Capacitor bindings to help you build android and ios apps with rust."
@@ -35,3 +35,4 @@ ios = []
 review_plugin = []
 game_plugin = []
 admob_plugin = []
+safe_area_plugin = []

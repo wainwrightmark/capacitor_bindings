@@ -58,6 +58,20 @@ pub async fn run_value_unit<
     Ok(f(js_value).await?)
 }
 
+/// Runs a function that takes a typed value and returns a unit result.
+pub  fn run_value_unit_sync<
+    I: serde::Serialize,
+    F: Fn(JsValue) -> Result<(), JsValue>,
+>(
+    i: impl Into<I>,
+    f: F,
+) -> Result<(), Error> {
+    let i = i.into();
+    let js_value: JsValue =
+        serde_wasm_bindgen::to_value(&i).map_err(|e| Error::serializing::<I>(e))?;
+    Ok(f(js_value)?)
+}
+
 /// Runs a function that takes a typed value and returns a typed result.
 pub async fn run_value_value<
     'de,

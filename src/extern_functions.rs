@@ -221,6 +221,9 @@ extern "C" {
     pub(crate) async fn toast_show(options: JsValue) -> Result<(), JsValue>;
 }
 
+
+
+
 #[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "App"], js_name="exitApp" )]
@@ -333,6 +336,16 @@ extern "C" {
         options: JsValue,
     ) -> Result<JsValue, JsValue>;
 
+}
+
+#[cfg(feature = "safe_area_plugin")]
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "SafeArea"], js_name="enable" )]
+    pub (crate) fn safe_area_enable(options: JsValue) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "SafeArea"], js_name="disable" )]
+    pub (crate) fn safe_area_disable(options: JsValue) -> Result<(), JsValue>;
 }
 
 #[cfg(feature = "admob_plugin")]

@@ -26,5 +26,5 @@ chrono = "0.4.38"
 
 [features]
 web =["capacitor_bindings/web"]
-android = ["capacitor_bindings/android"]
+android = ["capacitor_bindings/android", "capacitor_bindings/safe_area_plugin"]
 ios = ["capacitor_bindings/ios"]

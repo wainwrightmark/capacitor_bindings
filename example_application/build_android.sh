@@ -1,3 +1,1 @@
-trunk build --release true android.html
-npx cap sync
-npx cap open android
+trunk build --release true android.html && npx cap sync android && npx cap open android

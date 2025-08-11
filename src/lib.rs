@@ -22,6 +22,7 @@ pub mod share;
 pub mod splash_screen;
 pub mod status_bar;
 pub mod toast;
+pub mod safe_area;
 
 pub mod prelude {
     pub use crate::error::*;

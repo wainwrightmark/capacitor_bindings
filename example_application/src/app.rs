@@ -24,6 +24,7 @@ use crate::network::NetworkView;
 use crate::notifications::NotificationView;
 use crate::preferences::PreferencesView;
 use crate::rate::RateView;
+use crate::safe_area::SafeAreaView;
 use crate::screen_reader::ScreenReaderView;
 use crate::splash::SplashView;
 use crate::toast::ToastView;
@@ -185,6 +186,8 @@ pub fn app() -> Html {
 
             <BrowserView/>
 
+            <SafeAreaView/>
+
 
             </div>
         </main>
@@ -233,13 +236,31 @@ pub fn do_async<Fut: Future<Output = Result<(), Error>>, F: Fn() -> Fut + 'stati
         let r = f().await;
 
         match r {
-            Ok(_) => {}
+            Ok(()) => {
+                log::info!("Unit function success");
+            }
             Err(err) => {
-                log::error!("{err:?}");
+                log::error!("Do Async returned an error: `{err:?}`");
                 show_toast_or_panic_async(format!("{err}")).await
             }
         }
     })
+}
+
+pub fn do_sync<F: Fn() -> Result<(), Error> + 'static>(f: F) {
+     {
+        let r = f();
+
+        match r {
+            Ok(()) => {
+                log::info!("Unit function success");
+            }
+            Err(err) => {
+                log::error!("Do Async returned an error: `{err:?}`");
+                show_toast_or_panic(format!("{err}"));
+            }
+        }
+    }
 }
 
 fn request_permissions() {

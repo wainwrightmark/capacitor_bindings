@@ -56,6 +56,7 @@ Some unofficial plugins are also supported behind feature flags
 |[In App Review](https://github.com/capacitor-community/in-app-review)|`review_plugin`|
 |[Capacitor Game Connect](https://github.com/openforge/capacitor-game-connect)|`game_plugin`|
 |[Admob](https://github.com/capacitor-community/admob)|`admob_plugin`|
+|[Safe Are](https://github.com/capacitor-community/safe-area)|`safe_area_plugin`|
 
 Some of the functions are only available on certain platforms. Use the features `web`, `android`, or `ios` to get access to them if you are building for that platform.
 
