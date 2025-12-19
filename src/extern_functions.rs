@@ -386,6 +386,9 @@ extern "C" {
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="resetConsentInfo" )]
     pub(crate) async fn admob_reset_consent_info() -> Result<(), JsValue>;
+    
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="showPrivacyOptionsForm" )]
+    pub(crate) async fn admob_show_privacy_options_form() -> Result<(), JsValue>;
 
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "AdMob"], js_name="prepareInterstitial" )]
     pub(crate) async fn admob_prepare_interstitial(options: JsValue) -> Result<JsValue, JsValue>;

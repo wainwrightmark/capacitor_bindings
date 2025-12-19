@@ -123,6 +123,12 @@ impl Admob {
     pub async fn reset_consent_info() -> Result<(), Error> {
         run_unit_unit(admob_reset_consent_info).await
     }
+    
+    #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
+    /// Shows a google privacy options form (rendered from your GDPR message config).
+    pub async fn show_privacy_options_form() -> Result<(), Error> {
+        run_unit_unit(admob_show_privacy_options_form).await
+    }
 
     #[cfg(all(feature = "admob_plugin", any(feature = "ios", feature = "android")))]
     /// Prepare interstitial banner
