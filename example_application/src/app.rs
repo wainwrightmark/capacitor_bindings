@@ -29,10 +29,9 @@ use crate::screen_reader::ScreenReaderView;
 use crate::splash::SplashView;
 use crate::toast::ToastView;
 
-#[function_component(App)]
-pub fn app() -> Html {
+fn get_status_block() -> Html {
     let status_block: Html;
-    #[cfg(any(feature = "android",))]
+    #[cfg(any(feature = "android", feature = "ios"))]
     {
         use capacitor_bindings::status_bar::StatusBar;
         use capacitor_bindings::status_bar::Style;
@@ -46,25 +45,6 @@ pub fn app() -> Html {
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
                 <button onclick={|_| do_and_toast_result(||{StatusBar::set_background_color("#22DD44")})}> {"Set Status Background Green"}</button>
-                <button onclick={|_| do_and_toast_result(StatusBar::hide)}> {"Hide Status"}</button>
-                <button onclick={|_| do_and_toast_result(StatusBar::show)}> {"Show Status"}</button>
-            </div>
-            </details>
-        };
-    };
-    #[cfg(all(any(feature = "ios"), not(any(feature = "android"))))]
-    {
-        use capacitor_bindings::status_bar::StatusBar;
-        use capacitor_bindings::status_bar::Style;
-        status_block = html! {
-            <details>
-            <summary>
-                {"Status Bar"}
-                <span class="icon">{"↓"}</span>
-            </summary>
-            <div style="display: flex; flex-direction: column;">
-                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
-                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
                 <button onclick={|_| do_and_toast_result(StatusBar::hide)}> {"Hide Status"}</button>
                 <button onclick={|_| do_and_toast_result(StatusBar::show)}> {"Show Status"}</button>
             </div>
@@ -88,6 +68,77 @@ pub fn app() -> Html {
             </details>
         };
     };
+    status_block
+}
+
+fn get_system_bars_block() -> Html {
+    let system_bars_block: Html;
+    #[cfg(any(feature = "android",))]
+    {
+        
+    use capacitor_bindings::system_bars::{SystemBarType, SystemBars, Style, StyleOptions,};
+        system_bars_block = html! {
+            <details>
+            <summary>
+                {"System Bars"}
+                <span class="icon">{"↓"}</span>
+            </summary>
+            <div style="display: flex; flex-direction: column;">
+                <button onclick={|_| do_and_toast_result(||{SystemBars::set_style(StyleOptions{style:Style::Light, bar: SystemBarType::StatusBar } )})}> {"Set Status Light"}</button>
+                <button onclick={|_| do_and_toast_result(||{SystemBars::set_style(StyleOptions{style:Style::Dark, bar: SystemBarType::StatusBar } )})}> {"Set Status Dark"}</button>
+                <button onclick={|_| do_and_toast_result(||{SystemBars::set_style(StyleOptions{style:Style::Light, bar: SystemBarType::NavigationBar } )})}> {"Set Navigation Bar Light"}</button>
+                <button onclick={|_| do_and_toast_result(||{SystemBars::set_style(StyleOptions{style:Style::Dark, bar: SystemBarType::NavigationBar } )})}> {"Set Navigation Bar Dark"}</button>
+                
+                
+                <button onclick={|_| do_and_toast_result(SystemBars::hide)}> {"Hide Status"}</button>
+                <button onclick={|_| do_and_toast_result(SystemBars::show)}> {"Show Status"}</button>
+            </div>
+            </details>
+        };
+    };
+    #[cfg(all(any(feature = "ios"), not(any(feature = "android"))))]
+    {
+        use capacitor_bindings::status_bar::StatusBar;
+        use capacitor_bindings::status_bar::Style;
+        system_bars_block = html! {
+            <details>
+            <summary>
+                {"System Bars"}
+                <span class="icon">{"↓"}</span>
+            </summary>
+            <div style="display: flex; flex-direction: column;">
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Light)})}> {"Set Status Light"}</button>
+                <button onclick={|_| do_and_toast_result(||{StatusBar::set_style(Style::Dark)})}> {"Set Status Dark"}</button>
+                <button onclick={|_| do_and_toast_result(SystemBars::hide)}> {"Hide Status"}</button>
+                <button onclick={|_| do_and_toast_result(SystemBars::show)}> {"Show Status"}</button>
+            </div>
+            </details>
+        };
+    };
+
+    #[cfg(not(any(feature = "android", feature = "ios")))]
+    {
+        system_bars_block = html! {
+            <details>
+            <summary>
+                {"System Bars"}
+                <span class="icon">{"↓"}</span>
+            </summary>
+            <div style="display: flex; flex-direction: column;">
+                <button>
+                    {"Cannot set system bars without android or ios feature"}
+                </button>
+            </div>
+            </details>
+        };
+    };
+    system_bars_block
+}
+
+#[function_component(App)]
+pub fn app() -> Html {
+    let status_block: Html = get_status_block();
+    let system_bars_block: Html = get_system_bars_block();
 
     html! {
         <main style="height:80%; overflow: scroll;">
@@ -127,6 +178,7 @@ pub fn app() -> Html {
             </details>
 
             {status_block}
+            {system_bars_block}
 
             <details>
                 <summary>
@@ -248,7 +300,7 @@ pub fn do_async<Fut: Future<Output = Result<(), Error>>, F: Fn() -> Fut + 'stati
 }
 
 pub fn do_sync<F: Fn() -> Result<(), Error> + 'static>(f: F) {
-     {
+    {
         let r = f();
 
         match r {

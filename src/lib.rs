@@ -23,9 +23,10 @@ pub mod splash_screen;
 pub mod status_bar;
 pub mod toast;
 pub mod safe_area;
+pub mod system_bars;
 
 pub mod prelude {
     pub use crate::error::*;
     pub use crate::helpers::*;
-    pub use crate::plugin_listener_handle::*;
+    pub use crate::plugin_listener_handle::*;    
 }

@@ -216,6 +216,21 @@ extern "C" {
 }
 
 #[wasm_bindgen()]
+extern "C"{
+    #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "SystemBars"], js_name="show" )]
+    pub(crate) async fn system_bars_show() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "SystemBars"], js_name="hide" )]
+    pub(crate) async fn system_bars_hide() -> Result<(), JsValue>;
+
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "SystemBars"], js_name="setStyle" )]
+    pub(crate) async fn system_bars_set_style(options: JsValue) -> Result<(), JsValue>;
+    
+    #[wasm_bindgen(catch, final,js_namespace = ["Capacitor", "Plugins", "SystemBars"], js_name="setAnimation" )]
+    pub(crate) async fn system_bars_set_animation(options: JsValue) -> Result<(), JsValue>;
+}
+
+#[wasm_bindgen()]
 extern "C" {
     #[wasm_bindgen(catch, final, js_namespace = ["Capacitor", "Plugins", "Toast"], js_name="show" )]
     pub(crate) async fn toast_show(options: JsValue) -> Result<(), JsValue>;
